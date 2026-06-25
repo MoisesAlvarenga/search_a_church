@@ -1,0 +1,10 @@
+# .NET backend
+bin/
+obj/
+*.user
+*.suo
+*.vs/
+*.db
+
+# Logs
+*.log

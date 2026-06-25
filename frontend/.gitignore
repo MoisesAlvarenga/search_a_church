@@ -1,0 +1,10 @@
+# Angular frontend
+node_modules/
+dist/
+.angular/
+
+# IDE
+.vscode/
+
+# Logs
+*.log
