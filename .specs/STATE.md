@@ -12,6 +12,6 @@
 
 - **Fase atual:** Specify
 - **Escopo concluído:** Baseline inicial do produto extraída da pasta legada `Old`.
-- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` e `authentication-authorization`.
+- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration`, `authentication-authorization` e `church-profile-claim`.
 - **Próxima ação:** Revisar e confirmar as hipóteses de cada `spec.md`. Não iniciar Design, Tasks ou Execute até que a especificação aplicável seja confirmada.
 - **Deliberadamente não criados:** `context.md`, `design.md`, `tasks.md`, `validation.md`, código de implementação, testes ou documentos de arquitetura técnica.
