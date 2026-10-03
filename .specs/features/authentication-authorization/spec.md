@@ -171,10 +171,11 @@ Quando qualquer um dos limites acima for ultrapassado:
 
 **Por que P1**: É a porta de entrada para novos usuários que desbloqueia a autenticação e o uso dos recursos protegidos (como o mapa).
 
-#### Cenário 3: Cadastro público de usuário com emissão do primeiro par de tokens
+#### Cenário 3: Cadastro público de usuário com emissão do primeiro par de tokens e logs de auditoria
 - **GIVEN** que o visitante não possui conta e envia dados válidos para cadastro
 - **WHEN** o sistema processa a criação do perfil de usuário
 - **THEN** o sistema SHALL persistir a nova conta
+- **AND** registrar o evento de cadastro na trilha de auditoria contendo obrigatoriamente `client_ip`, `client_port`, `timestamp_utc` (ISO 8601 UTC), `user_agent` e `verification_metadata` em repositório de log seguro append-only com retenção obrigatória de no mínimo 6 meses (180 dias) e expiração automatizada conforme Marco Civil (art. 15) e LGPD
 - **AND** emitir imediatamente um par de tokens: um Access Token JWT (15 min) e um Refresh Token (60 dias) com novo `family_id`
 - **AND** o cliente SHALL salvar o Refresh Token no hardware seguro (Keychain/Keystore).
 
