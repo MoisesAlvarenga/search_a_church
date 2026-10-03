@@ -15,14 +15,15 @@
 | AD-009 | A gestão e alteração de informações do perfil de uma igreja são restritas exclusivamente a usuários credenciados como representantes verificados da congregação (status `Verified` via `church-profile-claim`). | Ativa | Confirmado em `authentication-authorization` em 2026-10-02 |
 | AD-010 | A camada de sessão adota Pares de Tokens com Rotação Automática (RTR) e Expiração Deslizante (Access Token JWT de 15 min + Refresh Token de 60 dias), Detecção Automática de Reúso (revogação de `family_id`), armazenamento seguro em hardware móvel (iOS Keychain / Android Keystore) e Request Queuing no cliente HTTP. | Ativa | Confirmado em `authentication-authorization` em 2026-10-02 |
 | AD-011 | A mitigação de abusos nos endpoints de autenticação (`/auth/login`, `/auth/register`, `/auth/refresh`) adota o algoritmo Sliding Window Counter com Redis, aplicando limites estritos por rota (`IP + email`, `IP` global e `user_id + device_id`) e retornando HTTP 429 com cabeçalhos padronizados IETF (`RateLimit` e `Retry-After`). | Ativa | Confirmado em `authentication-authorization` em 2026-10-02 |
+| AD-012 | A resolução de disputas e validações no processo de reivindicação (`church-profile-claim`) adota Hierarquia Probatória Estrita em 3 níveis (Nível 1: Documentos públicos registrados em Cartório RCPJ — Ata de Posse da Diretoria, Estatuto Social e Cartão CNPJ/QSA; Nível 2: Canais institucionais proprietários — domínio próprio verificado / e-mail do domínio; Nível 3: Validações sociais e presenciais — Instagram, Facebook, GPS, fotos), com Regra de Resolução Automática de Disputa onde contestação com documentação válida de Nível 1 sobrepõe e revoga sumariamente vínculos obtidos via Nível 2 ou 3, notificando o detentor anterior por prevalência documental legal, sem direito a bloqueio unilateral do processo. | Ativa | Confirmado em `church-profile-claim` em 2026-10-02 |
 
 ## Continuidade
 
 - **Fase atual:** Specify
-- **Escopo concluído:** Baseline inicial do produto extraída da pasta legada `Old` e enriquecida com a especificação de vinculação pelo mapa, reivindicação de perfil (`church-profile-claim`), camada de sessão contínua resiliente e rate limiting com Redis.
+- **Escopo concluído:** Baseline inicial do produto extraída da pasta legada `Old` e enriquecida com a especificação de vinculação pelo mapa, reivindicação de perfil (`church-profile-claim`), camada de sessão contínua resiliente, rate limiting com Redis e governança de Prioridade Probatória Estrita com Resolução Automática de Disputas.
 - **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration`, `authentication-authorization` e `church-profile-claim`.
 - **Rastreabilidade total:** 46 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..05`, `REV-01..05`, `MAP-01..07`, `AUTH-01..09`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Revisar e confirmar as hipóteses de cada `spec.md` com o responsável pelo produto. Não iniciar Design, Tasks ou Execute até que a especificação aplicável seja confirmada.
+- **Próxima ação:** Revisar e confirmar as hipóteses remanescentes de cada `spec.md` com o responsável pelo produto. Não iniciar Design, Tasks ou Execute até que a especificação aplicável seja confirmada.
 - **Deliberadamente não criados:** `context.md`, `design.md`, `tasks.md`, `validation.md`, código de implementação, testes ou documentos de arquitetura técnica.
 
 ## Handoff

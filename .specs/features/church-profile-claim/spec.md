@@ -8,11 +8,12 @@ Milhares de igrejas existem no mapa e na base de dados de descoberta sem um gest
 
 - [ ] Permitir que representantes legítimos iniciem e concluam a reivindicação de igrejas exibidas na plataforma.
 - [ ] Implementar ciclo de vida rigoroso com estados `Unclaimed`, `Pending_Verification`, `Verified` e `In_Dispute`.
-- [ ] Oferecer métodos de validação estratificados em níveis (**Tier 1** simplificado via presença/social e **Tier 2** pleno via comprovação documental/CNPJ).
-- [ ] Definir matriz de permissões segregando o acesso a dados públicos operacionais (Tier 1) de recursos críticos e financeiros (Tier 2).
+- [ ] Adotar **Hierarquia Probatória Estrita em 3 Níveis** (Nível 1: Cartório RCPJ/CNPJ; Nível 2: Domínio/Canais Institucionais; Nível 3: Sociais/Presenciais).
+- [ ] Definir matriz de permissões segregando o acesso a dados operacionais básicos (Nível 3 e 2) de recursos críticos e financeiros/PIX (exclusivo Nível 1).
 - [ ] Exigir aceite explícito de Termos de Uso com declaração de veracidade sob penas de falsidade ideológica (art. 299 do Código Penal) e cláusula de isenção de responsabilidade da plataforma.
 - [ ] Coletar e armazenar trilha imutável de logs de aplicação em conformidade com o Marco Civil da Internet (Lei nº 12.965/2014).
-- [ ] Estabelecer fluxo público de contestação (*Notice and Takedown*) com congelamento imediato e descredenciamento sumário em caso de inércia documental.
+- [ ] Estabelecer a **Regra de Resolução Automática de Disputa**: documentos de Nível 1 sobrepõem e revogam sumariamente vínculos obtidos via Nível 2 ou 3, notificando o detentor anterior por prevalência legal, sem direito a bloqueio unilateral.
+- [ ] Prever rito paritário de contestação com congelamento imediato (`In_Dispute`) quando houver conflito entre evidências de mesma hierarquia (Nível 1 vs Nível 1).
 
 ## Fora do Escopo
 
@@ -30,12 +31,12 @@ Milhares de igrejas existem no mapa e na base de dados de descoberta sem um gest
 
 | Hipótese / decisão | Padrão adotado | Justificativa | Confirmada? |
 | ------------------ | -------------- | ------------- | ----------- |
-| Prioridade probatória em conflitos | Documentos legais registrados (Ata de Posse RCPJ / Estatuto / CNPJ) têm precedência hierárquica absoluta sobre validações digitais ou presença física. | Segurança jurídica, respeito à titularidade legal e prevenção contra engenharia social. | Não |
-| Isenção de responsabilidade da plataforma | A plataforma atua como provedora de aplicação (Marco Civil da Internet), isentando-se da veracidade imediata de dados fornecidos via validação simplificada Tier 1. | Mitiga responsabilidade civil da plataforma garantindo mecanismo ágil de remoção e contestação. | Não |
+| Prioridade probatória em conflitos | **Hierarquia Probatória Estrita em 3 níveis**: Nível 1 (Documentos públicos registrados em Cartório - RCPJ / Estatuto / CNPJ-QSA), Nível 2 (Canais institucionais proprietários - domínio próprio verificado / e-mail do domínio) e Nível 3 (Validações sociais e presenciais - Instagram, Facebook, GPS, fotos). **Resolução Automática de Disputa**: qualquer contestação com documentação válida de Nível 1 sobrepõe e revoga sumariamente vínculos obtidos via Nível 2 ou 3. O detentor anterior é notificado da revogação por prevalência documental legal, sem direito a bloqueio unilateral do processo. | Segurança jurídica, respeito à titularidade legal e prevenção contra engenharia social ou bloqueios infundados. | **Sim** |
+| Isenção de responsabilidade da plataforma | A plataforma atua como provedora de aplicação (Marco Civil da Internet), isentando-se da veracidade imediata de dados fornecidos via validação simplificada Nível 2 ou Nível 3. | Mitiga responsabilidade civil da plataforma garantindo mecanismo ágil de remoção e contestação. | Não |
 | Retenção de logs do Marco Civil | Coleta obrigatória de IP, porta lógica, timestamp UTC, user-agent e identificadores de verificação, com guarda segura por no mínimo 6 meses. | Cumprimento estrito do art. 15 da Lei Federal nº 12.965/2014. | Não |
 | Tempo de expiração de reivindicação pendente | Reivindicações em `Pending_Verification` sem envio de provas expiram em 7 dias corridos. | Libera o perfil para novas tentativas caso o solicitante abandone o fluxo. | Não |
-| Prazo de resposta em contestação (`In_Dispute`) | O titular atual do perfil tem 5 dias úteis para responder e enviar contraprovas quando uma disputa formal for aceita. | Garante direito de resposta sem paralisar indefinidamente o perfil. | Não |
-| Descredenciamento sumário de Tier 1 | Se o titular atual for verificado exclusivamente por Tier 1 e não apresentar documento legal oficial no prazo de 5 dias úteis após contestação documental com Ata/CNPJ, sofre descredenciamento sumário. | Evita que validadores informais impeçam o legítimo representante legal de assumir o perfil da instituição. | Não |
+| Prazo de resposta em contestação paritária (`In_Dispute`) | As partes em disputa Nível 1 vs Nível 1 têm 5 dias úteis para apresentar certidões atualizadas de vigência de mandato cartorial. | Garante contraditório formal sem paralisar indefinidamente o perfil da instituição. | Não |
+| Revogação sumária de Nível 2 e Nível 3 | Contestação válida com documento de Nível 1 revoga sumariamente e imediatamente os acessos de titulares de Nível 2 ou 3, sem exigência de aguardar inércia ou prazo de defesa prévia. | Prevalência incontestável da fé pública e registros públicos cartoriais. | **Sim** |
 | Raio de tolerância para geofencing | 100 metros a partir das coordenadas geográficas oficiais cadastradas da igreja. | Compensa margens de erro de GPS móvel em áreas urbanas sem comprometer a comprovação de presença física. | Não |
 
 **Questões em aberto:** nenhuma. Todos os comportamentos críticos estão registrados como hipóteses e critérios de negócio acima.
@@ -76,57 +77,63 @@ Milhares de igrejas existem no mapa e na base de dados de descoberta sem um gest
 | Estado Atual | Evento / Condição | Próximo Estado | Efeito no Sistema |
 | ------------ | ----------------- | -------------- | ----------------- |
 | `Unclaimed` | Solicitante autenticado aceita ToS sob art. 299 CP, registra logs e submete método de validação inicial | `Pending_Verification` | Bloqueia novas reivindicações simples concorrentes; concede acesso preliminar em modo rascunho. |
-| `Pending_Verification` | Provas submetidas atingem aprovação exigida (Tier 1 ou Tier 2) | `Verified` | Concede perfil correspondente ao Tier validado; ativa selo da igreja; notifica o representante. |
+| `Pending_Verification` | Provas submetidas atingem aprovação exigida (Nível 1, Nível 2 ou Nível 3) | `Verified` | Concede perfil correspondente ao nível validado; ativa selo da igreja; notifica o representante. |
 | `Pending_Verification` | Provas rejeitadas definitivamente (3 tentativas) ou prazo limite de 7 dias expirado | `Unclaimed` | Remove vínculo preliminar; descarta rascunhos não publicados; libera perfil para novos claims. |
-| `Verified` | Terceiro aciona "Contestar Propriedade" e anexa documentação legal registrada (Ata/CNPJ) | `In_Dispute` | **Congela imediatamente edições públicas e cadastrais**; notifica titular com prazo de 5 dias úteis. |
-| `In_Dispute` | Contestante apresenta documentação legal e titular inicial (Tier 1) permanece inerte ou sem documento legal oficial | `Verified` | **Descredenciamento sumário** do titular inicial e transferência imediata da posse ao contestante legal comprovado. |
-| `In_Dispute` | Análise documental julga improcedente a contestação ou titular comprova vigência de mandato legal superior | `Verified` | Mantém a titularidade com o detentor atual e encerra o processo de disputa. |
+| `Verified` (Nível 2 ou 3) | Requerente submete contestação acompanhada de documentação válida de Nível 1 | `Verified` (Nível 1) | **Resolução Automática de Disputa:** revoga sumariamente o vínculo anterior de Nível 2 ou 3 e transfere posse ao requerente de Nível 1; notifica titular anterior por prevalência documental legal, sem direito a bloqueio unilateral. |
+| `Verified` (Nível 1) | Terceiro apresenta contestação documental também de Nível 1 (mandatos/atas concorrentes) | `In_Dispute` | **Congela imediatamente edições públicas, cadastrais e financeiras**; notifica ambas as partes para análise de vigência da ata em 5 dias úteis. |
+| `In_Dispute` | Análise administrativa documental confirma ata de eleição mais recente e mandato vigente | `Verified` (Nível 1) | Restaura poderes e confirma titularidade definitiva ao representante legítimo; encerra disputa. |
 | `In_Dispute` | Ambas as partes apresentam evidências fraudulentas ou a congregação física foi desativada | `Unclaimed` | Revoga o acesso de ambos e restaura a entidade ao estado neutro não reivindicado. |
 
 ---
 
-## 2. Métodos de Validação e Estratificação em Tiers
+## 2. Métodos de Validação e Hierarquia Probatória Estrita
 
-O sistema categoriza a validação em dois níveis de confiança e segurança probatória:
+O sistema categoriza a validação em **três níveis rigorosamente hierárquicos** de autoridade probatória:
 
-### Tier 1: Validação Simplificada (Presença Física & Vínculo Digital)
-Indicada para agilidade operacional e congregações com liderança local participativa, porém sem acesso imediato a documentos cartorários.
-- **Método 1.A - Presença Física (Geofencing + Foto em Tempo Real):**
+### Nível 1: Documentos Públicos Registrados em Cartório (RCPJ) & CNPJ/QSA (Máxima Autoridade)
+Possui autoridade jurídica máxima e incontestável na plataforma. Em caso de conflito, **sobrepõe e revoga sumariamente qualquer vínculo obtido via Nível 2 ou Nível 3**. Exigido obrigatoriamente para acesso a recursos financeiros/PIX, alterações cadastrais críticas e transferência de titularidade.
+- **Método 1.A - Documentos Cartorários (RCPJ):**
+  - Upload e conferência de Ata de Posse da Diretoria vigente registrada em Cartório de Registro Civil de Pessoas Jurídicas (RCPJ).
+  - Estatuto Social registrado com poderes expressos da diretoria ou Procuração Pública com poderes específicos de gestão e representação eclesiástica.
+- **Método 1.B - Cruzamento Automático com QSA (Receita Federal):**
+  - Solicitante informa CNPJ da entidade religiosa e seu CPF.
+  - Cruzamento de dados com a base pública da Receita Federal: confirmada a qualificação como Representante Legal / Presidente no Quadro de Sócios e Administradores (QSA), concede validação de Nível 1 imediata.
+
+### Nível 2: Canais Institucionais Proprietários
+Indicado para organizações que possuem infraestrutura digital formal e controlada diretamente pela instituição religiosa.
+- **Método 2.A - Domínio Próprio Verificado:**
+  - Verificação de controle técnico do domínio oficial da igreja por meio de inserção de registro DNS (entrada TXT ou CNAME com token de validação) apontando para a aplicação.
+- **Método 2.B - E-mail de Domínio Institucional:**
+  - Envio e confirmação de código OTP de 6 dígitos com validade de 15 minutos em endereço de e-mail institucional próprio da congregação (ex.: `pastor@igrejabatista.com.br` ou `secretaria@adcentral.org.br`). Bloqueados provedores de webmail genéricos e gratuitos (ex.: `@gmail.com`, `@hotmail.com`, `@outlook.com`).
+
+### Nível 3: Validações Sociais e Presenciais
+Indicado para agilidade comunitária e congregações com liderança local participativa, porém sem acesso imediato a documentos cartorários ou domínio proprietário.
+- **Método 3.A - Presença Física (Geofencing + Foto em Tempo Real):**
   - Geofencing móvel validado a no máximo **100 metros** das coordenadas oficiais da igreja.
   - Captura obrigatória de foto em tempo real pela câmera do aplicativo (bloqueado upload de arquivos da galeria).
   - Enquadramento obrigatório da fachada com identificação visual ou interior do templo/púlpito.
-- **Método 1.B - Vínculo Digital via Redes Sociais Oficiais:**
+- **Método 3.B - Vínculo em Redes Sociais Oficiais:**
   - Geração de token temporário alfanumérico único (`SAC-XXXX-VERIFY`, 24h de validade).
-  - Inserção do token na bio/descrição da conta pública da igreja no Instagram, Facebook ou canal do YouTube.
-- **Método 1.C - Vínculo Digital via E-mail Institucional:**
-  - Envio e confirmação de código OTP de 6 dígitos com validade de 15 minutos em e-mail de domínio próprio correspondente ao site oficial da igreja (ex.: `pastor@igrejabatista.com.br`).
-
-### Tier 2: Validação Plena e Legal (Documental & CNPJ)
-Obrigatória para acesso a recursos críticos e prevalente sobre qualquer validação Tier 1 em caso de contestação.
-- **Método 2.A - Cruzamento Automático com QSA (Receita Federal):**
-  - Solicitante informa CNPJ da entidade religiosa e seu CPF.
-  - Cruzamento de dados com a base da Receita Federal: confirmada a posição de Representante Legal / Diretor, concede validação Tier 2 imediata.
-- **Método 2.B - Análise de Documento Registrado em Cartório (RCPJ):**
-  - Para pastores locais, secretários ou procuradores: upload de Ata de Eleição e Posse vigente registrada em Cartório de Registro Civil de Pessoas Jurídicas (RCPJ), Estatuto Social registrado ou Procuração Pública com poderes específicos para gestão eclesiástica.
+  - Inserção do token na bio/descrição da conta pública da igreja no Instagram, Facebook ou canal oficial no YouTube.
 
 ---
 
-## 3. Níveis de Permissão por Tipo de Validação (Tiers)
+## 3. Níveis de Permissão por Hierarquia Probatória
 
 A matriz de permissões segrega de forma rígida o que cada estado e nível de validação pode executar:
 
-| Operação no Perfil da Igreja | `Unclaimed` | `Pending_Verification` (Rascunho) | `Verified` (Tier 1 - Social/GPS) | `Verified` (Tier 2 - Documental/CNPJ) | `In_Dispute` (Congelado) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| Visualizar dados públicos no mapa e lista | Sim | Sim | Sim | Sim | Sim |
-| Editar horários de cultos e reuniões | Bloqueado | Permitido (Rascunho) | **Permitido (Publicação)** | **Permitido (Publicação)** | **Bloqueado** |
-| Editar fotos, descrição e telefone público | Bloqueado | Permitido (Rascunho) | **Permitido (Publicação)** | **Permitido (Publicação)** | **Bloqueado** |
-| Cadastrar/alterar chave PIX ou dados de doação | Bloqueado | Bloqueado | **Bloqueado (Exige Tier 2)** | **Permitido** | **Bloqueado** |
-| Convidar e gerenciar outros administradores | Bloqueado | Bloqueado | **Bloqueado (Exige Tier 2)** | **Permitido** | **Bloqueado** |
-| Alterar endereço físico ou coordenadas do mapa | Bloqueado | Bloqueado | **Bloqueado (Exige Tier 2)** | **Permitido (com revalidação)** | **Bloqueado** |
-| Alterar CNPJ ou Razão Social | Bloqueado | Bloqueado | **Bloqueado (Exige Tier 2)** | **Permitido (com revalidação)** | **Bloqueado** |
-| Responder avaliações de visitantes | Bloqueado | Bloqueado | **Permitido** | **Permitido** | **Bloqueado** |
-| Selo público exibido na plataforma | Nenhum | *"Em verificação"* | *"Verificação da Comunidade"* | *"Igreja Verificada Oficial"* | *"Em revisão de titularidade"* |
-| Transferir titularidade do perfil | Bloqueado | Bloqueado | **Bloqueado** | **Permitido** | **Bloqueado** |
+| Operação no Perfil da Igreja | `Unclaimed` | `Pending_Verification` (Rascunho) | `Verified` (Nível 3 - Social/GPS) | `Verified` (Nível 2 - Domínio/E-mail) | `Verified` (Nível 1 - Cartório/CNPJ) | `In_Dispute` (Congelado) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| Visualizar dados públicos no mapa e lista | Sim | Sim | Sim | Sim | Sim | Sim |
+| Editar horários de cultos e reuniões | Bloqueado | Permitido (Rascunho) | **Permitido (Publicação)** | **Permitido (Publicação)** | **Permitido (Publicação)** | **Bloqueado** |
+| Editar fotos, descrição e telefone público | Bloqueado | Permitido (Rascunho) | **Permitido (Publicação)** | **Permitido (Publicação)** | **Permitido (Publicação)** | **Bloqueado** |
+| Cadastrar/alterar chave PIX ou dados de doação | Bloqueado | Bloqueado | **Bloqueado (Exige Nível 1)** | **Bloqueado (Exige Nível 1)** | **Permitido** | **Bloqueado** |
+| Convidar e gerenciar outros administradores | Bloqueado | Bloqueado | **Bloqueado (Exige Nível 1)** | **Permitido (Operacional)** | **Permitido (Total)** | **Bloqueado** |
+| Alterar endereço físico ou coordenadas do mapa | Bloqueado | Bloqueado | **Bloqueado (Exige Nível 1)** | **Permitido (Revalidação)** | **Permitido (Revalidação)** | **Bloqueado** |
+| Alterar CNPJ ou Razão Social | Bloqueado | Bloqueado | **Bloqueado (Exige Nível 1)** | **Bloqueado (Exige Nível 1)** | **Permitido (Revalidação)** | **Bloqueado** |
+| Responder avaliações de visitantes | Bloqueado | Bloqueado | **Permitido** | **Permitido** | **Permitido** | **Bloqueado** |
+| Selo público exibido na plataforma | Nenhum | *"Em verificação"* | *"Verificação da Comunidade"* | *"Verificação Institucional"* | *"Igreja Verificada Oficial"* | *"Em revisão de titularidade"* |
+| Transferir titularidade do perfil | Bloqueado | Bloqueado | **Bloqueado** | **Bloqueado** | **Permitido** | **Bloqueado** |
 
 ---
 
@@ -156,35 +163,39 @@ Em observância ao **art. 15 da Lei Federal nº 12.965/2014 (Marco Civil da Inte
 
 ---
 
-## 5. Fluxo de Contestação e Takedown (*Notice and Takedown*)
+## 5. Fluxo de Contestação, Takedown e Resolução de Disputas
 
-### 5.1 Gatilho Público de "Contestar Propriedade"
-1. Qualquer perfil exibido na plataforma (seja em estado `Verified` Tier 1 ou Tier 2) disponibiliza na interface pública o gatilho: **"Contestar Propriedade desta Igreja"**.
+### 5.1 Regra de Resolução Automática de Disputa (Prevalência Documental Legal)
+1. **Hierarquia Probatória Estrita:**
+   - **Nível 1 (Máxima Autoridade):** Documentos públicos registrados em Cartório (RCPJ) — Ata de Posse da Diretoria, Estatuto Social e Cartão CNPJ/QSA.
+   - **Nível 2:** Canais institucionais proprietários (domínio próprio verificado / e-mail do domínio).
+   - **Nível 3:** Validações sociais e presenciais (Instagram, Facebook, GPS, fotos).
+2. **Resolução Automática:**
+   - Qualquer contestação acompanhada de documentação válida de **Nível 1 sobrepõe e revoga sumariamente** vínculos obtidos via Nível 2 ou Nível 3.
+   - O detentor anterior (Nível 2 ou 3) é **notificado da revogação por prevalência documental legal**, sem direito a bloqueio unilateral do processo.
+   - A posse é transferida de imediato ao titular comprovado de Nível 1 sob o estado `Verified`, mantendo a integridade cadastral e eliminando manobras de obstrução por titulares de níveis inferiores.
+
+### 5.2 Gatilho Público de "Contestar Propriedade"
+1. Qualquer perfil exibido na plataforma (esteja em estado `Verified` Nível 1, 2 ou 3) disponibiliza na interface pública o gatilho: **"Contestar Propriedade desta Igreja"**.
 2. O contestante deve estar autenticado e obrigatoriamente fornecer:
    - Identificação completa (Nome, CPF e telefone);
-   - Aceite do termo de responsabilidade jurídica sob o art. 299 do Código Penal;
-   - Anexação de **prova documental de Tier 2** (Ata de Posse registrada em RCPJ, Estatuto Social ou CNPJ com QSA).
-3. **Não serão aceitas contestações baseadas exclusivamente em redes sociais ou geofencing.**
+   - Aceite do termo de responsabilidade jurídica sob as penas do art. 299 do Código Penal;
+   - Anexação de **prova documental válida de Nível 1** (Ata de Posse registrada em RCPJ, Estatuto Social ou CNPJ com QSA).
+3. **Não serão aceitas contestações fundamentadas exclusivamente em evidências de Nível 2 ou Nível 3 contra perfis verificados.**
 
-### 5.2 Congelamento Imediato de Dados Públicos (`In_Dispute`)
-- No instante da validação da submissão da contestação documental formal:
+### 5.3 Conflito Paritário de Mesma Hierarquia (Nível 1 vs Nível 1) e Congelamento (`In_Dispute`)
+- Quando a contestação documental de Nível 1 for instaurada contra um perfil que **já possuía credenciamento de Nível 1** (conflito entre diretorias ou atas concorrentes):
   - O perfil da congregação transita imediatamente para o estado `In_Dispute`.
-  - **Congelamento total de edições:** Fica bloqueada qualquer edição de horários, descrições, fotos, telefones, chaves PIX ou administradores por parte do titular atual ou do contestante.
+  - **Congelamento total de edições:** Fica bloqueada qualquer edição de horários, descrições, fotos, telefones, chaves PIX ou administradores por ambas as partes.
   - É exibido no perfil público aviso informativo: *"Perfil em processo de verificação de titularidade"*.
-  - Notificação formal automática com confirmação de entrega enviada ao atual gestor e ao contestante.
-
-### 5.3 Regra de Descredenciamento Sumário
-- O titular atual tem prazo improrrogável de **5 dias úteis** a partir da notificação para apresentar sua defesa e documento legal comprobatório.
-- **Cenário de Descredenciamento Sumário:** Se o titular atual possuir apenas credenciamento simplificado (**Tier 1**) e, no prazo de 5 dias úteis:
-  - Não responder à notificação; OU
-  - Não apresentar documento legal oficial registrado em cartório (Ata de Posse RCPJ ou CNPJ com QSA);
-  - **O sistema SHALL executar o descredenciamento sumário imediato do titular atual**, revogando todos os seus acessos administrativos e transferindo a posse definitiva ao contestante documental aprovado, transitando a igreja de `In_Dispute` para `Verified` (Tier 2).
+  - Notificação formal automática enviada a ambas as partes com prazo improrrogável de **5 dias úteis** para apresentação de certidão atualizada de breve relato do RCPJ comprovando a vigência e tempestividade do mandato da diretoria.
+  - A administração da plataforma valida a ata de eleição mais recente registrada em cartório para confirmar a posse definitiva.
 
 ---
 
 ## 6. Casos de Borda e Tratamento de Falhas
 
-- **Solicitações Simultâneas / Concorrentes:** O primeiro claim com ToS válido coloca a entidade em `Pending_Verification`. Tentativas concorrentes são bloqueadas, salvo se o segundo requerente apresentar prova documental de Tier 2, caso em que o processo documental ganha precedência e suspende a análise simplificada em andamento.
+- **Solicitações Simultâneas / Concorrentes:** O primeiro claim com ToS válido coloca a entidade em `Pending_Verification`. Tentativas concorrentes são bloqueadas, salvo se o segundo requerente apresentar prova de nível hierárquico superior (ex.: Nível 1 contra processo Nível 2 ou 3), caso em que a submissão de maior autoridade ganha precedência imediata e cancela o processo concorrente inferior.
 - **Tentativas Repetidas e Rate Limit:** O solicitante pode realizar até **3 tentativas de reenvio de provas** em 7 dias. Ao atingir o limite de 3 reprovações consecutivas, a solicitação é cancelada, a igreja retorna a `Unclaimed` e o solicitante sofre lockout de **72 horas** para aquela congregação.
 - **Inércia em Análise Pendente:** Se uma solicitação em `Pending_Verification` permanecer inativa sem envio de novas evidências por 7 dias corridos, o processo expira automaticamente, descartando rascunhos e liberando o perfil.
 - **Fraude Mútua ou Templo Extinto:** Caso a análise de disputa identifique apresentação de atas falsificadas por ambas as partes ou comprove que o templo encerrou atividades no local, a igreja é desvinculada de ambos os usuários e mantida como `Unclaimed` ou desativada.
@@ -220,29 +231,29 @@ Em observância ao **art. 15 da Lei Federal nº 12.965/2014 (Marco Civil da Inte
 
 ---
 
-### P1: Níveis de Permissão por Tipo de Validação (Tier 1 vs Tier 2) ⭐ MVP
+### P1: Níveis de Permissão por Hierarquia Probatória (Níveis 1, 2 e 3) ⭐ MVP
 
-**História de Usuário**: Como administrador da plataforma, quero conceder permissões operacionais públicas a líderes validados por métodos simplificados (Tier 1), restringindo recursos financeiros e cadastrais críticos apenas a representantes com validação documental legal (Tier 2).
+**História de Usuário**: Como administrador da plataforma, quero conceder permissões operacionais públicas a líderes validados por canais institucionais (Nível 2) ou comunitários (Nível 3), restringindo recursos financeiros e cadastrais críticos exclusivamente a representantes com validação documental cartorial e CNPJ (Nível 1).
 
 **Por que P1**: Garante escalabilidade e rapidez para atualização de dados comunitários, mitigando integralmente riscos de fraudes financeiras ou desvios cadastrais.
 
-#### Cenário 3: Acesso restrito a dados públicos após validação Tier 1 (Social/GPS)
-- **GIVEN** que o solicitante concluiu a validação da igreja via código na bio do Instagram (Tier 1)
+#### Cenário 3: Acesso a dados operacionais após validação Nível 3 (Social/GPS)
+- **GIVEN** que o solicitante concluiu a validação da igreja via código na bio do Instagram ou foto presencial via geofencing (Nível 3)
 - **WHEN** o sistema conclui a aprovação
-- **THEN** o status da igreja SHALL transitar para `Verified` com nível Tier 1
+- **THEN** o status da igreja SHALL transitar para `Verified` com nível Nível 3
 - **AND** o solicitante SHALL poder publicar alterações em horários de cultos, fotos e descrição
 - **AND** o selo exibido no perfil público SHALL ser "Verificação da Comunidade".
 
-#### Cenário 4: Bloqueio de chave PIX e alterações críticas para perfil verificado Tier 1
-- **GIVEN** que a igreja está no estado `Verified` sob credenciamento Tier 1
+#### Cenário 4: Bloqueio de chave PIX e alterações críticas para perfis de Nível 3 ou Nível 2
+- **GIVEN** que a igreja está no estado `Verified` sob credenciamento de Nível 3 (Social/GPS) ou Nível 2 (E-mail institucional)
 - **WHEN** o gestor tenta cadastrar uma chave PIX para arrecadação ou alterar o CNPJ da entidade
 - **THEN** o sistema SHALL bloquear a operação
-- **AND** exibir mensagem informando que recursos financeiros e alterações cadastrais exigem Validação Documental e CNPJ (Tier 2).
+- **AND** exibir mensagem informando que recursos financeiros e alterações cadastrais exigem Validação Documental Cartorial e CNPJ (Nível 1).
 
-#### Cenário 5: Liberação de recursos críticos após validação Tier 2 (Documental/CNPJ)
-- **GIVEN** que o representante submeteu o CNPJ com CPF correspondente no QSA da Receita Federal (Tier 2)
+#### Cenário 5: Liberação de recursos críticos após validação Nível 1 (Cartório/CNPJ)
+- **GIVEN** que o representante submeteu a Ata de Posse da Diretoria registrada em RCPJ ou CNPJ com CPF correspondente no QSA da Receita Federal (Nível 1)
 - **WHEN** o sistema confirma a titularidade jurídica
-- **THEN** o status da igreja SHALL transitar para `Verified` com nível Tier 2
+- **THEN** o status da igreja SHALL transitar para `Verified` com nível Nível 1
 - **AND** o selo exibido no perfil público SHALL ser "Igreja Verificada Oficial"
 - **AND** o sistema SHALL liberar a gestão de chave PIX, convite de novos administradores e atualização de dados cadastrais.
 
@@ -250,11 +261,11 @@ Em observância ao **art. 15 da Lei Federal nº 12.965/2014 (Marco Civil da Inte
 
 ### P1: Métodos de Validação Básicos (Presença Física e Vínculo Digital) ⭐ MVP
 
-#### Cenário 6: Reivindicação via Presença Física (Geofencing 100m + Foto em tempo real)
+#### Cenário 6: Reivindicação via Presença Física (Geofencing 100m + Foto em tempo real - Nível 3)
 - **GIVEN** que o solicitante está fisicamente no templo da igreja com GPS aferido a 45 metros de distância das coordenadas oficiais
 - **WHEN** o solicitante captura foto da fachada em tempo real pela câmera do aplicativo
 - **THEN** o sistema SHALL aceitar as coordenadas e armazenar a imagem com carimbo temporal e logs
-- **AND** aprovar a validação como Tier 1.
+- **AND** aprovar a validação como Nível 3.
 
 #### Cenário 7: Rejeição de presença física por distância fora do geofence
 - **GIVEN** que as coordenadas cadastradas da igreja estão na localização X
@@ -266,30 +277,30 @@ Em observância ao **art. 15 da Lei Federal nº 12.965/2014 (Marco Civil da Inte
 
 ---
 
-### P2: Fluxo de Contestação Pública e Takedown (Notice and Takedown)
+### P2: Resolução Automática de Disputa e Contestação Paritária
 
-**História de Usuário**: Como representante legal de uma igreja, quero contestar a titularidade de um perfil verificado indevidamente apresentando a Ata de Posse registrada em cartório, para que os dados públicos sejam congelados e a posse seja transferida para mim.
+**História de Usuário**: Como representante legal de uma igreja portando documentação registrada em Cartório (RCPJ) e CNPJ, quero que a apresentação desses documentos revogue sumariamente vínculos anteriores obtidos por métodos sociais ou institucionais sem bloqueio unilateral do titular anterior, assumindo a titularidade legítima do perfil.
 
-**Por que P2**: Protege a integridade do cadastro comunitário e garante cumprimento rápido de notificações extrajudiciais.
+**Por que P2**: Protege a soberania jurídica da congregação, impede extorsões ou bloqueios unilaterais por terceiros e garante a fé pública dos registros cartoriais.
 
-#### Cenário 8: Acionamento de contestação pública com congelamento de edições (In_Dispute)
-- **GIVEN** que a igreja está no estado `Verified` sob posse de um usuário com validação Tier 1
-- **AND** o pastor presidente legal acessa a página pública da igreja e clica em "Contestar Propriedade"
-- **WHEN** o pastor presidente anexa a Ata de Posse registrada em RCPJ e aceita os termos sob art. 299 CP
+#### Cenário 8: Resolução Automática de Disputa por Prevalência Documental Legal de Nível 1
+- **GIVEN** que a igreja está no estado `Verified` sob posse de um usuário validado via Nível 2 (e-mail institucional) ou Nível 3 (social/GPS)
+- **AND** o representante legal legítimo acessa a página pública da igreja e clica em "Contestar Propriedade"
+- **WHEN** o representante legal anexa a Ata de Posse da Diretoria registrada em Cartório (RCPJ) e Cartão CNPJ/QSA válido (Nível 1)
+- **AND** aceita os termos com declaração de legitimidade sob o art. 299 do Código Penal
+- **THEN** o sistema SHALL validar a conformidade documental de Nível 1
+- **AND** revogar sumariamente e de forma imediata o vínculo administrativo do detentor anterior (Nível 2 ou 3)
+- **AND** transferir a titularidade da igreja para o representante legal de Nível 1 sob status `Verified`
+- **AND** notificar o detentor anterior sobre a revogação sumária por prevalência documental legal
+- **AND** NÃO DEVE conceder ao detentor anterior direito a bloqueio unilateral ou retenção do processo.
+
+#### Cenário 9: Disputa paritária entre documentos de Nível 1 com congelamento imediato (In_Dispute)
+- **GIVEN** que a igreja está no estado `Verified` sob titular validado em Nível 1
+- **WHEN** um segundo solicitante também submete documentação formal de Nível 1 (Ata RCPJ/QSA) contestando a vigência da atual diretoria
 - **THEN** o sistema SHALL alterar o status da igreja imediatamente para `In_Dispute`
-- **AND** congelar qualquer edição nos horários, dados públicos e fotos da igreja
-- **AND** notificar o detentor atual com prazo improrrogável de 5 dias úteis para manifestação
-- **AND** exibir no perfil o aviso informativo de "Perfil em processo de verificação de titularidade".
-
-#### Cenário 9: Descredenciamento sumário de titular Tier 1 por inércia documental
-- **GIVEN** que a igreja está no estado `In_Dispute` com contestação documental legal submetida
-- **AND** o titular atual possui apenas verificação Tier 1
-- **WHEN** transcorrer o prazo limite de 5 dias úteis sem que o titular atual apresente documento oficial registrado em cartório
-- **THEN** o sistema SHALL executar o descredenciamento sumário do titular Tier 1
-- **AND** revogar todos os seus acessos administrativos
-- **AND** transferir a administração integral ao contestante legal
-- **AND** transitar o status da igreja para `Verified` com nível Tier 2
-- **AND** registrar o encerramento da disputa na trilha de auditoria.
+- **AND** congelar qualquer edição nos horários, dados públicos, fotos e chave PIX
+- **AND** notificar ambas as partes com prazo de 5 dias úteis para apresentação de certidões atualizadas de vigência de mandato no RCPJ
+- **AND** exibir no perfil público o aviso "Perfil em processo de verificação de titularidade".
 
 ---
 
@@ -313,17 +324,17 @@ Em observância ao **art. 15 da Lei Federal nº 12.965/2014 (Marco Civil da Inte
 | ID do Requisito | História / Área | Fase | Status |
 | --------------- | --------------- | ---- | ------ |
 | CLAIM-01 | P1: Ciclo de Vida e Estados (Máquina de Estados: Unclaimed, Pending, Verified, In_Dispute) | Specify | Pendente |
-| CLAIM-02 | P1: Validação por Presença Física (Geofencing 100m + Foto ao vivo) | Specify | Pendente |
-| CLAIM-03 | P1: Validação por Vínculo Digital (Código na Bio de Redes Sociais) | Specify | Pendente |
-| CLAIM-04 | P1: Validação por Vínculo Digital (E-mail com Domínio Institucional / OTP) | Specify | Pendente |
-| CLAIM-05 | P1: Validação Documental e CNPJ (Cruzamento com QSA e Análise de Ata RCPJ) | Specify | Pendente |
+| CLAIM-02 | P1: Validação por Presença Física (Geofencing 100m + Foto ao vivo) - Nível 3 | Specify | Pendente |
+| CLAIM-03 | P1: Validação por Redes Sociais Oficiais (Código na Bio) - Nível 3 | Specify | Pendente |
+| CLAIM-04 | P1: Validação por Canais Institucionais Proprietários (Domínio Próprio / E-mail com OTP) - Nível 2 | Specify | Pendente |
+| CLAIM-05 | P1: Validação Documental Pública e Cartorial (Ata de Posse RCPJ, Estatuto, CNPJ/QSA) - Nível 1 | Specify | Pendente |
 | CLAIM-06 | P1: Termos de Uso, Declaração sob art. 299 CP e Isenção de Responsabilidade | Specify | Pendente |
 | CLAIM-07 | P1: Trilha de Auditoria e Logs Obrigatórios conforme Marco Civil da Internet (Lei 12.965/2014) | Specify | Pendente |
-| CLAIM-08 | P1: Níveis de Permissão por Tipo de Validação (Tier 1 dados públicos vs Tier 2 recursos críticos/PIX) | Specify | Pendente |
-| CLAIM-09 | P2: Tratamento de Concorrência, Rate Limits e Rejeição de Provas | Specify | Pendente |
-| CLAIM-10 | P2: Gatilho Público de Contestação de Propriedade e Congelamento em In_Dispute | Specify | Pendente |
-| CLAIM-11 | P2: Descredenciamento Sumário de Titular Tier 1 perante Contestação Documental | Specify | Pendente |
-| CLAIM-12 | P2: Resolução de Disputa e Transferência Segura de Titularidade | Specify | Pendente |
+| CLAIM-08 | P1: Níveis de Permissão por Hierarquia Probatória (Nível 1 pleno/PIX vs Níveis 2 e 3 operacionais) | Specify | Pendente |
+| CLAIM-09 | P2: Tratamento de Concorrência, Precedência por Nível Probatório e Rate Limits | Specify | Pendente |
+| CLAIM-10 | P2: Regra de Resolução Automática de Disputa (Prevalência de Nível 1 sobre Níveis 2 e 3 sem Bloqueio Unilateral) | Specify | Pendente |
+| CLAIM-11 | P2: Contestação Paritária de Nível 1 e Congelamento em In_Dispute | Specify | Pendente |
+| CLAIM-12 | P2: Resolução de Disputa, Análise de Tempestividade de Ata RCPJ e Transferência Segura | Specify | Pendente |
 
 **Cobertura:** 12 requisitos estruturados, 0 mapeados para tarefas técnicas, 12 aguardando confirmação da especificação.
 
@@ -333,6 +344,6 @@ Em observância ao **art. 15 da Lei Federal nº 12.965/2014 (Marco Civil da Inte
 
 - [ ] 100% dos processos de reivindicação exigem assinatura eletrônica da declaração sob as penas do art. 299 do Código Penal e aceite de isenção da plataforma.
 - [ ] 100% dos eventos de claim e disputa geram logs invioláveis com IP, porta lógica, timestamp UTC, user-agent e identificadores (atendendo ao Marco Civil da Internet).
-- [ ] Usuários validados exclusivamente por métodos Tier 1 não conseguem cadastrar chaves PIX, alterar dados cadastrais críticos ou convidar administradores.
-- [ ] O acionamento de "Contestar Propriedade" congela imediatamente todas as alterações em dados públicos do perfil da congregação.
-- [ ] Titulares Tier 1 que não apresentem documento legal oficial no prazo de 5 dias úteis perante contestação documental sofrem descredenciamento sumário automático.
+- [ ] Usuários validados por métodos de Nível 3 ou Nível 2 não conseguem cadastrar chaves PIX, alterar dados cadastrais críticos ou transferir titularidade (recursos exclusivos de Nível 1).
+- [ ] Contestações comprovadas com documentação válida de Nível 1 revogam sumariamente e de imediato vínculos obtidos via Nível 2 ou 3, notificando o titular anterior sem direito a bloqueio unilateral.
+- [ ] Contestações concorrentes entre documentos de Nível 1 congelam imediatamente o perfil em `In_Dispute` para julgamento administrativo da ata de posse vigente no RCPJ em até 5 dias úteis.
