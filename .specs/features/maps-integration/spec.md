@@ -17,6 +17,7 @@ A descoberta baseada em localização é difícil de avaliar apenas por uma list
 | -------------- | ------ |
 | Definição do ranking de busca | Definida em `search-discovery`. |
 | Gestão e validação de regras de perfis de igreja | Definida em `profile-management`. |
+| Autenticação e controle de sessão | Definida em `authentication-authorization`. O acesso ao mapa exige usuário logado. |
 | Seleção de API do provedor, esquema de cache e cotas | São decisões de Design, não entregáveis de Specify. |
 | Rotas, planejamento de viagem ou navegação passo a passo | Não pertencem ao MVP legado. |
 
@@ -27,6 +28,7 @@ A descoberta baseada em localização é difícil de avaliar apenas por uma list
 | Hipótese / decisão | Padrão adotado | Justificativa | Confirmada? |
 | ------------------ | -------------- | ------------- | ----------- |
 | Provedor de mapas | Google Maps JavaScript API e Google Places são os provedores pretendidos. | Selecionados explicitamente na documentação legada. | Não |
+| Autenticação para acesso ao mapa | Acesso à busca e visualização do mapa (`GET`) exige usuário cadastrado e autenticado via JWT. Não é público. | Decisão confirmada de produto: proteger recursos do mapa e engajar usuários cadastrados. | Sim |
 | Resolução de localização | Endereço, cidade e localização atual são entradas válidas; texto não resolvido gera falha explícita. | Descrito pelo MVP e pela especificação legada. | Não |
 | Escopo de resultados do provedor | Resultados do provedor são elegíveis ao conjunto de descoberta e devem ser rotulados `maps` com indicação de não cadastrada. | Exigido pelo MVP legado. | Não |
 | Identificador e vínculo de localização externa | O `place_id` do Google Maps é a chave externa estável para referenciar a localização física da igreja e vinculá-la a um futuro perfil oficial. | Permite associação determinística entre o local físico e a entidade de perfil. | Não |
