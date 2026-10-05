@@ -100,7 +100,7 @@ A rotação de Refresh Tokens oferece um sensor intrínseco de roubo de credenci
 
 O usuário permanece autenticado continuamente, sendo desconectado e enviado à tela de login **exclusivamente** nos seguintes cenários:
 1. **Inatividade Prolongada:** O usuário passa mais de **60 dias corridos** sem abrir o aplicativo (o Refresh Token expira naturalmente).
-2. **Logout Manual:** O usuário aciona voluntariamente a opção "Sair da Conta" no app. O cliente mobile chama `POST /auth/logout`, o backend revoga o Refresh Token ativo e o app apaga as credenciais locais do Keychain/Keystore.
+2. **Logout Manual (Stateless Puro - AD-024):** O usuário aciona voluntariamente a opção "Sair da Conta" no app. O cliente mobile chama `POST /auth/logout`, o backend revoga imediatamente o Refresh Token no banco de dados e o app apaga as credenciais locais do Keychain/Keystore. O Access Token residual expira naturalmente em até 15 minutos sem necessidade de denylist em memória, garantindo alta performance e simplicidade operacional.
 3. **Alteração de Senha ou "Desconectar de Outros Dispositivos":** O usuário redefine sua senha ou solicita encerramento de sessões ativas. O backend revoga **todas as famílias de tokens** associadas ao `user_id`.
 4. **Violação de Segurança:** Detecção automática de reúso de token consumido (Automatic Breach Detection), revogando a família de tokens.
 
@@ -123,6 +123,8 @@ Para proteger a plataforma contra ataques de força bruta, sequestro de contas p
 | **`POST /auth/login`** (Limite Global IP) | `IP` de Origem | **50 requisições** | **1 hora** | Mitiga ataques distribuídos de *credential stuffing* (teste de listas de senhas vazadas em massa). |
 | **`POST /auth/register`** | `IP` de Origem | **3 contas** | **1 hora** | Impede a criação automatizada em massa de contas por bots ou agentes maliciosos. |
 | **`POST /auth/refresh`** | Chave Composta `(user_id + device_id)` | **20 requisições** | **1 minuto** | Permite rajadas naturais de reconexão do app mobile, bloqueando loops infinitos ou abuso da rota. |
+| **`POST /auth/forgot-password`** | Chave Composta `(IP + email)` | **3 requisições** | **1 hora** | Previne spam e abuso de envio de e-mails com códigos OTP. |
+| **`POST /auth/reset-password`** (Tentativas de Código) | Chave Composta `(IP + email)` | **3 falhas** | **15 minutos** | Bloqueia ataques de força bruta na adivinhação do código OTP de 6 dígitos. |
 
 ### 2.3 Contrato de Resposta e Cabeçalhos Padronizados (HTTP 429)
 
@@ -172,7 +174,7 @@ Quando qualquer um dos limites acima for ultrapassado:
 **Por que P1**: É a porta de entrada para novos usuários que desbloqueia a autenticação e o uso dos recursos protegidos (como o mapa).
 
 #### Cenário 3: Cadastro público de usuário com emissão do primeiro par de tokens e logs de auditoria
-- **GIVEN** que o visitante não possui conta e envia dados válidos para cadastro
+- **GIVEN** que o visitante não possui conta e envia dados válidos para cadastro contendo senha com no mínimo 8 caracteres (ao menos 1 letra e 1 número conforme AD-024)
 - **WHEN** o sistema processa a criação do perfil de usuário
 - **THEN** o sistema SHALL persistir a nova conta
 - **AND** registrar o evento de cadastro na trilha de auditoria contendo obrigatoriamente `client_ip`, `client_port`, `timestamp_utc` (ISO 8601 UTC), `user_agent` e `verification_metadata` em repositório de log seguro append-only com retenção obrigatória de no mínimo 6 meses (180 dias) e expiração automatizada conforme Marco Civil (art. 15) e LGPD
@@ -322,6 +324,29 @@ Quando qualquer um dos limites acima for ultrapassado:
 
 ---
 
+### P2: Recuperar Acesso via Código OTP por E-mail ("Esqueci minha senha")
+
+**História de Usuário**: Como usuário cadastrado que esqueceu a senha, quero receber um código numérico de verificação no meu e-mail para redefinir minha senha com segurança diretamente no aplicativo.
+
+**Por que P2**: Funcionalidade essencial de autoatendimento que previne perda definitiva de acesso à conta, mantendo baixa fricção no mobile.
+
+#### Cenário 18: Solicitação de código de recuperação por e-mail
+- **GIVEN** que o usuário informa seu e-mail cadastrado na tela de recuperação de senha
+- **WHEN** o cliente envia a requisição para `POST /auth/forgot-password`
+- **THEN** o sistema SHALL gerar um código numérico OTP de 6 dígitos com validade de 15 minutos
+- **AND** enviar o código para o e-mail cadastrado
+- **AND** aplicar limite de taxa de no máximo 3 solicitações por hora por chave `(IP + email)`.
+
+#### Cenário 19: Redefinição de senha com validação de OTP e revogação de sessões
+- **GIVEN** que o usuário recebeu o código OTP de 6 dígitos em seu e-mail
+- **WHEN** o usuário envia o código OTP acompanhado da nova senha (mínimo 8 caracteres, contendo ao menos 1 letra e 1 número conforme AD-024) para `POST /auth/reset-password`
+- **THEN** o sistema SHALL validar o código dentro da janela de 15 minutos
+- **AND** atualizar a senha criptografada do usuário
+- **AND** revogar sumariamente todas as famílias de Refresh Tokens ativas associadas àquele `user_id` em todos os dispositivos (conforme Cenário 12 e AD-010)
+- **AND** invalidar o código OTP imediatamente para impedir reúso.
+
+---
+
 ## Casos de Borda
 
 - **Concorrência de Refresh Tokens no Cliente:** Caso duas requisições paralelas móveis tentem renovar o token simultaneamente por falha de fila, o cliente HTTP com request queuing garante uma única chamada sequencial; no backend, uma janela de tolerância de 2 segundos pode ser implementada para aceitar a mesma requisição em trânsito se originada do mesmo IP e `device_id`.
@@ -332,31 +357,48 @@ Quando qualquer um dos limites acima for ultrapassado:
 
 ---
 
+## Dimensões de Requisitos Implícitos (Sweep)
+
+| Dimensão | Cobertura na Especificação |
+| -------- | -------------------------- |
+| **Validação de Entrada e Limites** | Validação sintática de e-mail (RFC 5322); senha alfanumérica mínima de 8 caracteres (ao menos 1 letra e 1 número - AD-024); código OTP numérico de 6 dígitos com TTL de 15 minutos; validação de formato e unicidade de `deviceId`; verificação da assinatura criptográfica e integridade de claims do JWT (`sub`, `exp`, `iat`, `jti`, `family_id`); sanitização de payloads de autenticação. |
+| **Estados de Falha e Parciais** | Respostas de erro padronizadas: HTTP 401 para credenciais incorretas, tokens expirados ou violação (`TOKEN_BREACH_DETECTED`); HTTP 403 para violação de titularidade (*ownership*) ou falta de status verificado; HTTP 429 para rate limit; comportamento de *fail-open* controlado com log crítico em caso de falha transitória do cluster Redis; resiliência a oscilações de rede no refresh através de enfileiramento no cliente móvel. |
+| **Idempotência, Deduplicação e Precedência** | Operação `POST /auth/logout` idempotente; chamada única sequencial de refresh pelo interceptor HTTP com *request queuing* no app, eliminando requisições concorrentes duplicadas; tolerância de até 2 segundos em trânsito no backend para chamadas com mesmo IP e `device_id`. |
+| **Fronteiras de Autenticação e Rate Limits** | Rotas públicas estritas a cadastro (`/auth/register`), login (`/auth/login`) e recuperação (`/auth/forgot-password`, `/auth/reset-password`); busca no mapa e rotas protegidas exigem JWT válido (AD-007); proteção com *Sliding Window Counter* no Redis (`POST /auth/login`: 5 falhas/15m por IP+email e 50 req/h global por IP; `POST /auth/register`: 3 contas/h por IP; `POST /auth/refresh`: 20 req/min por user_id+device_id; `POST /auth/forgot-password`: 3 req/h por IP+email; `POST /auth/reset-password`: 3 falhas/15m por IP+email), retornando HTTP 429 com cabeçalhos IETF (AD-011 e AD-024). |
+| **Concorrência e Ordenação** | Transações atômicas no banco relacional para queima do Refresh Token (`Consumed`) e geração do novo par (`Active`) na mesma transação; revogação em lote atômica de toda a família de tokens sob detecção de violação; execução atômica de contadores via scripts Lua no Redis sem condições de corrida. |
+| **Ciclo de Vida de Dados e Expiração** | Access Token JWT com validade estrita de curta duração (15 minutos); Refresh Token com validade de 60 dias corridos sob *Sliding Expiration*; expiração natural pós-inatividade (60 dias); revogação imediata em logout manual ou troca de senha com expiração natural de Access Token residual sem denylist (AD-024); retenção obrigatória de logs de auditoria por no mínimo 6 meses (180 dias) em modo *append-only* (Marco Civil art. 15 e LGPD - AD-014). |
+| **Observabilidade e Auditoria** | Gravação padronizada em repositório de log seguro dos campos `client_ip` (extraído com segurança de `X-Forwarded-For`), `client_port`, `timestamp_utc` (ISO 8601 UTC), `user_agent` e `verification_metadata` para eventos de cadastro, login, logout, renovação de token, recuperação de senha, detecção de violação e bloqueio por rate limiting. |
+| **Segurança de Hardware e Armazenamento Local** | Exigência mandatória de armazenamento seguro de Refresh Tokens exclusivamente no iOS Keychain e Android Keystore / EncryptedSharedPreferences (AD-010); proibição estrita de persistência em texto plano ou locais desprotegidos. |
+
+---
+
 ## Rastreabilidade de Requisitos
 
-| ID do Requisito | História | Fase | Status |
-| --------------- | -------- | ---- | ------ |
-| AUTH-01 | P1: Acessar Busca no Mapa com Autenticação Obrigatória | Specify | Pendente |
-| AUTH-02 | P1: Criar Perfil de Usuário sem Autenticação Prévia (Onboarding) | Specify | Pendente |
-| AUTH-03 | P1: Proteger Contribuições e Titularidade do Usuário (Ownership) | Specify | Pendente |
-| AUTH-04 | P1: Proteger a Representação da Igreja (Representante Verificado) | Specify | Pendente |
-| AUTH-05 | P1: Renovar Sessão Silenciosamente com Rotação de Tokens (RTR) e Sliding Expiration | Specify | Pendente |
-| AUTH-06 | P1: Detectar Reúso de Refresh Token e Revogar Família (Anti-Roubo) | Specify | Pendente |
-| AUTH-07 | P1: Request Queuing e Armazenamento Seguro no Hardware Mobile (Keychain/Keystore) | Specify | Pendente |
-| AUTH-08 | P1: Encerrar Sessão por Critérios Estritos de Logout (Inatividade 60d, Logout Manual e Troca de Senha) | Specify | Pendente |
-| AUTH-09 | P1: Proteger Endpoints de Autenticação com Rate Limiting Granular via Sliding Window Counter com Redis | Specify | Pendente |
+| ID do Requisito | História / Escopo Detalhado | Fase | Status |
+| --------------- | --------------------------- | ---- | ------ |
+| AUTH-01 | P1: Acesso Obrigatório à Busca no Mapa com Autenticação JWT (AD-007) | Specify | Confirmado |
+| AUTH-02 | P1: Cadastro Público de Usuário e Logs de Auditoria do Marco Civil (AD-008 e AD-014) | Specify | Confirmado |
+| AUTH-03 | P1: Proteção de Contribuições e Titularidade do Usuário / Ownership (AD-008) | Specify | Confirmado |
+| AUTH-04 | P1: Proteção Exclusiva da Representação da Igreja via Claim Verificado (AD-009) | Specify | Confirmado |
+| AUTH-05 | P1: Renovação Silenciosa de Sessão com Rotação (RTR) e Sliding Expiration 60d (AD-010) | Specify | Confirmado |
+| AUTH-06 | P1: Detecção Automática de Reúso e Revogação Imediata de Família / Anti-Roubo (AD-010) | Specify | Confirmado |
+| AUTH-07 | P1: Interceptor HTTP com Request Queuing e Armazenamento Seguro em Hardware Mobile (AD-010) | Specify | Confirmado |
+| AUTH-08 | P1: Critérios Determinísticos de Logout (Inatividade 60d, Manual e Troca de Senha) (AD-010 e AD-024) | Specify | Confirmado |
+| AUTH-09 | P1: Rate Limiting Granular com Sliding Window Counter no Redis e HTTP 429 IETF (AD-011) | Specify | Confirmado |
+| AUTH-10 | P2: Recuperação de Acesso via Código OTP de 6 Dígitos por E-mail (AD-024) | Specify | Confirmado |
 
-**Cobertura:** 9 requisitos estruturados, 0 mapeados para tarefas técnicas, 9 aguardando confirmação da especificação.
+**Cobertura:** 10 requisitos estruturados, 10 confirmados com critérios BDD e decisões arquiteturais vinculadas, 0 pendentes de especificação. Prontos para Design.
 
 ---
 
 ## Critérios de Sucesso
 
 - [ ] Acesso à busca por mapa é protegido e restrito a usuários autenticados com JWT válido.
-- [ ] Visitantes conseguem realizar o cadastro inicial de perfil sem barreiras de autenticação prévia.
+- [ ] Visitantes conseguem realizar o cadastro inicial de perfil sem barreiras de autenticação prévia, com senha mínima de 8 caracteres alfanuméricos.
 - [ ] Escritas em perfis e congregações obedecem estritamente às regras de titularidade (ownership) e representação verificada.
 - [ ] Usuários ativos no aplicativo permanecem logados indefinidamente através da expiração deslizante de 60 dias, sem interrupção de uso.
 - [ ] 100% das renovações de sessão utilizam Rotação de Refresh Token (uso único).
 - [ ] Qualquer tentativa de reúso de refresh token consumido invalida instantaneamente toda a família de tokens (`family_id`).
 - [ ] Nenhum token de sessão é armazenado em texto plano no dispositivo móvel.
-- [ ] 100% das tentativas abusivas nos endpoints de login, registro e refresh são contidas com resposta HTTP 429, payload explicativo e cabeçalhos `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` e `Retry-After`.
+- [ ] 100% das tentativas abusivas nos endpoints de login, registro, refresh e recuperação de senha são contidas com resposta HTTP 429, payload explicativo e cabeçalhos `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` e `Retry-After`.
+- [ ] Usuários conseguem recuperar o acesso através de código OTP de 6 dígitos enviado por e-mail com TTL de 15 minutos, provocando a revogação de todas as sessões ativas nos aparelhos ao redefinir a senha.
