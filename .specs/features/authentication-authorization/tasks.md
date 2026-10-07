@@ -233,10 +233,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Validação correta de senha via BCrypt
-- [ ] Criação de `RefreshToken` com status `Active` e nova `family_id`
-- [ ] Retorno de erro HTTP 401 com mensagem genérica em caso de falha de credenciais
-- [ ] Testes unitários cobrindo login bem-sucedido e credenciais inválidas  
+- [x] Validação correta de senha via BCrypt
+- [x] Criação de `RefreshToken` com status `Active` e nova `family_id`
+- [x] Retorno de erro HTTP 401 com mensagem genérica em caso de falha de credenciais
+- [x] Testes unitários cobrindo login bem-sucedido e credenciais inválidas  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement user login handler with token family generation`

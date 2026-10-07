@@ -17,6 +17,9 @@ builder.Services.AddScoped<IAuditLogService, MarcoCivilAuditLogger>();
 builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.RegisterRequest>, SearchAChurch.Api.Features.Auth.Validators.RegisterRequestValidator>();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.IRegisterHandler, SearchAChurch.Api.Features.Auth.RegisterHandler>();
 
+builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.LoginRequest>, SearchAChurch.Api.Features.Auth.Validators.LoginRequestValidator>();
+builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.ILoginHandler, SearchAChurch.Api.Features.Auth.LoginHandler>();
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
