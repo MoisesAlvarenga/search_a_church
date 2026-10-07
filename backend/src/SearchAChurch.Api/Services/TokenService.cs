@@ -50,7 +50,7 @@ public class TokenService : ITokenService
             Expires = DateTime.UtcNow.AddMinutes(_options.AccessTokenExpiryMinutes),
             Issuer = _options.Issuer,
             Audience = _options.Audience,
-            SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256)
         };
 
         var token = _tokenHandler.CreateToken(tokenDescriptor);
@@ -97,16 +97,26 @@ public class TokenService : ITokenService
             ValidateIssuer = !string.IsNullOrWhiteSpace(_options.Issuer),
             ValidIssuer = _options.Issuer,
             ValidateAudience = !string.IsNullOrWhiteSpace(_options.Audience),
+            ValidAudience = _options.Audience,
             // nosemgrep: csharp.lang.security.ad.jwt-tokenvalidationparameters-no-expiry-validation.jwt-tokenvalidationparameters-no-expiry-validation
             ValidateLifetime = false, // Intentional: extracting claims from expired token during refresh
+            ClockSkew = TimeSpan.Zero
         };
 
         try
         {
             var principal = _tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
 
-            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
-                !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
+            var alg = securityToken switch
+            {
+                JwtSecurityToken jwt => jwt.Header.Alg,
+                Microsoft.IdentityModel.JsonWebTokens.JsonWebToken jwt2 => jwt2.Alg,
+                _ => null
+            };
+
+            if (alg == null ||
+                (!alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase) &&
+                 !alg.Equals("HS256", StringComparison.OrdinalIgnoreCase)))
             {
                 return null;
             }

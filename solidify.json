@@ -158,7 +158,7 @@
       "enabled": true,
       "threshold": 80,
       "format": "auto",
-      "report_path": "backend/tests/SearchAChurch.UnitTests/TestResults"
+      "report_path": "backend/TestResults/coverage.cobertura.xml"
     },
     "jev_regression": {
       "enabled": false,
