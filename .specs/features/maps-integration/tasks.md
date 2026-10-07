@@ -15,7 +15,7 @@
 | **T1** | Modelar Entidade Church e Migração no PostgreSQL com Âncora `place_id` | Done | NONE | unit | Quick |
 | **T2** | Implementar Serviço de Cache Distribuído de Locais no Redis (PlacesCacheService) [P] | Done | NONE | unit | Quick |
 | **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Done | T2 | unit | Quick |
-| **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Todo | T1 | unit | Quick |
+| **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Done | T1 | unit | Quick |
 | **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Todo | T1, T3, T4 | integration | Full |
 | **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Todo | T5 | e2e | Full |
 | **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Todo | T6 | unit | Quick |
@@ -98,10 +98,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Se um `place_id` da Google já existe na base oficial (`app`), o registro externo é sumariamente descartado (App-First)
-- [ ] Templos não cadastrados recebem `Source = ChurchSource.Maps`, `IsRegistered = false` e `CanClaim = true`
-- [ ] Cálculo determinístico de distância física (fórmula de Haversine) até o centro da pesquisa
-- [ ] Testes unitários cobrindo cenários com e sem sobreposição de `place_id`  
+- [x] Se um `place_id` da Google já existe na base oficial (`app`), o registro externo é sumariamente descartado (App-First)
+- [x] Templos não cadastrados recebem `Source = ChurchSource.Maps`, `IsRegistered = false` e `CanClaim = true`
+- [x] Cálculo determinístico de distância física (fórmula de Haversine) até o centro da pesquisa
+- [x] Testes unitários cobrindo cenários com e sem sobreposição de `place_id`  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(maps): implement app-first deduplication engine for map results`
