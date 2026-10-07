@@ -174,10 +174,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Script Lua executa remoção de scores antigos (`ZREMRANGEBYSCORE`), contagem (`ZCARD`), adição (`ZADD`) e expiração (`PEXPIRE`) de forma atômica
-- [ ] Retorno com contagem restante e cálculo exato de segundos para `Retry-After`
-- [ ] Fail-open defensivo com log crítico em caso de timeout/falha do Redis
-- [ ] Testes unitários e de integração validando bloqueio no limite e liberação após a janela  
+- [x] Script Lua executa remoção de scores antigos (`ZREMRANGEBYSCORE`), contagem (`ZCARD`), adição (`ZADD`) e expiração (`PEXPIRE`) de forma atômica
+- [x] Retorno com contagem restante e cálculo exato de segundos para `Retry-After`
+- [x] Fail-open defensivo com log crítico em caso de timeout/falha do Redis
+- [x] Testes unitários e de integração validando bloqueio no limite e liberação após a janela  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement atomic sliding window rate limiter with redis lua script`
