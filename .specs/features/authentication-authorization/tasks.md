@@ -372,11 +372,11 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Injeta `Authorization: Bearer <token>` em todas as requisições autenticadas
-- [ ] Pausa requisições paralelas durante a execução de `POST /auth/refresh`
-- [ ] Atualiza o token no hardware seguro e reexecuta as requisições pendentes na fila
-- [ ] Notifica callback de sessão expirada e limpa o storage se o refresh falhar
-- [ ] Testes unitários cobrindo fluxo de refresh concorrente simulado com mock  
+- [x] Injeta `Authorization: Bearer <token>` em todas as requisições autenticadas
+- [x] Pausa requisições paralelas durante a execução de `POST /auth/refresh`
+- [x] Atualiza o token no hardware seguro e reexecuta as requisições pendentes na fila
+- [x] Notifica callback de sessão expirada e limpa o storage se o refresh falhar
+- [x] Testes unitários cobrindo fluxo de refresh concorrente simulado com mock  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/core/network/`)  
 **Commit**: `feat(flutter): implement dio queued interceptor for atomic silent token refresh`
