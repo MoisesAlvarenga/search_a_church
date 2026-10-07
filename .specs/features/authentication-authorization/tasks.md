@@ -352,10 +352,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Métodos para salvar, recuperar e limpar Access Token, Refresh Token e Device ID
-- [ ] Configuração de `IOSOptions` com acessibilidade segura e `AndroidOptions` com EncryptedSharedPreferences
-- [ ] Tratamento defensivo de corrupção de hardware sem travar a aplicação
-- [ ] Testes unitários com mock do storage  
+- [x] Métodos para salvar, recuperar e limpar Access Token, Refresh Token e Device ID
+- [x] Configuração de `IOSOptions` com acessibilidade segura e `AndroidOptions` com EncryptedSharedPreferences
+- [x] Tratamento defensivo de corrupção de hardware sem travar a aplicação
+- [x] Testes unitários com mock do storage  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/core/storage/`)  
 **Commit**: `feat(flutter): implement secure storage service for ios keychain and android keystore`
