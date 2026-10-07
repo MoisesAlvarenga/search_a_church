@@ -253,10 +253,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Transação ACID atômica: queima token antigo para `Consumed` e gera novo `Active` com mesma `family_id`
-- [ ] Se o token apresentado já estiver `Consumed`, revoga instantaneamente todos os tokens daquela `family_id` com status `Revoked` e retorna `TOKEN_BREACH_DETECTED`
-- [ ] Tolerância de 2 segundos para requisições em trânsito com mesmo IP e `device_id`
-- [ ] Testes unitários e de integração comprovando a rotação e a detecção de violação  
+- [x] Transação ACID atômica: queima token antigo para `Consumed` e gera novo `Active` com mesma `family_id`
+- [x] Se o token apresentado já estiver `Consumed`, revoga instantaneamente todos os tokens daquela `family_id` com status `Revoked` e retorna `TOKEN_BREACH_DETECTED`
+- [x] Tolerância de 2 segundos para requisições em trânsito com mesmo IP e `device_id`
+- [x] Testes unitários e de integração comprovando a rotação e a detecção de violação  
 **Tests**: integration  
 **Gate**: Full (`dotnet test --filter "Category=Integration"`)  
 **Commit**: `feat(auth): implement refresh token rotation and automatic breach detection`

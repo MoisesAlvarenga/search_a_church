@@ -20,6 +20,9 @@ builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.IRegisterHandler, Sea
 builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.LoginRequest>, SearchAChurch.Api.Features.Auth.Validators.LoginRequestValidator>();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.ILoginHandler, SearchAChurch.Api.Features.Auth.LoginHandler>();
 
+builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.RefreshTokenRequest>, SearchAChurch.Api.Features.Auth.Validators.RefreshTokenRequestValidator>();
+builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.IRefreshTokenHandler, SearchAChurch.Api.Features.Auth.RefreshTokenHandler>();
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
