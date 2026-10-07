@@ -13,7 +13,7 @@
 | ID | Title | Status | Depends On | Tests | Gate |
 |---|---|:---:|---|---|---|
 | **T1** | Modelar Entidade Church e Migração no PostgreSQL com Âncora `place_id` | Done | NONE | unit | Quick |
-| **T2** | Implementar Serviço de Cache Distribuído de Locais no Redis (PlacesCacheService) [P] | Todo | NONE | unit | Quick |
+| **T2** | Implementar Serviço de Cache Distribuído de Locais no Redis (PlacesCacheService) [P] | Done | NONE | unit | Quick |
 | **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Todo | T2 | unit | Quick |
 | **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Todo | T1 | unit | Quick |
 | **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Todo | T1, T3, T4 | integration | Full |
@@ -56,10 +56,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Gravação e recuperação de detalhes de locais serializados em JSON com TTL de 30 dias
-- [ ] Caching de resolução textual de geocodificação por hash do endereço
-- [ ] Tratamento defensivo de fail-open sem lançar exceções se o Redis estiver indisponível
-- [ ] Testes unitários com mock do Redis comprovando expiração e resiliência  
+- [x] Gravação e recuperação de detalhes de locais serializados em JSON com TTL de 30 dias
+- [x] Caching de resolução textual de geocodificação por hash do endereço
+- [x] Tratamento defensivo de fail-open sem lançar exceções se o Redis estiver indisponível
+- [x] Testes unitários com mock do Redis comprovando expiração e resiliência  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(maps): implement redis places cache service with 30-day ttl`

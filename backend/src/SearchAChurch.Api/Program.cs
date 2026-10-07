@@ -17,6 +17,7 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptio
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddSingleton<IRateLimiterService, RedisRateLimiter>();
+builder.Services.AddSingleton<SearchAChurch.Api.Features.Maps.Services.IPlacesCacheService, SearchAChurch.Api.Features.Maps.Services.PlacesCacheService>();
 builder.Services.AddScoped<IAuditLogService, MarcoCivilAuditLogger>();
 builder.Services.AddTransient<SearchAChurch.Api.Filters.RateLimitFilter>();
 
