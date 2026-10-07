@@ -35,10 +35,9 @@ public record ClientConnectionContext(
         }
 
         string? userAgent = null;
-        if (httpContext.Request.Headers.TryGetValue("User-Agent", out var ua) &&
-            !string.IsNullOrWhiteSpace(ua.ToString()))
+        if (!string.IsNullOrWhiteSpace(httpContext.Request.Headers.UserAgent))
         {
-            userAgent = ua.ToString();
+            userAgent = httpContext.Request.Headers.UserAgent.ToString();
         }
 
         return new ClientConnectionContext(clientIp, clientPort, userAgent);

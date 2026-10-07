@@ -14,7 +14,7 @@ public class MarcoCivilAuditLoggerTests
 {
     private readonly Mock<ILogger<MarcoCivilAuditLogger>> _loggerMock = new();
 
-    private AppDbContext CreateInMemoryDbContext()
+    private static AppDbContext CreateInMemoryDbContext()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
@@ -124,7 +124,7 @@ public class MarcoCivilAuditLoggerTests
         var httpContext = new DefaultHttpContext();
         httpContext.Request.Headers["X-Forwarded-For"] = "203.0.113.195, 70.41.3.18, 150.172.238.178";
         httpContext.Request.Headers["X-Forwarded-Port"] = "49152";
-        httpContext.Request.Headers["User-Agent"] = "Mozilla/5.0 Chrome/120.0";
+        httpContext.Request.Headers.UserAgent = "Mozilla/5.0 Chrome/120.0";
 
         // Act
         var context = ClientConnectionContext.FromHttpContext(httpContext);
@@ -142,7 +142,7 @@ public class MarcoCivilAuditLoggerTests
         var httpContext = new DefaultHttpContext();
         httpContext.Connection.RemoteIpAddress = IPAddress.Parse("192.168.1.100");
         httpContext.Connection.RemotePort = 55123;
-        httpContext.Request.Headers["User-Agent"] = "TestRunner/2.0";
+        httpContext.Request.Headers.UserAgent = "TestRunner/2.0";
 
         // Act
         var context = ClientConnectionContext.FromHttpContext(httpContext);
