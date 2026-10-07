@@ -109,7 +109,7 @@
       "enabled": true,
       "required_in_contractual": true,
       "commands": [
-        ["dotnet", "test", "backend/SearchAChurch.slnx"]
+        ["powershell", "-ExecutionPolicy", "Bypass", "-File", "backend/test.ps1"]
       ]
     },
     "sonar": {
