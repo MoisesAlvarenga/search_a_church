@@ -70,25 +70,21 @@ public static class AuthenticationExtensions
             };
         });
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy(ChurchRepresentativePolicy, policy =>
+        services.AddAuthorizationBuilder()
+            .AddPolicy(ChurchRepresentativePolicy, policy =>
             {
                 policy.RequireAuthenticatedUser();
                 policy.Requirements.Add(new ChurchRepresentativeRequirement());
-            });
-
-            options.AddPolicy(VerifiedRepresentativePolicy, policy =>
+            })
+            .AddPolicy(VerifiedRepresentativePolicy, policy =>
             {
                 policy.RequireAuthenticatedUser();
                 policy.Requirements.Add(new ChurchRepresentativeRequirement());
-            });
-
-            options.AddPolicy(UserOwnershipPolicy, policy =>
+            })
+            .AddPolicy(UserOwnershipPolicy, policy =>
             {
                 policy.RequireAuthenticatedUser();
             });
-        });
 
         services.AddSingleton<IAuthorizationHandler, ChurchRepresentativeAuthorizationHandler>();
 

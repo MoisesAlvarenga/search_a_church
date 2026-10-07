@@ -17,7 +17,7 @@ public class LoginHandlerTests
     private readonly Mock<ITokenService> _tokenServiceMock = new();
     private readonly Mock<IAuditLogService> _auditLogMock = new();
     private readonly Mock<ILogger<LoginHandler>> _loggerMock = new();
-    private readonly IPasswordHasher _passwordHasher = new PasswordHasher();
+    private readonly PasswordHasher _passwordHasher = new();
     private readonly LoginRequestValidator _validator = new();
 
     public LoginHandlerTests()

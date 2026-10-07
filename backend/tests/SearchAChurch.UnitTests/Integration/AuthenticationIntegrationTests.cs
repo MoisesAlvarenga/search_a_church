@@ -23,7 +23,7 @@ public class AuthenticationIntegrationTests : IClassFixture<CustomWebApplication
         _client = factory.CreateClient();
     }
 
-    private string GenerateExpiredToken()
+    private static string GenerateExpiredToken()
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKeyForSearchAChurchProjectWithMin256BitsLength!"));
         var descriptor = new SecurityTokenDescriptor
@@ -45,7 +45,7 @@ public class AuthenticationIntegrationTests : IClassFixture<CustomWebApplication
         return handler.WriteToken(token);
     }
 
-    private string GenerateTokenWithWrongKey()
+    private static string GenerateTokenWithWrongKey()
     {
         var wrongKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("AnotherDifferentSecretKeyWithAtLeast32BytesLengthForTesting!"));
         var descriptor = new SecurityTokenDescriptor
@@ -65,7 +65,7 @@ public class AuthenticationIntegrationTests : IClassFixture<CustomWebApplication
         return handler.WriteToken(token);
     }
 
-    private string GenerateTokenWithWrongIssuer()
+    private static string GenerateTokenWithWrongIssuer()
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKeyForSearchAChurchProjectWithMin256BitsLength!"));
         var descriptor = new SecurityTokenDescriptor

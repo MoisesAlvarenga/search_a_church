@@ -17,7 +17,7 @@ public class PasswordResetHandlerTests
     private readonly Mock<ITokenService> _tokenServiceMock = new();
     private readonly Mock<IAuditLogService> _auditLogMock = new();
     private readonly Mock<ILogger<PasswordResetHandler>> _loggerMock = new();
-    private readonly IPasswordHasher _passwordHasher = new PasswordHasher();
+    private readonly PasswordHasher _passwordHasher = new();
     private readonly ForgotPasswordRequestValidator _forgotValidator = new();
     private readonly ResetPasswordRequestValidator _resetValidator;
 

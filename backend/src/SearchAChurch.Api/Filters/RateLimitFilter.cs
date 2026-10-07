@@ -139,7 +139,7 @@ public class RateLimitFilter : IEndpointFilter
         httpContext.Response.Headers["RateLimit-Limit"] = policy.Limit.ToString();
         httpContext.Response.Headers["RateLimit-Remaining"] = "0";
         httpContext.Response.Headers["RateLimit-Reset"] = retryAfter.ToString();
-        httpContext.Response.Headers["Retry-After"] = retryAfter.ToString();
+        httpContext.Response.Headers.RetryAfter = retryAfter.ToString();
 
         _logger?.LogWarning(
             "Rate limit exceeded for route '{RouteKey}' and identifier '{Identifier}'. Retry-After: {RetryAfter}s",

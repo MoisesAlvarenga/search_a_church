@@ -168,7 +168,7 @@ public class RateLimitFilterTests
             .Returns(principal);
 
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers["Authorization"] = "Bearer expired-jwt-token";
+        httpContext.Request.Headers.Authorization = "Bearer expired-jwt-token";
         httpContext.Request.Headers["X-Device-Id"] = "device-android-999";
         var context = new TestEndpointFilterInvocationContext(httpContext);
 
@@ -261,7 +261,7 @@ public class RateLimitFilterTests
         Assert.Equal("5", httpContext.Response.Headers["RateLimit-Limit"].ToString());
         Assert.Equal("0", httpContext.Response.Headers["RateLimit-Remaining"].ToString());
         Assert.Equal("450", httpContext.Response.Headers["RateLimit-Reset"].ToString());
-        Assert.Equal("450", httpContext.Response.Headers["Retry-After"].ToString());
+        Assert.Equal("450", httpContext.Response.Headers.RetryAfter.ToString());
     }
 
     [Fact]
@@ -287,7 +287,7 @@ public class RateLimitFilterTests
         var jsonResult = (JsonHttpResult<RateLimitExceededResponse>)result;
         Assert.Equal(1, jsonResult.Value?.RetryAfterSeconds);
 
-        Assert.Equal("1", httpContext.Response.Headers["Retry-After"].ToString());
+        Assert.Equal("1", httpContext.Response.Headers.RetryAfter.ToString());
         Assert.Equal("1", httpContext.Response.Headers["RateLimit-Reset"].ToString());
     }
 
