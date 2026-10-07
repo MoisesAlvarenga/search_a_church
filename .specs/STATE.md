@@ -34,24 +34,22 @@
 
 ## Continuidade
 
-- **Fase atual:** Complete (Execução e Testes 100% concluídos para `authentication-authorization`)
-- **Escopo concluído:** Baseline inicial do produto extraída da pasta legada `Old` e enriquecida com a especificação de vinculação pelo mapa, reivindicação de perfil (`church-profile-claim`), camada de sessão contínua resiliente, rate limiting com Redis, Prioridade Probatória Estrita, regime normativo de responsabilidade civil (Marco Civil da Internet, safe harbor e Notice and Takedown), conformidade de retenção de logs de auditoria (Marco Civil art. 15 e LGPD), política de expiração/TTL de reivindicações pendentes (7d doc / 48h social), governança de disputas paritárias em `In_Dispute` (janela de 5 dias úteis, prevalência registral RCPJ e saída judicial), parametrização de geofencing (100m, accuracy ≤ 50m, anti-mock), política de raio de busca híbrido (`AD-018`), ranqueamento determinístico com desempate por avaliações, distância e nome (`AD-019`), fórmula ponderada de pontuação com cold start neutro (`AD-020`), precedência de preferências com filtros efêmeros segregados do perfil (`AD-021`), paginação por cursor com 20 itens por página e teto global de 100 igrejas (`AD-022`), política de deduplicação App-First com place_id (`AD-023`), diretrizes de credenciais e logout stateless (`AD-024` sob `authentication-authorization`), arquitetura operacional de mapas, resiliência e cotas (`AD-025` sob `maps-integration`), governança de perfis, soft delete sob LGPD e sistema bidirecional de tags de acessibilidade/ministérios (`AD-026` sob `profile-management`), sistema de avaliações, moderação e filtro de ofensas/ataques (`AD-027` sob `reviews-feedback`), e implementação completa de `authentication-authorization` (T1 a T16 - Backend .NET 9 Minimal APIs com 147 testes aprovados e Frontend Flutter com 36 testes aprovados).
-- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration`, `authentication-authorization` (100% implementada) e `church-profile-claim`.
+- **Fase atual:** Design (Concluído para `maps-integration`)
+- **Escopo concluído:** Baseline inicial do produto extraída da pasta legada `Old` e enriquecida com a especificação de vinculação pelo mapa, reivindicação de perfil (`church-profile-claim`), camada de sessão contínua resiliente, rate limiting com Redis, Prioridade Probatória Estrita, regime normativo de responsabilidade civil (Marco Civil da Internet, safe harbor e Notice and Takedown), conformidade de retenção de logs de auditoria (Marco Civil art. 15 e LGPD), política de expiração/TTL de reivindicações pendentes (7d doc / 48h social), governança de disputas paritárias em `In_Dispute` (janela de 5 dias úteis, prevalência registral RCPJ e saída judicial), parametrização de geofencing (100m, accuracy ≤ 50m, anti-mock), política de raio de busca híbrido (`AD-018`), ranqueamento determinístico com desempate por avaliações, distância e nome (`AD-019`), fórmula ponderada de pontuação com cold start neutro (`AD-020`), precedência de preferências com filtros efêmeros segregados do perfil (`AD-021`), paginação por cursor com 20 itens por página e teto global de 100 igrejas (`AD-022`), política de deduplicação App-First com place_id (`AD-023`), diretrizes de credenciais e logout stateless (`AD-024` sob `authentication-authorization`), arquitetura operacional de mapas, resiliência e cotas (`AD-025` sob `maps-integration`), governança de perfis, soft delete sob LGPD e sistema bidirecional de tags de acessibilidade/ministérios (`AD-026` sob `profile-management`), sistema de avaliações, moderação e filtro de ofensas/ataques (`AD-027` sob `reviews-feedback`), implementação completa de `authentication-authorization` (T1 a T16 - 183 testes aprovados) e elaboração do Design Arquitetural e Diagrama Archify de `maps-integration` (`AD-004`, `AD-007`, `AD-023`, `AD-025`).
+- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (Design aprovado), `authentication-authorization` (100% implementada) e `church-profile-claim`.
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Avançar para a próxima feature do roadmap (Design & Tasks da feature subsequente, e.g., `maps-integration` ou `search-discovery`).
+- **Próxima ação:** Elaborar o plano detalhado de tarefas técnicas (`tasks.md`) para `maps-integration` sincronizando com o Plane Kanban.
 
 ## Handoff
 
-- **Feature**: `authentication-authorization`
-- **Phase / Task**: Execute — 100% Concluído (T1 a T16 finalizadas, testadas e commitadas)
+- **Feature**: `maps-integration`
+- **Phase / Task**: Design — 100% Concluído (design.md e diagrama Archify gerados e validados)
 - **Completed**:
-  - Especificações: 100% das 6 funcionalidades confirmadas (49 requisitos estruturados)
-  - Design: `.specs/features/authentication-authorization/design.md` aprovado
-  - Tasks: `.specs/features/authentication-authorization/tasks.md` 100% concluído (16/16 tarefas)
-  - Backend: .NET 9 Minimal APIs implementadas e testadas (147 testes passando)
-  - Frontend: Flutter implementado com secure storage, queued interceptor e cubit (36 testes passando)
-- **In-progress**: Conclusão da revisão de conformidade
-- **Next step**: Definir a próxima funcionalidade a ser implementada conforme prioridade de produto
+  - Especificação: `maps-integration/spec.md` (7 requisitos funcionais confirmados)
+  - Diagrama de Arquitetura Interativo: `.archify/architecture-maps-integration-20261007-144500/maps-integration.html`
+  - Design Arquitetural: `.specs/features/maps-integration/design.md`
+- **In-progress**: Elaboração do plano de tarefas (`tasks.md`)
+- **Next step**: Gerar `tasks.md` para `maps-integration` e alimentar o Plane Kanban
 - **Blockers**: none
-- **Uncommitted files**: `.specs/`
+- **Uncommitted files**: none
 - **Branch**: main
