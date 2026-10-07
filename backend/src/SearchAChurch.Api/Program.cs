@@ -61,15 +61,12 @@ app.UseAuthorization();
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTimeOffset.UtcNow }))
    .WithName("HealthCheck");
 
-// Protected endpoints according to AUTH-01 (AD-007) and AUTH-04 (AD-009)
-app.MapGet("/map/search", () => Results.Ok(new { message = "Map search results" }))
-   .RequireAuthorization();
-
 app.MapPut("/churches/{id}", (Guid id) => Results.Ok(new { message = "Church updated" }))
    .RequireAuthorization(SearchAChurch.Api.Extensions.AuthenticationExtensions.ChurchRepresentativePolicy);
 
-// Map Auth Endpoints
+// Map Feature Endpoints
 app.MapGroup("/auth").MapAuthEndpoints();
+app.MapGroup("/map").MapMapEndpoints();
 
 await app.RunAsync();
 

@@ -163,14 +163,14 @@ public class AuthenticationIntegrationTests : IClassFixture<CustomWebApplication
 
         var validToken = tokenService.GenerateAccessToken(user, Guid.NewGuid());
 
-        var request = new HttpRequestMessage(HttpMethod.Get, "/map/search");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/map/search?lat=-23.5505&lng=-46.6333");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", validToken);
 
         var response = await _client.SendAsync(request);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var body = await response.Content.ReadAsStringAsync();
-        Assert.Contains("Map search results", body);
+        Assert.Contains("results", body);
     }
 
     [Fact]

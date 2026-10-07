@@ -17,7 +17,7 @@
 | **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Done | T2 | unit | Quick |
 | **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Done | T1 | unit | Quick |
 | **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Done | T1, T3, T4 | integration | Full |
-| **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Todo | T5 | e2e | Full |
+| **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Done | T5 | e2e | Full |
 | **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Todo | T6 | unit | Quick |
 | **T8** | Implementar MapRepository e MapCubit com Debounce de 500ms | Todo | T7 | unit | Quick |
 | **T9** | Implementar Tela de Mapa com GoogleMap, Marcadores, Clusters e Sincronização Bidirecional | Todo | T8 | widget | Quick |
@@ -140,10 +140,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Rotas `/map/search`, `/map/places/{placeId}` e `/map/geocode` mapeadas com `RequireAuthorization()`
-- [ ] Validação de parâmetros de query (lat/lng válidos, raio positivo)
-- [ ] Rejeição imediata de acessos anônimos com HTTP 401 Unauthorized
-- [ ] Testes de integração/E2E cobrindo autorização, busca híbrida e geocodificação  
+- [x] Rotas `/map/search`, `/map/places/{placeId}` e `/map/geocode` mapeadas com `RequireAuthorization()`
+- [x] Validação de parâmetros de query (lat/lng válidos, raio positivo)
+- [x] Rejeição imediata de acessos anônimos com HTTP 401 Unauthorized
+- [x] Testes de integração/E2E cobrindo autorização, busca híbrida e geocodificação  
 **Tests**: e2e  
 **Gate**: Full (`dotnet test --filter "Category=E2E"`)  
 **Commit**: `feat(maps): map protected map minimal api endpoints with jwt authorization`
