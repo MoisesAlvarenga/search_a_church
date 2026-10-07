@@ -1,0 +1,10 @@
+.agents/
+.cursor/
+.claude/
+.windsurf/
+.archify/
+.solidify/
+.sonarqube/
+bin/
+obj/
+TestResults/
