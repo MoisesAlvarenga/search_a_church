@@ -14,10 +14,13 @@ if (!builder.Environment.IsEnvironment("Testing"))
 }
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
+builder.Services.Configure<SearchAChurch.Api.Features.Maps.Configurations.GoogleMapsOptions>(
+    builder.Configuration.GetSection(SearchAChurch.Api.Features.Maps.Configurations.GoogleMapsOptions.SectionName));
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddSingleton<IRateLimiterService, RedisRateLimiter>();
 builder.Services.AddSingleton<SearchAChurch.Api.Features.Maps.Services.IPlacesCacheService, SearchAChurch.Api.Features.Maps.Services.PlacesCacheService>();
+builder.Services.AddHttpClient<SearchAChurch.Api.Features.Maps.Gateways.IGooglePlacesGateway, SearchAChurch.Api.Features.Maps.Gateways.GooglePlacesGateway>();
 builder.Services.AddScoped<IAuditLogService, MarcoCivilAuditLogger>();
 builder.Services.AddTransient<SearchAChurch.Api.Filters.RateLimitFilter>();
 

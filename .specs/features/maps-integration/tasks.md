@@ -14,7 +14,7 @@
 |---|---|:---:|---|---|---|
 | **T1** | Modelar Entidade Church e Migração no PostgreSQL com Âncora `place_id` | Done | NONE | unit | Quick |
 | **T2** | Implementar Serviço de Cache Distribuído de Locais no Redis (PlacesCacheService) [P] | Done | NONE | unit | Quick |
-| **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Todo | T2 | unit | Quick |
+| **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Done | T2 | unit | Quick |
 | **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Todo | T1 | unit | Quick |
 | **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Todo | T1, T3, T4 | integration | Full |
 | **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Todo | T5 | e2e | Full |
@@ -78,10 +78,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Métodos para busca por raio (`SearchNearbyPlacesAsync`), detalhes (`GetPlaceDetailsAsync`) e geocodificação (`GeocodeAddressAsync`)
-- [ ] Integração com `IPlacesCacheService` para consultar cache antes de consumir cota externa
-- [ ] Tratamento defensivo de erros externos (HTTP 5xx, timeout, cota `OVER_QUERY_LIMIT`) retornando falha tratada
-- [ ] Testes unitários com `HttpMessageHandler` mock simulando respostas de sucesso, cota excedida e falhas  
+- [x] Métodos para busca por raio (`SearchNearbyPlacesAsync`), detalhes (`GetPlaceDetailsAsync`) e geocodificação (`GeocodeAddressAsync`)
+- [x] Integração com `IPlacesCacheService` para consultar cache antes de consumir cota externa
+- [x] Tratamento defensivo de erros externos (HTTP 5xx, timeout, cota `OVER_QUERY_LIMIT`) retornando falha tratada
+- [x] Testes unitários com `HttpMessageHandler` mock simulando respostas de sucesso, cota excedida e falhas  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(maps): implement google places gateway with circuit breaker and caching`
