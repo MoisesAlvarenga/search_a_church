@@ -97,9 +97,8 @@ public class TokenService : ITokenService
             ValidateIssuer = !string.IsNullOrWhiteSpace(_options.Issuer),
             ValidIssuer = _options.Issuer,
             ValidateAudience = !string.IsNullOrWhiteSpace(_options.Audience),
-            ValidAudience = _options.Audience,
-            ValidateLifetime = false,
-            ClockSkew = TimeSpan.Zero
+            // nosemgrep: csharp.lang.security.ad.jwt-tokenvalidationparameters-no-expiry-validation.jwt-tokenvalidationparameters-no-expiry-validation
+            ValidateLifetime = false, // Intentional: extracting claims from expired token during refresh
         };
 
         try

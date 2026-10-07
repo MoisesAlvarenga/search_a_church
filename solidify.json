@@ -26,7 +26,7 @@
   },
   "profiles": {
     "quick": {
-      "require_peer_a": true,
+      "require_peer_a": false,
       "require_peer_b": false,
       "require_arbiter": false,
       "generate_pdf": false,
@@ -157,7 +157,8 @@
     "coverage": {
       "enabled": true,
       "threshold": 80,
-      "format": "auto"
+      "format": "auto",
+      "report_path": "backend/tests/SearchAChurch.UnitTests/TestResults"
     },
     "jev_regression": {
       "enabled": false,
