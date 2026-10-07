@@ -12,7 +12,7 @@
 
 | ID | Title | Status | Depends On | Tests | Gate |
 |---|---|:---:|---|---|---|
-| **T1** | Modelar Entidade Church e Migração no PostgreSQL com Âncora `place_id` | Todo | NONE | unit | Quick |
+| **T1** | Modelar Entidade Church e Migração no PostgreSQL com Âncora `place_id` | Done | NONE | unit | Quick |
 | **T2** | Implementar Serviço de Cache Distribuído de Locais no Redis (PlacesCacheService) [P] | Todo | NONE | unit | Quick |
 | **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Todo | T2 | unit | Quick |
 | **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Todo | T1 | unit | Quick |
@@ -36,10 +36,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Entidade `Church` mapeada com índice único parcial em `PlaceId` (`WHERE place_id IS NOT NULL`)
-- [ ] Índices de coordenadas geográficas em `(Latitude, Longitude)`
-- [ ] Configuração de relacionamentos e soft delete no DbContext
-- [ ] Testes unitários validando configuração da entidade e integridade relacional  
+- [x] Entidade `Church` mapeada com índice único parcial em `PlaceId` (`WHERE place_id IS NOT NULL`)
+- [x] Índices de coordenadas geográficas em `(Latitude, Longitude)`
+- [x] Configuração de relacionamentos e soft delete no DbContext
+- [x] Testes unitários validando configuração da entidade e integridade relacional  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(maps): create church entity model and database indexes for place_id`

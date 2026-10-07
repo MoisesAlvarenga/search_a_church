@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
     public DbSet<PasswordResetOtp> PasswordResetOtps => Set<PasswordResetOtp>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<Church> Churches => Set<Church>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -91,6 +92,35 @@ public class AppDbContext : DbContext
                    .WithMany(u => u.AuditLogs)
                    .HasForeignKey(a => a.UserId)
                    .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        // CHURCHES table
+        modelBuilder.Entity<Church>(builder =>
+        {
+            builder.ToTable("churches");
+            builder.HasKey(c => c.Id);
+
+            // AD-004 / AD-025: Unique partial index on PlaceId
+            builder.HasIndex(c => c.PlaceId)
+                   .IsUnique()
+                   .HasFilter("place_id IS NOT NULL");
+
+            // Spatial Coordinates index
+            builder.HasIndex(c => new { c.Latitude, c.Longitude });
+
+            builder.Property(c => c.Name).HasMaxLength(200).IsRequired();
+            builder.Property(c => c.FormattedAddress).HasMaxLength(500).IsRequired();
+            builder.Property(c => c.PlaceId).HasMaxLength(255);
+            builder.Property(c => c.Phone).HasMaxLength(50);
+            builder.Property(c => c.Website).HasMaxLength(500);
+
+            builder.HasOne(c => c.VerifiedByUser)
+                   .WithMany()
+                   .HasForeignKey(c => c.VerifiedByUserId)
+                   .OnDelete(DeleteBehavior.SetNull);
+
+            // LGPD Soft Delete Filter
+            builder.HasQueryFilter(c => c.DeletedAt == null);
         });
     }
 }
