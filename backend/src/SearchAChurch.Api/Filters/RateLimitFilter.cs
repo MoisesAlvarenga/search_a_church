@@ -37,7 +37,7 @@ public static class RateLimitPolicies
     public static readonly RateLimitPolicy ForgotPassword = new("forgot-password", RateLimitKeyType.IpAndEmail, 3, TimeSpan.FromHours(1));
     public static readonly RateLimitPolicy ResetPassword = new("reset-password", RateLimitKeyType.IpAndEmail, 3, TimeSpan.FromMinutes(15));
 
-    public static readonly Dictionary<string, RateLimitPolicy> Defaults = new(StringComparer.OrdinalIgnoreCase)
+    public static readonly IReadOnlyDictionary<string, RateLimitPolicy> Defaults = new Dictionary<string, RateLimitPolicy>(StringComparer.OrdinalIgnoreCase)
     {
         ["register"] = Register,
         ["login"] = Login,
