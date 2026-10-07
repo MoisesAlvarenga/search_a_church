@@ -11,17 +11,15 @@ namespace SearchAChurch.UnitTests.Integration;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
-    private readonly string _dbName = $"TestDb_{Guid.NewGuid()}";
+    private readonly string _dbName = $"TestDb_{Guid.NewGuid():N}";
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.UseEnvironment("Testing");
+
         builder.ConfigureServices(services =>
         {
-            // Remove existing AppDbContext / Npgsql registration
-            services.RemoveAll<DbContextOptions<AppDbContext>>();
-            services.RemoveAll<AppDbContext>();
-
-            // Use InMemory database for integration testing
+            // Register InMemory database for integration testing
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseInMemoryDatabase(_dbName);
@@ -38,7 +36,5 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 .ReturnsAsync(new RateLimitCheckResult(true, 100, 0));
             services.AddSingleton(mockLimiter.Object);
         });
-
-        builder.UseEnvironment("Development");
     }
 }

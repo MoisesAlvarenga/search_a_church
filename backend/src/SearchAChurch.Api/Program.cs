@@ -1,14 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using SearchAChurch.Api.Configurations;
 using SearchAChurch.Api.Data;
+using SearchAChurch.Api.Endpoints;
 using SearchAChurch.Api.Extensions;
 using SearchAChurch.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
@@ -58,6 +61,9 @@ app.MapGet("/map/search", () => Results.Ok(new { message = "Map search results" 
 
 app.MapPut("/churches/{id}", (Guid id) => Results.Ok(new { message = "Church updated" }))
    .RequireAuthorization(SearchAChurch.Api.Extensions.AuthenticationExtensions.ChurchRepresentativePolicy);
+
+// Map Auth Endpoints
+app.MapGroup("/auth").MapAuthEndpoints();
 
 await app.RunAsync();
 

@@ -333,9 +333,9 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Todos os 7 endpoints registrados com respostas OpenAPI padronizadas
-- [ ] Rota `/me` exige autorização JWT
-- [ ] Testes de ponta a ponta (E2E) cobrindo fluxo completo: Cadastro → Login → Refresh → Consulta `/me` → Logout  
+- [x] Todos os 7 endpoints registrados com respostas OpenAPI padronizadas
+- [x] Rota `/me` exige autorização JWT
+- [x] Testes de ponta a ponta (E2E) cobrindo fluxo completo: Cadastro → Login → Refresh → Consulta `/me` → Logout  
 **Tests**: e2e  
 **Gate**: Full (`dotnet test --filter "Category=E2E"`)  
 **Commit**: `feat(auth): map auth minimal api endpoints and wire up application pipeline`
