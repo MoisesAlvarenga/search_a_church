@@ -154,10 +154,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Emissão de JWT com assinatura criptográfica HMAC-SHA256 e expiração exata de 15 minutos
-- [ ] Emissão de Refresh Token opaco de alta entropia (32 bytes Base64URL) com retorno do raw token e do hash SHA-256 para persistência
-- [ ] Extração de ClaimsPrincipal a partir de token expirado
-- [ ] Testes unitários validando expiração, claims e geração de hash determinístico  
+- [x] Emissão de JWT com assinatura criptográfica HMAC-SHA256 e expiração exata de 15 minutos
+- [x] Emissão de Refresh Token opaco de alta entropia (32 bytes Base64URL) com retorno do raw token e do hash SHA-256 para persistência
+- [x] Extração de ClaimsPrincipal a partir de token expirado
+- [x] Testes unitários validando expiração, claims e geração de hash determinístico  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement jwt and cryptographic refresh token service`
