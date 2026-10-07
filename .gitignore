@@ -1,13 +1,10 @@
-# Solidify runs & cache
-.solidify/out/
-.solidify/runs/
-.solidify/cache/
-.solidify/peer_reviews/
-
-# Archify receipts
-.archify/*/*.finalize.json
-.archify/*/*.finalize-summary.json
-.archify/*/*.browser-check.json
+# AI Agent Skills & Tooling (tracked in dedicated repository)
+.agents/
+.cursor/
+.claude/
+.windsurf/
+.solidify/
+.archify/
 
 # .NET / C#
 bin/
