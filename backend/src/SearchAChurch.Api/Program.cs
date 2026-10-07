@@ -22,6 +22,7 @@ builder.Services.AddSingleton<IRateLimiterService, RedisRateLimiter>();
 builder.Services.AddSingleton<SearchAChurch.Api.Features.Maps.Services.IPlacesCacheService, SearchAChurch.Api.Features.Maps.Services.PlacesCacheService>();
 builder.Services.AddSingleton<SearchAChurch.Api.Features.Maps.Services.IDeduplicationEngine, SearchAChurch.Api.Features.Maps.Services.DeduplicationEngine>();
 builder.Services.AddHttpClient<SearchAChurch.Api.Features.Maps.Gateways.IGooglePlacesGateway, SearchAChurch.Api.Features.Maps.Gateways.GooglePlacesGateway>();
+builder.Services.AddScoped<SearchAChurch.Api.Features.Maps.Services.IMapOrchestratorService, SearchAChurch.Api.Features.Maps.Services.MapOrchestratorService>();
 builder.Services.AddScoped<IAuditLogService, MarcoCivilAuditLogger>();
 builder.Services.AddTransient<SearchAChurch.Api.Filters.RateLimitFilter>();
 

@@ -16,7 +16,7 @@
 | **T2** | Implementar Serviço de Cache Distribuído de Locais no Redis (PlacesCacheService) [P] | Done | NONE | unit | Quick |
 | **T3** | Implementar Gateway da Google Maps Platform com Resiliência (GooglePlacesGateway) | Done | T2 | unit | Quick |
 | **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Done | T1 | unit | Quick |
-| **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Todo | T1, T3, T4 | integration | Full |
+| **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Done | T1, T3, T4 | integration | Full |
 | **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Todo | T5 | e2e | Full |
 | **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Todo | T6 | unit | Quick |
 | **T8** | Implementar MapRepository e MapCubit com Debounce de 500ms | Todo | T7 | unit | Quick |
@@ -118,10 +118,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Execução paralela da consulta local no banco e consulta externa na Google API
-- [ ] Em caso de falha externa, retorna resultados locais com `IsDegraded = true` e mensagem amigável sem lançar erro 500
-- [ ] Retorno de DTO estruturado `MapSearchResponse` com metadados de centro e raio aplicado
-- [ ] Testes unitários e de integração comprovando a orquestração e a resiliência a falhas da API externa  
+- [x] Execução paralela da consulta local no banco e consulta externa na Google API
+- [x] Em caso de falha externa, retorna resultados locais com `IsDegraded = true` e mensagem amigável sem lançar erro 500
+- [x] Retorno de DTO estruturado `MapSearchResponse` com metadados de centro e raio aplicado
+- [x] Testes unitários e de integração comprovando a orquestração e a resiliência a falhas da API externa  
 **Tests**: integration  
 **Gate**: Full (`dotnet test --filter "Category=Integration"`)  
 **Commit**: `feat(maps): implement map orchestrator service with graceful degradation`
