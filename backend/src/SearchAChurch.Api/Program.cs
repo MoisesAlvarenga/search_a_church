@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SearchAChurch.Api.Configurations;
 using SearchAChurch.Api.Data;
+using SearchAChurch.Api.Extensions;
 using SearchAChurch.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,8 @@ builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Feature
 builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.ResetPasswordRequest>, SearchAChurch.Api.Features.Auth.Validators.ResetPasswordRequestValidator>();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.IPasswordResetHandler, SearchAChurch.Api.Features.Auth.PasswordResetHandler>();
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -43,7 +46,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTimeOffset.UtcNow }))
    .WithName("HealthCheck");
 
+// Protected endpoints according to AUTH-01 (AD-007) and AUTH-04 (AD-009)
+app.MapGet("/map/search", () => Results.Ok(new { message = "Map search results" }))
+   .RequireAuthorization();
+
+app.MapPut("/churches/{id}", (Guid id) => Results.Ok(new { message = "Church updated" }))
+   .RequireAuthorization(SearchAChurch.Api.Extensions.AuthenticationExtensions.ChurchRepresentativePolicy);
+
 await app.RunAsync();
+
+public partial class Program { }

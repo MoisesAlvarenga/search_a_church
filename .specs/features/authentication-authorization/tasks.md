@@ -313,10 +313,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Validação rigorosa de assinatura, emissor, audiência e tempo de vida do token
-- [ ] Rejeição de requisições sem token nas rotas protegidas (incluindo busca do mapa) com HTTP 401
-- [ ] Política de autorização que restringe edição de igrejas a usuários com claim `is_verified_representative == true`
-- [ ] Testes de integração validando passagem com token válido e bloqueio em token inválido/ausente  
+- [x] Validação rigorosa de assinatura, emissor, audiência e tempo de vida do token
+- [x] Rejeição de requisições sem token nas rotas protegidas (incluindo busca do mapa) com HTTP 401
+- [x] Política de autorização que restringe edição de igrejas a usuários com claim `is_verified_representative == true`
+- [x] Testes de integração validando passagem com token válido e bloqueio em token inválido/ausente  
 **Tests**: integration  
 **Gate**: Full (`dotnet test --filter "Category=Integration"`)  
 **Commit**: `feat(auth): configure jwt bearer authentication and authorization policies`
