@@ -393,9 +393,9 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Repositório conecta chamadas a `/register`, `/login`, `/logout` e `/forgot-password`
-- [ ] `AuthCubit` gerencia estados `AuthInitial`, `Unauthenticated`, `Authenticating`, `Authenticated`
-- [ ] Testes unitários do Cubit cobrindo transições de login, falha e logout  
+- [x] Repositório conecta chamadas a `/register`, `/login`, `/logout` e `/forgot-password`
+- [x] `AuthCubit` gerencia estados `AuthInitial`, `Unauthenticated`, `Authenticating`, `Authenticated`
+- [x] Testes unitários do Cubit cobrindo transições de login, falha e logout  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/auth/`)  
 **Commit**: `feat(flutter): implement auth repository and cubit state management`
