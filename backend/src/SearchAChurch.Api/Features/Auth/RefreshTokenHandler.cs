@@ -129,77 +129,14 @@ public class RefreshTokenHandler : IRefreshTokenHandler
         // 6. DETECÇÃO DE VIOLAÇÃO (Breach Detection) vs TOLERÂNCIA DE 2 SEGUNDOS
         if (tokenEntity.Status == RefreshTokenStatus.Consumed)
         {
-            var isWithinTolerance = tokenEntity.ConsumedAt.HasValue &&
-                                    (now - tokenEntity.ConsumedAt.Value) <= TimeSpan.FromSeconds(2) &&
-                                    tokenEntity.DeviceId == request.DeviceId.Trim() &&
-                                    tokenEntity.ClientIp == clientIp;
-
-            if (isWithinTolerance)
-            {
-                // Tolerância legítima para chamadas paralelas em trânsito no mesmo aparelho
-                _logger.LogInformation(
-                    "Requisição concorrente absorvida na tolerância de 2s para o usuário {UserId} no device {DeviceId}",
-                    tokenEntity.UserId,
-                    tokenEntity.DeviceId);
-
-                var activeChildToken = await _dbContext.RefreshTokens
-                    .Where(rt => rt.FamilyId == tokenEntity.FamilyId && rt.Status == RefreshTokenStatus.Active)
-                    .OrderByDescending(rt => rt.CreatedAt)
-                    .FirstOrDefaultAsync(cancellationToken);
-
-                if (activeChildToken != null)
-                {
-                    var replayAccessToken = _tokenService.GenerateAccessToken(tokenEntity.User, tokenEntity.FamilyId);
-
-                    return Result<AuthResponse>.Success(new AuthResponse(
-                        AccessToken: replayAccessToken,
-                        RefreshToken: request.RefreshToken,
-                        ExpiresIn: 900,
-                        TokenType: "Bearer",
-                        User: new UserDto(
-                            Id: tokenEntity.User.Id,
-                            Email: tokenEntity.User.Email,
-                            Name: tokenEntity.User.Name,
-                            Role: tokenEntity.User.Role.ToString(),
-                            IsVerifiedRepresentative: tokenEntity.User.IsVerifiedRepresentative
-                        )
-                    ));
-                }
-            }
-
-            // ALERTA DE SEGURANÇA: Reúso fora da janela de tolerância = VIOLAÇÃO (BREACH DETECTED)
-            _logger.LogCritical(
-                "ALERTA DE SEGURANÇA: Reúso de Refresh Token consumido detectado na FamilyId {FamilyId} do usuário {UserId}. Revogando toda a família!",
-                tokenEntity.FamilyId,
-                tokenEntity.UserId);
-
-            // Revogação sumária de toda a cadeia de tokens vinculada à mesma FamilyId
-            var familyTokens = await _dbContext.RefreshTokens
-                .Where(rt => rt.FamilyId == tokenEntity.FamilyId && rt.Status != RefreshTokenStatus.Revoked)
-                .ToListAsync(cancellationToken);
-
-            foreach (var token in familyTokens)
-            {
-                token.Status = RefreshTokenStatus.Revoked;
-            }
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-            await _auditLogger.LogEventAsync(
-                "TOKEN_BREACH_DETECTED",
-                tokenEntity.UserId,
+            return await HandleConsumedTokenAsync(
+                tokenEntity,
+                request,
                 context,
-                new
-                {
-                    familyId = tokenEntity.FamilyId,
-                    deviceId = request.DeviceId,
-                    attemptedTokenHash = tokenHash
-                },
+                clientIp,
+                tokenHash,
+                now,
                 cancellationToken);
-
-            return Result<AuthResponse>.Failure(
-                "TOKEN_BREACH_DETECTED",
-                "Tentativa de violação detectada. Todas as sessões desta cadeia foram revogadas.");
         }
 
         // 7. ROTAÇÃO CONTÍNUA (RTR - Refresh Token Rotation) NO CAMINHO FELIZ
@@ -258,5 +195,85 @@ public class RefreshTokenHandler : IRefreshTokenHandler
         );
 
         return Result<AuthResponse>.Success(response);
+    }
+
+    private async Task<Result<AuthResponse>> HandleConsumedTokenAsync(
+        RefreshToken tokenEntity,
+        RefreshTokenRequest request,
+        ClientConnectionContext context,
+        string clientIp,
+        string tokenHash,
+        DateTimeOffset now,
+        CancellationToken cancellationToken)
+    {
+        var isWithinTolerance = tokenEntity.ConsumedAt.HasValue &&
+                                (now - tokenEntity.ConsumedAt.Value) <= TimeSpan.FromSeconds(2) &&
+                                tokenEntity.DeviceId == request.DeviceId.Trim() &&
+                                tokenEntity.ClientIp == clientIp;
+
+        if (isWithinTolerance)
+        {
+            var activeChildToken = await _dbContext.RefreshTokens
+                .Where(rt => rt.FamilyId == tokenEntity.FamilyId && rt.Status == RefreshTokenStatus.Active)
+                .OrderByDescending(rt => rt.CreatedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (activeChildToken != null)
+            {
+                _logger.LogInformation(
+                    "Requisição concorrente absorvida na tolerância de 2s para o usuário {UserId} no device {DeviceId}",
+                    tokenEntity.UserId,
+                    tokenEntity.DeviceId);
+
+                var replayAccessToken = _tokenService.GenerateAccessToken(tokenEntity.User, tokenEntity.FamilyId);
+
+                return Result<AuthResponse>.Success(new AuthResponse(
+                    AccessToken: replayAccessToken,
+                    RefreshToken: request.RefreshToken,
+                    ExpiresIn: 900,
+                    TokenType: "Bearer",
+                    User: new UserDto(
+                        Id: tokenEntity.User.Id,
+                        Email: tokenEntity.User.Email,
+                        Name: tokenEntity.User.Name,
+                        Role: tokenEntity.User.Role.ToString(),
+                        IsVerifiedRepresentative: tokenEntity.User.IsVerifiedRepresentative
+                    )
+                ));
+            }
+        }
+
+        // ALERTA DE SEGURANÇA: Reúso fora da janela de tolerância = VIOLAÇÃO (BREACH DETECTED)
+        _logger.LogCritical(
+            "ALERTA DE SEGURANÇA: Reúso de Refresh Token consumido detectado na FamilyId {FamilyId} do usuário {UserId}. Revogando toda a família!",
+            tokenEntity.FamilyId,
+            tokenEntity.UserId);
+
+        var familyTokens = await _dbContext.RefreshTokens
+            .Where(rt => rt.FamilyId == tokenEntity.FamilyId && rt.Status != RefreshTokenStatus.Revoked)
+            .ToListAsync(cancellationToken);
+
+        foreach (var token in familyTokens)
+        {
+            token.Status = RefreshTokenStatus.Revoked;
+        }
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        await _auditLogger.LogEventAsync(
+            "TOKEN_BREACH_DETECTED",
+            tokenEntity.UserId,
+            context,
+            new
+            {
+                familyId = tokenEntity.FamilyId,
+                deviceId = request.DeviceId,
+                attemptedTokenHash = tokenHash
+            },
+            cancellationToken);
+
+        return Result<AuthResponse>.Failure(
+            "TOKEN_BREACH_DETECTED",
+            "Tentativa de violação detectada. Todas as sessões desta cadeia foram revogadas.");
     }
 }

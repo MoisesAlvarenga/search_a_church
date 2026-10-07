@@ -13,7 +13,7 @@ public static class RateLimitEndpointExtensions
     {
         return builder.AddEndpointFilter(async (invocationContext, next) =>
         {
-            var filter = ActivatorUtilities.CreateInstance<RateLimitFilter>(
+            var filter = ActivatorUtilities.CreateInstance<TFilter>(
                 invocationContext.HttpContext.RequestServices,
                 routeKey);
             return await filter.InvokeAsync(invocationContext, next);
@@ -26,7 +26,7 @@ public static class RateLimitEndpointExtensions
     {
         return builder.AddEndpointFilter(async (invocationContext, next) =>
         {
-            var filter = ActivatorUtilities.CreateInstance<RateLimitFilter>(
+            var filter = ActivatorUtilities.CreateInstance<TFilter>(
                 invocationContext.HttpContext.RequestServices,
                 routeKey);
             return await filter.InvokeAsync(invocationContext, next);

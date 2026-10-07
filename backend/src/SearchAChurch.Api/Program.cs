@@ -67,4 +67,7 @@ app.MapGroup("/auth").MapAuthEndpoints();
 
 await app.RunAsync();
 
-public partial class Program { }
+public partial class Program
+{
+    protected Program() { }
+}

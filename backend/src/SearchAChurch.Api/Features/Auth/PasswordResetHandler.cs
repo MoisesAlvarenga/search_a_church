@@ -34,6 +34,7 @@ public class PasswordResetHandler : IPasswordResetHandler
     private readonly ILogger<PasswordResetHandler> _logger;
     private readonly TimeProvider _timeProvider;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S107:Methods should not have too many parameters", Justification = "Constructor dependency injection in ASP.NET Core vertical slice requires these 8 services")]
     public PasswordResetHandler(
         AppDbContext dbContext,
         ITokenService tokenService,
