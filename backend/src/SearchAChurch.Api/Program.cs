@@ -12,6 +12,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuditLogService, MarcoCivilAuditLogger>();
+
+builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.RegisterRequest>, SearchAChurch.Api.Features.Auth.Validators.RegisterRequestValidator>();
+builder.Services.AddScoped<SearchAChurch.Api.Features.Auth.IRegisterHandler, SearchAChurch.Api.Features.Auth.RegisterHandler>();
 
 builder.Services.AddOpenApi();
 

@@ -97,9 +97,9 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Solução compila sem erros via `dotnet build`
-- [ ] Pacotes NuGet essenciais adicionados: `Microsoft.AspNetCore.Authentication.JwtBearer`, `StackExchange.Redis`, `Npgsql.EntityFrameworkCore.PostgreSQL`, `FluentValidation`
-- [ ] Projeto de testes configurado com xUnit e FluentAssertions  
+- [x] Solução compila sem erros via `dotnet build`
+- [x] Pacotes NuGet essenciais adicionados: `Microsoft.AspNetCore.Authentication.JwtBearer`, `StackExchange.Redis`, `Npgsql.EntityFrameworkCore.PostgreSQL`, `FluentValidation`
+- [x] Projeto de testes configurado com xUnit e FluentAssertions  
 **Tests**: none  
 **Gate**: Build (`dotnet build`)  
 **Commit**: `chore(backend): initialize .NET solution and test projects`
@@ -116,9 +116,9 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Entidades mapeadas com precisão de tipos, chaves estrangeiras, índices e unicidade (`email`, `token_hash`)
-- [ ] Configuração de Soft Delete (`deleted_at`) para `User`
-- [ ] Migração inicial do EF Core gerada para PostgreSQL  
+- [x] Entidades mapeadas com precisão de tipos, chaves estrangeiras, índices e unicidade (`email`, `token_hash`)
+- [x] Configuração de Soft Delete (`deleted_at`) para `User`
+- [x] Migração inicial do EF Core gerada para PostgreSQL  
 **Tests**: integration  
 **Gate**: Full (`dotnet test --filter "Category=Integration"`)  
 **Commit**: `feat(auth): configure entity framework models and postgresql migration`
@@ -135,9 +135,9 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Hashing seguro de senhas com sal aleatório e verificação de hash
-- [ ] Validação de política mínima: ≥ 8 caracteres, ao menos 1 letra e 1 número
-- [ ] Testes unitários cobrindo senhas válidas, fracas e hashes incompatíveis  
+- [x] Hashing seguro de senhas com sal aleatório e verificação de hash
+- [x] Validação de política mínima: ≥ 8 caracteres, ao menos 1 letra e 1 número
+- [x] Testes unitários cobrindo senhas válidas, fracas e hashes incompatíveis  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement bcrypt password hasher with complexity validation`
@@ -213,10 +213,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Cadastro com sucesso gerando usuário ativo e par inicial de tokens
-- [ ] Rejeição de e-mail duplicado com código de validação sem vazar dados
-- [ ] Registro de log de auditoria contendo dados de conexão conforme Marco Civil
-- [ ] Testes unitários cobrindo cadastro com sucesso e falhas de validação  
+- [x] Cadastro com sucesso gerando usuário ativo e par inicial de tokens
+- [x] Rejeição de e-mail duplicado com código de validação sem vazar dados
+- [x] Registro de log de auditoria contendo dados de conexão conforme Marco Civil
+- [x] Testes unitários cobrindo cadastro com sucesso e falhas de validação  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement user registration handler with audit logging`
