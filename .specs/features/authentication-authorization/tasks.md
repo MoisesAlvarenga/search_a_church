@@ -293,10 +293,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Filtro extrai identificador correto (`IP + email`, `IP` global ou `user_id + device_id`)
-- [ ] Cabeçalhos HTTP adicionados: `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` e `Retry-After`
-- [ ] Retorno padronizado HTTP 429 quando limite for excedido
-- [ ] Testes unitários do filtro simulando limites permitidos e violados  
+- [x] Filtro extrai identificador correto (`IP + email`, `IP` global ou `user_id + device_id`)
+- [x] Cabeçalhos HTTP adicionados: `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` e `Retry-After`
+- [x] Retorno padronizado HTTP 429 quando limite for excedido
+- [x] Testes unitários do filtro simulando limites permitidos e violados  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement minimal api endpoint filter for rate limiting with ietf headers`
