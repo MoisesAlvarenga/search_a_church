@@ -273,10 +273,10 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Logout marca Refresh Token como `Revoked` sem necessidade de denylist de Access Tokens
-- [ ] Solicitação de OTP gera código aleatório de 6 dígitos criptografado com TTL de 15 minutos
-- [ ] Redefinição com sucesso invalida o OTP e revoga imediatamente todas as famílias ativas de tokens do usuário
-- [ ] Testes unitários e de integração cobrindo logout, OTP válido, expirado e esgotamento de tentativas  
+- [x] Logout marca Refresh Token como `Revoked` sem necessidade de denylist de Access Tokens
+- [x] Solicitação de OTP gera código aleatório de 6 dígitos criptografado com TTL de 15 minutos
+- [x] Redefinição com sucesso invalida o OTP e revoga imediatamente todas as famílias ativas de tokens do usuário
+- [x] Testes unitários e de integração cobrindo logout, OTP válido, expirado e esgotamento de tentativas  
 **Tests**: integration  
 **Gate**: Full (`dotnet test --filter "Category=Integration"`)  
 **Commit**: `feat(auth): implement logout and password reset handlers with email otp`

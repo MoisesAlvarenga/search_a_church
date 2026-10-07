@@ -5,6 +5,8 @@
 .windsurf/
 .solidify/
 .archify/
+.plane/
+plane.config.json
 
 # .NET / C#
 bin/
