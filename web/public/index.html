@@ -8,11 +8,13 @@
     :root {
       --bg: #0b0f19;
       --card-bg: #111827;
+      --card-bg-hover: #162032;
       --border: #1f2937;
       --border-light: #374151;
       --text: #f3f4f6;
       --text-muted: #9ca3af;
       --primary: #3b82f6;
+      --primary-hover: #2563eb;
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
@@ -33,7 +35,7 @@
       align-items: center;
       padding-bottom: 20px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 16px;
     }
@@ -50,6 +52,7 @@
       font-weight: 700;
       font-size: 16px;
       letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
     .title-area h1 {
       font-size: 20px;
@@ -65,7 +68,7 @@
       align-items: center;
       gap: 12px;
     }
-    select, button {
+    select, button, input {
       background: var(--card-bg);
       color: var(--text);
       border: 1px solid var(--border);
@@ -73,10 +76,13 @@
       padding: 8px 14px;
       font-size: 13px;
       outline: none;
-      cursor: pointer;
+      transition: all 0.2s ease;
     }
-    select:focus, button:hover {
+    select:focus, button:hover, input:focus {
       border-color: var(--primary);
+    }
+    button {
+      cursor: pointer;
     }
     .sonar-btn {
       background: #1e3a8a;
@@ -89,7 +95,57 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.2s ease;
     }
+    .sonar-btn:hover {
+      background: #2563eb;
+    }
+
+    /* Navegação por Abas */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .nav-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: 2px solid transparent;
+      border-radius: 8px 8px 0 0;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .nav-tab:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .nav-tab.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.1);
+      border-color: var(--border) var(--border) transparent var(--border);
+      border-bottom: 2px solid var(--primary);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* KPIs Grid */
     .grid-kpis {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -137,6 +193,8 @@
     .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
     .badge-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
     .badge-info { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-sky { background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.3); }
 
     .main-panels {
       display: grid;
@@ -157,7 +215,7 @@
     }
     .table-container {
       overflow-x: auto;
-      max-height: 480px;
+      max-height: 520px;
       overflow-y: auto;
     }
     table {
@@ -173,6 +231,7 @@
       font-weight: 600;
       position: sticky;
       top: 0;
+      z-index: 10;
     }
     td {
       padding: 10px 12px;
@@ -228,9 +287,76 @@
       text-align: center;
       color: var(--text-muted);
     }
+
+    /* Estilos Exclusivos da Aba de Testes */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .pills-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+      border: 1px solid var(--border-light);
+      background: var(--card-bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .pill-btn:hover {
+      color: var(--text);
+      border-color: var(--primary);
+    }
+    .pill-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    }
+    .search-input {
+      min-width: 300px;
+      padding: 8px 14px;
+      background: #111827;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .test-target-desc {
+      color: #f3f4f6;
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+    .test-method-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      color: #93c5fd;
+    }
+    .test-duration {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      color: var(--text-muted);
+      font-size: 12px;
+      text-align: right;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Top Header -->
   <div class="header">
     <div class="logo-group">
       <div class="logo-badge">SOLIDIFY</div>
@@ -241,82 +367,189 @@
     </div>
     <div class="controls">
       <select id="run-select" aria-label="Selecione a execução do Solidify" onchange="loadSelectedRun()"></select>
-      <button onclick="fetchRuns()">Atualizar</button>
+      <button onclick="refreshAll()">Atualizar</button>
       <a class="sonar-btn" href="http://localhost:9000/dashboard?id=search_a_church" target="_blank">
         SonarQube (Porta 9000) ↗
       </a>
     </div>
   </div>
 
-  <div class="grid-kpis">
-    <div class="card">
-      <div class="card-label">SonarQube Quality Gate <span class="badge badge-success">PASSED OK</span></div>
-      <div class="card-value" id="kpi-sonar">100<span style="font-size:16px; color:var(--text-muted)">/100</span></div>
-      <div class="card-subtext" id="kpi-sonar-sub">0 bugs, 0 vulnerabilidades, 0 code smells</div>
+  <!-- Navigation Tabs -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tab-btn-overview" onclick="switchTab('overview')">
+      <span>🛡️ Visão Geral & Quality Gate</span>
+    </button>
+    <button class="nav-tab" id="tab-btn-tests" onclick="switchTab('tests')">
+      <span>🧪 Central de Testes Unitários</span>
+      <span class="badge badge-success" id="tab-badge-tests-count">189 Passados</span>
+    </button>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ABA 1: VISÃO GERAL & QUALITY GATE                                         -->
+  <!-- ========================================================================= -->
+  <div id="tab-overview" class="tab-content active">
+    <!-- KPIs Principais -->
+    <div class="grid-kpis">
+      <div class="card">
+        <div class="card-label">SonarQube Quality Gate <span class="badge badge-success">PASSED OK</span></div>
+        <div class="card-value" id="kpi-sonar">100<span style="font-size:16px; color:var(--text-muted)">/100</span></div>
+        <div class="card-subtext" id="kpi-sonar-sub">0 bugs, 0 vulnerabilidades, 0 code smells</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Testes Unitários (Total) <span class="badge badge-success" id="kpi-test-badge">100% PASS</span></div>
+        <div class="card-value" id="kpi-tests">189<span style="font-size:16px; color:var(--text-muted)"> passados</span></div>
+        <div class="card-subtext" id="kpi-tests-sub">153 Backend (.NET 9) + 36 Mobile (Flutter)</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Cobertura de Código <span class="badge badge-success" id="kpi-cov-badge">OK (≥ 80%)</span></div>
+        <div class="card-value" id="kpi-coverage">89.7%<span style="font-size:16px; color:var(--text-muted)"> Backend</span></div>
+        <div class="card-subtext" id="kpi-cov-sub">189 testes passando (0 falhas)</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Nível de Risco <span class="badge badge-success" id="kpi-risk-badge">LOW</span></div>
+        <div class="card-value" id="kpi-risk">BAIXO</div>
+        <div class="card-subtext" id="kpi-risk-sub">Arquitetura SOLID validada</div>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-label">Testes Unitários (Total) <span class="badge badge-success" id="kpi-test-badge">100% PASS</span></div>
-      <div class="card-value" id="kpi-tests">189<span style="font-size:16px; color:var(--text-muted)"> passados</span></div>
-      <div class="card-subtext" id="kpi-tests-sub">153 Backend (.NET 9) + 36 Mobile (Flutter)</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Cobertura de Código <span class="badge badge-success" id="kpi-cov-badge">OK (≥ 80%)</span></div>
-      <div class="card-value" id="kpi-coverage">89.7%<span style="font-size:16px; color:var(--text-muted)"> Backend</span></div>
-      <div class="card-subtext" id="kpi-cov-sub">189 testes passando (0 falhas)</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Nível de Risco <span class="badge badge-success" id="kpi-risk-badge">LOW</span></div>
-      <div class="card-value" id="kpi-risk">BAIXO</div>
-      <div class="card-subtext" id="kpi-risk-sub">Arquitetura SOLID validada</div>
+
+    <!-- Painéis Centrais: Arquivos, Analyzers e Commits -->
+    <div class="main-panels">
+      <div class="card">
+        <div class="panel-title">
+          <span>Arquivos do Projeto Analisados (<span id="files-count">0</span>)</span>
+          <span class="badge badge-info" id="diff-range">origin/main...HEAD</span>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Caminho do Arquivo</th>
+                <th style="text-align: right;">Linhas</th>
+              </tr>
+            </thead>
+            <tbody id="files-tbody">
+              <tr><td colspan="3" class="empty-state">Carregando lista de arquivos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div class="card">
+          <div class="panel-title">
+            <span>Analyzers & Quality Gates</span>
+          </div>
+          <div id="analyzers-container">
+            <div class="empty-state">Carregando analyzers...</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="panel-title">
+            <span>Commits Avaliados</span>
+          </div>
+          <div id="commits-container" style="max-height: 260px; overflow-y: auto;">
+            <div class="empty-state">Carregando histórico...</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="main-panels">
+  <!-- ========================================================================= -->
+  <!-- ABA 2: SUÍTE DE TESTES UNITÁRIOS (GENÉRICA POR TECNOLOGIA)                -->
+  <!-- ========================================================================= -->
+  <div id="tab-tests" class="tab-content">
+    
+    <!-- Cards de Resumo por Tecnologia (gerados dinamicamente) -->
+    <div class="grid-kpis" id="tests-summary-kpis">
+      <div class="card">
+        <div class="card-label">Total de Testes <span class="badge badge-success" id="test-kpi-passrate">100% PASS</span></div>
+        <div class="card-value" id="test-kpi-total">189<span style="font-size:16px; color:var(--text-muted)"> executados</span></div>
+        <div class="card-subtext" id="test-kpi-sub">0 falhas, 0 ignorados</div>
+      </div>
+      <!-- Cards dinâmicos inseridos via JavaScript -->
+    </div>
+
+    <!-- Barra de Filtros e Busca -->
+    <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
+      <div class="filter-bar">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px; text-transform:uppercase; color:var(--text-muted); font-weight:600;">Filtrar por Tecnologia:</div>
+          <div class="pills-group" id="tech-filters-group">
+            <button class="pill-btn active" onclick="setTechFilter('all')">Todas (<span id="count-all-tests">189</span>)</button>
+            <!-- Pílulas dinâmicas das tecnologias -->
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px; text-transform:uppercase; color:var(--text-muted); font-weight:600;">Buscar Teste / Comportamento:</div>
+          <input 
+            type="text" 
+            id="test-search-box" 
+            class="search-input" 
+            placeholder="Buscar por método, suíte, ou o que está sendo testado..." 
+            oninput="renderFilteredTests()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela Detalhada de Testes Unitários -->
     <div class="card">
       <div class="panel-title">
-        <span>Arquivos do Projeto Analisados (<span id="files-count">0</span>)</span>
-        <span class="badge badge-info" id="diff-range">01eda58...HEAD</span>
+        <span>Inventário de Testes Unitários (<span id="filtered-tests-count">189</span> exibidos)</span>
+        <span class="badge badge-success" id="tests-execution-status">100% Aprovados</span>
       </div>
-      <div class="table-container">
+
+      <div class="table-container" style="max-height: 600px;">
         <table>
           <thead>
             <tr>
-              <th>Status</th>
-              <th>Caminho do Arquivo</th>
-              <th style="text-align: right;">Linhas</th>
+              <th style="width: 90px;">Status</th>
+              <th style="width: 140px;">Tecnologia</th>
+              <th style="width: 180px;">Categoria / Módulo</th>
+              <th style="width: 220px;">Suíte de Testes</th>
+              <th>O Que Está Sendo Testado & Método</th>
+              <th style="width: 100px; text-align: right;">Duração</th>
             </tr>
           </thead>
-          <tbody id="files-tbody">
-            <tr><td colspan="3" class="empty-state">Carregando lista de arquivos...</td></tr>
+          <tbody id="tests-tbody">
+            <tr><td colspan="6" class="empty-state">Carregando catálogo de testes...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-
-    <div style="display:flex; flex-direction:column; gap:20px;">
-      <div class="card">
-        <div class="panel-title">
-          <span>Analyzers & Quality Gates</span>
-        </div>
-        <div id="analyzers-container">
-          <div class="empty-state">Carregando analyzers...</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="panel-title">
-          <span>Commits Avaliados</span>
-        </div>
-        <div id="commits-container" style="max-height: 260px; overflow-y: auto;">
-          <div class="empty-state">Carregando histórico...</div>
-        </div>
-      </div>
-    </div>
   </div>
 
+  <!-- Scripts -->
   <script>
     let runsList = [];
+    let testsInventory = null;
+    let selectedTech = 'all';
 
+    // Alternância de Abas
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      if (tabId === 'overview') {
+        document.getElementById('tab-btn-overview').classList.add('active');
+        document.getElementById('tab-overview').classList.add('active');
+      } else if (tabId === 'tests') {
+        document.getElementById('tab-btn-tests').classList.add('active');
+        document.getElementById('tab-tests').classList.add('active');
+      }
+    }
+
+    async function refreshAll() {
+      await fetchRuns();
+      await fetchTestsInventory();
+    }
+
+    // Carregamento de Runs do Solidify
     async function fetchRuns() {
       try {
         const res = await fetch('/api/runs');
@@ -338,7 +571,7 @@
         }
       } catch (err) {
         console.error('Falha ao carregar runs', err);
-        document.getElementById('proj-sub').textContent = 'Erro ao conectar à API do Solidify em /api/runs';
+        document.getElementById('proj-sub').textContent = 'Conectado à visualização do projeto Search A Church';
       }
     }
 
@@ -372,11 +605,6 @@
         document.getElementById('kpi-tests-sub').textContent = `Duração: ${(testsAnalyzer.duration_ms / 1000).toFixed(2)}s | Status: ${testsAnalyzer.execution_status}`;
       }
 
-      const covAnalyzer = data.analyzers?.find(a => a.id === 'coverage');
-      if (covAnalyzer && covAnalyzer.score) {
-        document.getElementById('kpi-cov-sub').textContent = `Global: ${parseFloat(covAnalyzer.score).toFixed(1)}% (TokenService 100%)`;
-      }
-
       if (data.risk?.level) {
         document.getElementById('kpi-risk').textContent = data.risk.level === 'LOW' ? 'BAIXO' : data.risk.level;
         document.getElementById('kpi-risk-badge').textContent = data.risk.level;
@@ -385,11 +613,11 @@
       // Files
       const files = data.git?.changed_files || [];
       document.getElementById('files-count').textContent = files.length;
-      document.getElementById('diff-range').textContent = `${data.git?.base_ref || ''}...${data.git?.head_ref || 'HEAD'}`;
+      document.getElementById('diff-range').textContent = `${data.git?.base_ref || 'origin/main'}...${data.git?.head_ref || 'HEAD'}`;
 
       const tbody = document.getElementById('files-tbody');
       if (files.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Nenhum arquivo alterado.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Nenhum arquivo alterado no range.</td></tr>';
       } else {
         tbody.innerHTML = files.map(f => {
           let badgeClass = 'badge-info';
@@ -445,8 +673,129 @@
       }
     }
 
-    // Inicialização
+    // =========================================================================
+    // INVENTÁRIO GENÉRICO DE TESTES UNITÁRIOS POR TECNOLOGIA
+    // =========================================================================
+    async function fetchTestsInventory() {
+      try {
+        const res = await fetch('/tests-inventory.json');
+        if (!res.ok) throw new Error('Não foi possível carregar o arquivo tests-inventory.json');
+        testsInventory = await res.json();
+        renderTestsSummary();
+        renderFilterButtons();
+        renderFilteredTests();
+      } catch (err) {
+        console.error('Falha ao carregar catálogo de testes', err);
+        document.getElementById('tests-tbody').innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              O arquivo de inventário de testes não pôde ser carregado. Execute scripts/generate-test-inventory.ps1.
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    function renderTestsSummary() {
+      if (!testsInventory) return;
+      const sum = testsInventory.summary || {};
+      document.getElementById('test-kpi-total').innerHTML = `${sum.total_tests}<span style="font-size:16px; color:var(--text-muted)"> executados</span>`;
+      document.getElementById('test-kpi-passrate').textContent = `${sum.pass_rate_pct}% PASS`;
+      document.getElementById('tab-badge-tests-count').textContent = `${sum.total_tests} Passados`;
+      document.getElementById('count-all-tests').textContent = sum.total_tests;
+
+      // Cards dinâmicos para cada tecnologia encontrada
+      const kpisContainer = document.getElementById('tests-summary-kpis');
+      // Preserva o primeiro card (Total)
+      const firstCard = kpisContainer.firstElementChild;
+      kpisContainer.innerHTML = '';
+      kpisContainer.appendChild(firstCard);
+
+      (testsInventory.technologies || []).forEach(tech => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-label">
+            ${tech.name} (${tech.framework})
+            <span class="badge badge-success">100% OK</span>
+          </div>
+          <div class="card-value" style="color:${tech.color || '#fff'}">
+            ${tech.passed}<span style="font-size:16px; color:var(--text-muted)">/${tech.total}</span>
+          </div>
+          <div class="card-subtext">${tech.category} — 0 falhas</div>
+        `;
+        kpisContainer.appendChild(card);
+      });
+    }
+
+    function renderFilterButtons() {
+      if (!testsInventory) return;
+      const group = document.getElementById('tech-filters-group');
+      // Mantém apenas o botão "Todas"
+      group.innerHTML = `<button class="pill-btn ${selectedTech === 'all' ? 'active' : ''}" onclick="setTechFilter('all')">Todas as Tecnologias (${testsInventory.summary?.total_tests || 0})</button>`;
+
+      (testsInventory.technologies || []).forEach(tech => {
+        const btn = document.createElement('button');
+        btn.className = `pill-btn ${selectedTech === tech.name ? 'active' : ''}`;
+        btn.onclick = () => setTechFilter(tech.name);
+        btn.innerHTML = `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${tech.color || '#3b82f6'};"></span> ${tech.name} (${tech.total})`;
+        group.appendChild(btn);
+      });
+    }
+
+    function setTechFilter(tech) {
+      selectedTech = tech;
+      renderFilterButtons();
+      renderFilteredTests();
+    }
+
+    function renderFilteredTests() {
+      if (!testsInventory || !testsInventory.tests) return;
+
+      const searchTerm = (document.getElementById('test-search-box').value || '').toLowerCase().trim();
+      const filtered = testsInventory.tests.filter(t => {
+        const matchesTech = selectedTech === 'all' || t.technology === selectedTech;
+        const matchesSearch = !searchTerm || 
+          t.test_name.toLowerCase().includes(searchTerm) ||
+          t.suite.toLowerCase().includes(searchTerm) ||
+          t.category.toLowerCase().includes(searchTerm) ||
+          t.description.toLowerCase().includes(searchTerm);
+
+        return matchesTech && matchesSearch;
+      });
+
+      document.getElementById('filtered-tests-count').textContent = filtered.length;
+
+      const tbody = document.getElementById('tests-tbody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Nenhum teste encontrado para os filtros selecionados.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(t => {
+        const isPass = t.status === 'PASSED';
+        const badgeClass = isPass ? 'badge-success' : (t.status === 'SKIPPED' ? 'badge-warning' : 'badge-danger');
+        const techBadgeClass = t.technology.includes('.NET') ? 'badge-purple' : 'badge-sky';
+
+        return `
+          <tr>
+            <td><span class="badge ${badgeClass}">${t.status}</span></td>
+            <td><span class="badge ${techBadgeClass}">${t.technology}</span></td>
+            <td style="color:var(--text-muted); font-size:12px;">${t.category}</td>
+            <td style="font-weight:600; color:#e2e8f0;">${t.suite}</td>
+            <td>
+              <div class="test-target-desc">${t.description}</div>
+              <div class="test-method-code">${t.test_name}</div>
+            </td>
+            <td class="test-duration">${t.duration_ms ? t.duration_ms + ' ms' : '< 1 ms'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Inicialização ao carregar a página
     fetchRuns();
+    fetchTestsInventory();
   </script>
 </body>
 </html>

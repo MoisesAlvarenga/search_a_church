@@ -38,3 +38,4 @@ Thumbs.db
 !.vscode/tasks.json
 !.vscode/launch.json
 %SystemDrive%/
+frontend/test_results.json
