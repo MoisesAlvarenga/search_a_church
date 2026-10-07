@@ -1,0 +1,40 @@
+# Solidify runs & cache
+.solidify/out/
+.solidify/runs/
+.solidify/cache/
+.solidify/peer_reviews/
+
+# Archify receipts
+.archify/*/*.finalize.json
+.archify/*/*.finalize-summary.json
+.archify/*/*.browser-check.json
+
+# .NET / C#
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+.sonarqube/
+out/
+
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# OS / Environment
+.DS_Store
+Thumbs.db
+*.env
+!.env.example
+
+# IDEs
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json

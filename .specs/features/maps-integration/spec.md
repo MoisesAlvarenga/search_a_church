@@ -27,17 +27,17 @@ A descoberta baseada em localização é difícil de avaliar apenas por uma list
 
 | Hipótese / decisão | Padrão adotado | Justificativa | Confirmada? |
 | ------------------ | -------------- | ------------- | ----------- |
-| Provedor de mapas | Google Maps JavaScript API e Google Places são os provedores pretendidos. | Selecionados explicitamente na documentação legada. | Não |
-| Autenticação para acesso ao mapa | Acesso à busca e visualização do mapa (`GET`) exige usuário cadastrado e autenticado via JWT. Não é público. | Decisão confirmada de produto: proteger recursos do mapa e engajar usuários cadastrados. | Sim |
-| Resolução de localização | Endereço, cidade e localização atual são entradas válidas; texto não resolvido gera falha explícita. | Descrito pelo MVP e pela especificação legada. | Não |
-| Escopo de resultados do provedor | Resultados do provedor são elegíveis ao conjunto de descoberta e devem ser rotulados `maps` com indicação de não cadastrada. | Exigido pelo MVP legado. | Não |
-| Identificador e vínculo de localização externa | O `place_id` do Google Maps é a chave externa estável para referenciar a localização física da igreja e vinculá-la a um futuro perfil oficial. | Permite associação determinística entre o local físico e a entidade de perfil. | Não |
-| Ponto de partida para criação de perfil | Igrejas não cadastradas no mapa exibem ação ("Reivindicar igreja" / "Criar perfil"), encaminhando dados de localização para `profile-management`. | Facilita a adesão orgânica de novas igrejas na plataforma a partir da busca geográfica. | Não |
-| Deduplicação pós-vinculação | Ao criar um perfil vinculado ao `place_id`, o resultado passa a ser rotulado como `app` e o mapa unifica o marcador, evitando duplicatas. | Garante integridade visual e consistência na descoberta. | Não |
-| Falha de provedor externo | Resultados cadastrados em `app` permanecem utilizáveis; resultados exclusivos do provedor podem ficar indisponíveis com aviso explícito. | Preserva dados próprios quando a dependência externa falha. | Não |
-| Cache e cotas dos resultados do mapa | Não especificados. | Exigem confirmação de produto e operação antes de Design. | Não |
+| Provedor de mapas | Google Maps Platform (Google Maps SDK/JavaScript API para renderização vetorial e Google Places API / Geocoding para busca e resolução de locais). | Confirmado em AD-025: padrão da indústria com ampla cobertura global e dados geográficos consolidados. | Sim |
+| Autenticação para acesso ao mapa | Acesso à busca e visualização do mapa (`GET`) exige usuário cadastrado e autenticado via JWT. Não é público. | Confirmado em AD-007 e AD-025: proteger recursos do mapa e engajar usuários cadastrados. | Sim |
+| Resolução de localização | Coordenadas do GPS nativo do dispositivo e entradas textuais (endereço, bairro, cidade) via Google Geocoding / Places Autocomplete. Texto não resolvido gera mensagem explícita e amigável sem renderizar marcadores falsos. | Confirmado em AD-025: assegura precisão espacial e clareza ao usuário quando o local não for encontrado. | Sim |
+| Escopo de resultados do provedor | Resultados provenientes do Google Places entram na lista e no mapa rotulados como `origem: maps` com indicativo visual explícito de "Não cadastrada" / "Não reivindicada". | Confirmado em AD-025: amplia a densidade inicial de templos sem confundir dados oficiais do app com dados brutos externos. | Sim |
+| Identificador e vínculo de localização externa | O `place_id` do Google Maps é a chave externa estável determinística para identificar o ponto físico e vincular a igreja a um futuro perfil oficial. | Confirmado em AD-004 e AD-025: associação determinística e perene entre o local físico e a entidade de perfil. | Sim |
+| Ponto de partida para criação de perfil / reivindicação | Igrejas com `origem: maps` exibem ação destacada ("Reivindicar esta igreja"), encaminhando nome, endereço, coordenadas e `place_id` pré-preenchidos para `church-profile-claim`. | Confirmado em AD-025: viabiliza adesão orgânica ágil e sem atrito a partir da experiência de mapa. | Sim |
+| Deduplicação pós-vinculação (App-First) | Ao existir igreja cadastrada com o mesmo `place_id`, o mapa renderiza exclusivamente o marcador da base oficial (`origem: app`), descartando o resultado redundante do Google Maps. | Confirmado em AD-023 e AD-025: integridade visual sem pinos duplicados para a mesma igreja física. | Sim |
+| Falha de provedor externo (Degradação graciosa) | Falhas ou esgotamento de cotas na API do Google Maps mantêm o funcionamento normal de todas as igrejas da base local (`origem: app`), apresentando aviso informativo sutil e não bloqueante ao usuário. | Confirmado em AD-025: resiliência operacional contínua independente da dependência externa. | Sim |
+| Cache e cotas dos resultados do mapa | Backend armazena dados de Places em cache com TTL de até 30 dias (place_id persistido indefinidamente conforme ToS do Google); cliente aplica debounce de 500ms nas interações de arraste e zoom antes de disparar novas consultas. | Confirmado em AD-025: otimização de performance, respeito às cotas e conformidade legal com a Google Maps Platform. | Sim |
 
-**Questões em aberto:** nenhuma. Todo comportamento não resolvido está registrado como hipótese acima.
+**Questões em aberto:** nenhuma. Todas as 9 hipóteses da especificação de integração com mapas estão integralmente confirmadas pelo responsável do produto.
 
 ---
 
@@ -88,40 +88,43 @@ A descoberta baseada em localização é difícil de avaliar apenas por uma list
 
 1. QUANDO o provedor de mapas retornar igreja na área pesquisada que ainda não possua perfil no produto ENTÃO o sistema DEVE exibi-la no mapa com marcador e na lista de descoberta como resultado elegível.
 2. QUANDO uma igreja exibida for proveniente exclusivamente do Google Maps ENTÃO o sistema DEVE rotular sua origem como `maps` e indicar explicitamente o estado de "Não cadastrada" (ou não reivindicada).
-3. QUANDO uma igreja não cadastrada for selecionada no mapa ou na lista ENTÃO o sistema DEVE exibir os dados disponíveis do provedor (nome, endereço formatado, coordenadas e `place_id`) e DEVE exibir uma opção de ação para "Reivindicar igreja" ou "Criar perfil para esta igreja".
-4. QUANDO a ação de criar perfil for acionada a partir de uma igreja não cadastrada do mapa ENTÃO o sistema DEVE encaminhar o contexto geográfico (nome, endereço, coordenadas e `place_id`) para o fluxo de cadastro de perfil de igreja em `profile-management`.
-5. QUANDO um perfil de igreja for criado e vinculado a esse `place_id` ENTÃO o sistema DEVE associar permanentemente a localização ao novo perfil oficial, atualizar sua origem para `app` e NÃO DEVE renderizar marcador duplicado para a mesma igreja em buscas futuras.
-6. QUANDO o provedor de mapas não puder ser consultado ou retornar erro ENTÃO o sistema DEVE informar a indisponibilidade dos dados externos sem afetar a exibição nem o funcionamento das igrejas cadastradas em `app`.
+3. QUANDO uma igreja não cadastrada for selecionada no mapa ou na lista ENTÃO o sistema DEVE exibir os dados disponíveis do provedor (nome, endereço formatado, coordenadas e `place_id`) e DEVE exibir uma opção de ação para "Reivindicar esta igreja".
+4. QUANDO a ação de reivindicar igreja for acionada a partir de uma congregação não cadastrada do mapa ENTÃO o sistema DEVE encaminhar o contexto geográfico (nome, endereço, coordenadas e `place_id`) pré-preenchido para o fluxo de reivindicação em `church-profile-claim`.
+5. QUANDO um perfil de igreja for homologado e vinculado a esse `place_id` ENTÃO o sistema DEVE associar permanentemente a localização ao novo perfil oficial, atualizar sua origem para `app` e NÃO DEVE renderizar marcador duplicado para a mesma igreja em buscas futuras, aplicando a regra App-First.
+6. QUANDO o provedor de mapas não puder ser consultado ou retornar erro (HTTP 5xx, timeout ou cota esgotada) ENTÃO o sistema DEVE entrar em modo de degradação graciosa, exibindo aviso informativo discreto e mantendo o funcionamento normal e sem bloqueio das congregações cadastradas em `app`.
+7. QUANDO o usuário interagir com o mapa via arraste (*pan*) ou zoom ENTÃO o sistema DEVE aplicar debounce de 500ms antes de disparar novas consultas ao provedor externo, otimizando o consumo de cotas.
+8. QUANDO dados de locais forem obtidos da Google Places API ENTÃO o backend DEVE armazená-los em cache temporário com TTL de até 30 dias para otimização de requisições, retendo o `place_id` de forma duradoura.
 
-**Teste Independente**: Executar busca em área com igrejas cadastradas e igrejas presentes apenas no Google Maps. Verificar a exibição diferenciada das igrejas do mapa com ação de criar/reivindicar perfil, simular a transmissão do `place_id` para cadastro e comprovar a deduplicação pós-vinculação.
+**Teste Independente**: Executar busca em área com igrejas cadastradas e igrejas presentes apenas no Google Maps. Verificar a exibição diferenciada das igrejas do mapa com ação de reivindicar perfil, simular a transmissão do `place_id` para `church-profile-claim` e comprovar a deduplicação App-First pós-vinculação e o comportamento em falha simulada da API externa.
 
 ## Casos de Borda
 
 - QUANDO marcadores do mapa se sobrepuserem no nível de zoom atual ENTÃO o sistema DEVE manter cada resultado acessível através de agrupamento ou expansão visual.
 - QUANDO resultado do Google Maps corresponder a uma igreja já cadastrada (mesmo `place_id` vinculado) ENTÃO o sistema DEVE exibir o perfil oficial cadastrado em `app` e NÃO DEVE exibir o resultado não cadastrado em duplicidade.
-- QUANDO dois usuários tentarem iniciar a criação de perfil para a mesma igreja do Google Maps simultaneamente ENTÃO o sistema DEVE garantir a integridade dos dados e impedir perfis duplicados para o mesmo `place_id`.
-- QUANDO a igreja no Google Maps contiver dados parciais (ex.: sem número predial ou horário de culto) ENTÃO o sistema DEVE exibir os dados disponíveis e orientar a criação do perfil para complementar as informações eclesiásticas.
-- QUANDO o usuário negar acesso à localização atual ENTÃO o sistema DEVE permitir informar endereço ou cidade.
+- QUANDO dois usuários tentarem iniciar a reivindicação para a mesma igreja do Google Maps simultaneamente ENTÃO o sistema DEVE garantir a integridade dos dados e impedir reivindicações concorrentes inválidas para o mesmo `place_id` conforme as regras de concorrência de `church-profile-claim`.
+- QUANDO a igreja no Google Maps contiver dados parciais (ex.: sem número predial ou horário de culto) ENTÃO o sistema DEVE exibir os dados disponíveis e orientar a complementação das informações no perfil.
+- QUANDO o usuário negar acesso à localização atual ou a busca textual não puder ser resolvida geograficamente ENTÃO o sistema DEVE exibir mensagem amigável padronizada ("Localização não encontrada") e permitir nova busca manual, sem renderizar marcadores falsos.
 
 ## Rastreabilidade de Requisitos
 
 | ID do Requisito | História | Fase | Status |
 | --------------- | -------- | ---- | ------ |
-| MAP-01 | P1: Visualizar Resultados de Descoberta no Mapa | Specify | Pendente |
-| MAP-02 | P1: Visualizar Resultados de Descoberta no Mapa | Specify | Pendente |
-| MAP-03 | P1: Conectar Seleção do Mapa e da Lista | Specify | Pendente |
-| MAP-04 | P2: Descobrir Igrejas no Google Maps e Permitir Vinculação a Novo Perfil | Specify | Pendente |
-| MAP-05 | P2: Descobrir Igrejas no Google Maps e Permitir Vinculação a Novo Perfil | Specify | Pendente |
-| MAP-06 | P2: Descobrir Igrejas no Google Maps e Permitir Vinculação a Novo Perfil | Specify | Pendente |
-| MAP-07 | P2: Descobrir Igrejas no Google Maps e Permitir Vinculação a Novo Perfil | Specify | Pendente |
+| MAP-01 | P1: Visualizar Resultados de Descoberta no Mapa (Marcadores e Enquadramento - AD-025) | Specify | Confirmado |
+| MAP-02 | P1: Resolução de Localização e Tratamento de Erros Amigáveis (GPS e Texto - AD-025) | Specify | Confirmado |
+| MAP-03 | P1: Conectar Seleção do Mapa e da Lista Ranqueada (Sincronização Bidirecional) | Specify | Confirmado |
+| MAP-04 | P2: Descobrir Igrejas no Google Maps com Rótulo `origem: maps` (Não Cadastrada - AD-025) | Specify | Confirmado |
+| MAP-05 | P2: Ponto de Entrada para Reivindicação de Perfil (CTA com Pré-preenchimento para Claim - AD-025) | Specify | Confirmado |
+| MAP-06 | P2: Deduplicação App-First no Mapa e Unificação de Marcadores (AD-023 e AD-025) | Specify | Confirmado |
+| MAP-07 | P2: Resiliência Graciosa, Cache de Places (30 dias) e Debounce de 500ms (AD-025) | Specify | Confirmado |
 
-**Cobertura:** 7 no total, 0 mapeados para tarefas, 7 não mapeados aguardando confirmação da especificação.
+**Cobertura:** 7 requisitos estruturados, 7 confirmados com critérios BDD e decisões arquiteturais vinculadas, 0 pendentes de especificação. Prontos para Design.
 
 ## Critérios de Sucesso
 
 - [ ] Usuários conseguem ver os resultados mapeáveis e a localização pesquisada em uma única visão de mapa.
 - [ ] Selecionar igreja mapeável pela lista ou pelo mapa identifica consistentemente o mesmo resultado.
-- [ ] Igrejas do Google Maps não cadastradas são visíveis com rótulo `maps` e opção acessível para iniciar criação/vinculação de perfil.
+- [ ] Igrejas do Google Maps não cadastradas são visíveis com rótulo `maps` e opção acessível para iniciar a reivindicação do perfil oficial.
 - [ ] A localização e o identificador do provedor (`place_id`) são preservados e associados com sucesso ao perfil criado pela igreja.
-- [ ] Igrejas vinculadas a perfis oficiais não produzem marcadores duplicados no mapa.
-- [ ] Indisponibilidades do provedor não ocultam resultados cadastrados disponíveis.
+- [ ] Igrejas vinculadas a perfis oficiais não produzem marcadores duplicados no mapa (App-First).
+- [ ] Indisponibilidades do provedor não ocultam resultados cadastrados disponíveis, degradando graciosamente com aviso discreto.
+- [ ] Consultas de mapa utilizam cache em backend (até 30 dias) e debounce de 500ms para otimização de cotas.

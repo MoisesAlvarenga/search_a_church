@@ -438,20 +438,20 @@ Quando uma contestação documental de Nível 1 for instaurada contra um perfil 
 
 | ID do Requisito | História / Área | Fase | Status |
 | --------------- | --------------- | ---- | ------ |
-| CLAIM-01 | P1: Ciclo de Vida e Estados (Máquina de Estados: Unclaimed, Pending, Verified, In_Dispute e Timeouts) | Specify | Pendente |
-| CLAIM-02 | P1: Validação por Presença Física (Geofencing 100m, Accuracy ≤ 50m, Anti-Mock, Haversine Backend e Foto ao vivo) - Nível 3 | Specify | Pendente |
-| CLAIM-03 | P1: Validação por Redes Sociais Oficiais (Código na Bio) - Nível 3 | Specify | Pendente |
-| CLAIM-04 | P1: Validação por Canais Institucionais Proprietários (Domínio Próprio / E-mail com OTP) - Nível 2 | Specify | Pendente |
-| CLAIM-05 | P1: Validação Documental Pública e Cartorial (Ata de Posse RCPJ, Estatuto, CNPJ/QSA) - Nível 1 | Specify | Pendente |
-| CLAIM-06 | P1: Termos de Uso, Declaração sob art. 299 CP, Enquadramento como Provedora de Aplicação e Mecanismo Ativo de Takedown | Specify | Pendente |
-| CLAIM-07 | P1: Trilha de Auditoria e Logs Obrigatórios conforme Marco Civil da Internet (Lei 12.965/2014) | Specify | Pendente |
-| CLAIM-08 | P1: Níveis de Permissão por Hierarquia Probatória (Nível 1 pleno/PIX vs Níveis 2 e 3 operacionais) | Specify | Pendente |
-| CLAIM-09 | P2: Tratamento de Concorrência, Precedência por Nível Probatório, Rate Limits e TTLs de Expiração | Specify | Pendente |
-| CLAIM-10 | P2: Regra de Resolução Automática de Disputa (Prevalência de Nível 1 sobre Níveis 2 e 3 sem Bloqueio Unilateral) | Specify | Pendente |
-| CLAIM-11 | P2: Contestação Paritária de Nível 1 e Congelamento em In_Dispute (Dados Visíveis no Mapa, Edições Bloqueadas e Janela de 5 Dias Úteis) | Specify | Pendente |
-| CLAIM-12 | P2: Resolução de Disputa Paritária (Prevalência Registral, Desclassificação por Inércia e Reversão a Unclaimed em Litígio Irresolvível) | Specify | Pendente |
+| CLAIM-01 | P1: Ciclo de Vida e Estados (Máquina de Estados: Unclaimed, Pending, Verified, In_Dispute e Timeouts - AD-005 e AD-015) | Specify | Confirmado |
+| CLAIM-02 | P1: Validação por Presença Física (Geofencing 100m, Accuracy ≤ 50m, Anti-Mock e Haversine Backend - AD-017) - Nível 3 | Specify | Confirmado |
+| CLAIM-03 | P1: Validação por Redes Sociais Oficiais (Código na Bio com TTL 48h - AD-015) - Nível 3 | Specify | Confirmado |
+| CLAIM-04 | P1: Validação por Canais Institucionais Proprietários (Domínio Próprio / E-mail com OTP) - Nível 2 | Specify | Confirmado |
+| CLAIM-05 | P1: Validação Documental Pública e Cartorial (Ata de Posse RCPJ, Estatuto, CNPJ/QSA - AD-012) - Nível 1 | Specify | Confirmado |
+| CLAIM-06 | P1: Termos de Uso, Declaração sob art. 299 CP, Enquadramento Provedora e Mecanismo de Takedown (AD-013) | Specify | Confirmado |
+| CLAIM-07 | P1: Trilha de Auditoria e Logs Obrigatórios Append-Only por 180 dias conforme Marco Civil (AD-014) | Specify | Confirmado |
+| CLAIM-08 | P1: Níveis de Permissão por Hierarquia Probatória (Nível 1 pleno/PIX vs Níveis 2 e 3 operacionais - AD-005 e AD-012) | Specify | Confirmado |
+| CLAIM-09 | P2: Tratamento de Concorrência, Precedência por Nível Probatório, Rate Limits e TTLs de Expiração (AD-015) | Specify | Confirmado |
+| CLAIM-10 | P2: Regra de Resolução Automática de Disputa (Prevalência de Nível 1 sobre Níveis 2 e 3 sem Bloqueio Unilateral - AD-012) | Specify | Confirmado |
+| CLAIM-11 | P2: Contestação Paritária de Nível 1 e Congelamento em In_Dispute (Dados Visíveis, Edições Bloqueadas e 5 Dias Úteis - AD-016) | Specify | Confirmado |
+| CLAIM-12 | P2: Resolução de Disputa Paritária (Prevalência Registral, Inércia e Reversão a Unclaimed em Litígio Irresolvível - AD-016) | Specify | Confirmado |
 
-**Cobertura:** 12 requisitos estruturados, 0 mapeados para tarefas técnicas, 12 aguardando confirmação da especificação.
+**Cobertura:** 12 requisitos estruturados, 12 confirmados com critérios BDD e decisões arquiteturais vinculadas, 0 pendentes de especificação. Prontos para Design.
 
 ---
 

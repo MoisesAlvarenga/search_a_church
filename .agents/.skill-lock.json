@@ -14,6 +14,34 @@
       ],
       "method": "copy",
       "global": false
+    },
+    "archify": {
+      "name": "archify",
+      "source": "https://github.com/tt-a1i/archify",
+      "version": "3.0.1",
+      "installedAt": "2026-10-06T16:06:00.000Z",
+      "agents": [
+        "antigravity",
+        "cursor",
+        "claude-code",
+        "windsurf"
+      ],
+      "method": "copy",
+      "global": true
+    },
+    "solidify": {
+      "name": "solidify",
+      "source": "https://github.com/daraujo85/solidify",
+      "version": "1.0.0",
+      "installedAt": "2026-10-06T16:55:00.000Z",
+      "agents": [
+        "antigravity",
+        "cursor",
+        "claude-code",
+        "windsurf"
+      ],
+      "method": "copy",
+      "global": true
     }
   }
 }
