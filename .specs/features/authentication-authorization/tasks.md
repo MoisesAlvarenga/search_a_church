@@ -194,9 +194,9 @@ T14, T15 ──→ T16 (AuthRepository & AuthCubit)
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Gravação estritamente append-only (sem métodos de update ou delete)
-- [ ] Extração segura do IP real a partir de proxies configurados
-- [ ] Testes unitários validando a preservação exata dos dados de conexão de aplicação  
+- [x] Gravação estritamente append-only (sem métodos de update ou delete)
+- [x] Extração segura do IP real a partir de proxies configurados
+- [x] Testes unitários validando a preservação exata dos dados de conexão de aplicação  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(auth): implement marco civil audit logging service`
