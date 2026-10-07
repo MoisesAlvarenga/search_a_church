@@ -6,13 +6,13 @@ Perfis, feedback e a experiência de busca no mapa contêm dados e consomem recu
 
 ## Objetivos
 
-- [ ] A busca no mapa e o consumo de dados georreferenciados exigem usuário cadastrado e autenticado.
-- [ ] Ações protegidas e escritas exigem identidade autenticada via JWT.
-- [ ] Implementar autenticação contínua através de pares de tokens com Rotação Automática (Refresh Token Rotation - RTR) e Expiração Deslizante (Sliding Expiration de 60 dias).
-- [ ] Proteger a aplicação contra roubo e interceptação de tokens através da Detecção Automática de Reúso (Automatic Breach Detection), revogando imediatamente toda a família de tokens (`family_id`).
-- [ ] Exigir armazenamento de credenciais no hardware seguro do dispositivo mobile (iOS Keychain e Android Keystore) e interceptor de rede com fila de espera (*request queuing*).
-- [ ] Proteger as rotas de autenticação contra força bruta, *credential stuffing* e criação abusiva de contas através de Rate Limiting com algoritmo Sliding Window Counter no Redis e cabeçalhos HTTP 429 padronizados.
-- [ ] Definir critérios estritos e determinísticos de encerramento de sessão (logout).
+- [x] A busca no mapa e o consumo de dados georreferenciados exigem usuário cadastrado e autenticado.
+- [x] Ações protegidas e escritas exigem identidade autenticada via JWT.
+- [x] Implementar autenticação contínua através de pares de tokens com Rotação Automática (Refresh Token Rotation - RTR) e Expiração Deslizante (Sliding Expiration de 60 dias).
+- [x] Proteger a aplicação contra roubo e interceptação de tokens através da Detecção Automática de Reúso (Automatic Breach Detection), revogando imediatamente toda a família de tokens (`family_id`).
+- [x] Exigir armazenamento de credenciais no hardware seguro do dispositivo mobile (iOS Keychain e Android Keystore) e interceptor de rede com fila de espera (*request queuing*).
+- [x] Proteger as rotas de autenticação contra força bruta, *credential stuffing* e criação abusiva de contas através de Rate Limiting com algoritmo Sliding Window Counter no Redis e cabeçalhos HTTP 429 padronizados.
+- [x] Definir critérios estritos e determinísticos de encerramento de sessão (logout).
 
 ## Fora do Escopo
 
@@ -393,12 +393,12 @@ Quando qualquer um dos limites acima for ultrapassado:
 
 ## Critérios de Sucesso
 
-- [ ] Acesso à busca por mapa é protegido e restrito a usuários autenticados com JWT válido.
-- [ ] Visitantes conseguem realizar o cadastro inicial de perfil sem barreiras de autenticação prévia, com senha mínima de 8 caracteres alfanuméricos.
-- [ ] Escritas em perfis e congregações obedecem estritamente às regras de titularidade (ownership) e representação verificada.
-- [ ] Usuários ativos no aplicativo permanecem logados indefinidamente através da expiração deslizante de 60 dias, sem interrupção de uso.
-- [ ] 100% das renovações de sessão utilizam Rotação de Refresh Token (uso único).
-- [ ] Qualquer tentativa de reúso de refresh token consumido invalida instantaneamente toda a família de tokens (`family_id`).
-- [ ] Nenhum token de sessão é armazenado em texto plano no dispositivo móvel.
-- [ ] 100% das tentativas abusivas nos endpoints de login, registro, refresh e recuperação de senha são contidas com resposta HTTP 429, payload explicativo e cabeçalhos `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` e `Retry-After`.
-- [ ] Usuários conseguem recuperar o acesso através de código OTP de 6 dígitos enviado por e-mail com TTL de 15 minutos, provocando a revogação de todas as sessões ativas nos aparelhos ao redefinir a senha.
+- [x] Acesso à busca por mapa é protegido e restrito a usuários autenticados com JWT válido.
+- [x] Visitantes conseguem realizar o cadastro inicial de perfil sem barreiras de autenticação prévia, com senha mínima de 8 caracteres alfanuméricos.
+- [x] Escritas em perfis e congregações obedecem estritamente às regras de titularidade (ownership) e representação verificada.
+- [x] Usuários ativos no aplicativo permanecem logados indefinidamente através da expiração deslizante de 60 dias, sem interrupção de uso.
+- [x] 100% das renovações de sessão utilizam Rotação de Refresh Token (uso único).
+- [x] Qualquer tentativa de reúso de refresh token consumido invalida instantaneamente toda a família de tokens (`family_id`).
+- [x] Nenhum token de sessão é armazenado em texto plano no dispositivo móvel.
+- [x] 100% das tentativas abusivas nos endpoints de login, registro, refresh e recuperação de senha são contidas com resposta HTTP 429, payload explicativo e cabeçalhos `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset` e `Retry-After`.
+- [x] Usuários conseguem recuperar o acesso através de código OTP de 6 dígitos enviado por e-mail com TTL de 15 minutos, provocando a revogação de todas as sessões ativas nos aparelhos ao redefinir a senha.
