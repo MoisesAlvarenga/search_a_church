@@ -191,10 +191,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] `UserProfileCubit` gerenciando estados `Initial`, `Loading`, `Loaded`, `Saving`, `SaveSuccess`, `Deleting`, `Deleted` e `Error`
-- [ ] `ChurchProfileCubit` gerenciando estados `Initial`, `Loading`, `Loaded`, `Saving`, `SaveSuccess` e `Error` (com flag de conflito de place_id)
-- [ ] `TagCatalogCubit` carregando e disponibilizando as tags oficiais agrupadas por categoria
-- [ ] Testes unitários com `bloc_test` validando todas as transições de estado  
+- [x] `UserProfileCubit` gerenciando estados `Initial`, `Loading`, `Loaded`, `Saving`, `SaveSuccess`, `Deleting`, `Deleted` e `Error`
+- [x] `ChurchProfileCubit` gerenciando estados `Initial`, `Loading`, `Loaded`, `Saving`, `SaveSuccess` e `Error` (com flag de conflito de place_id)
+- [x] `TagCatalogCubit` carregando e disponibilizando as tags oficiais agrupadas por categoria
+- [x] Testes unitários com `bloc_test` validando todas as transições de estado  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/profile/presentation/cubit/`)  
 **Commit**: `feat(profile): implement profile and tag cubits with state management and bloc tests`
