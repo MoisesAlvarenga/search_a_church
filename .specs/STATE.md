@@ -34,24 +34,24 @@
 
 ## Continuidade
 
-- **Fase atual:** Tasks (Elaboradas para `maps-integration`)
-- **Escopo concluído:** Baseline inicial do produto extraída da pasta legada `Old` e enriquecida com a especificação de vinculação pelo mapa, reivindicação de perfil (`church-profile-claim`), camada de sessão contínua resiliente, rate limiting com Redis, Prioridade Probatória Estrita, regime normativo de responsabilidade civil (Marco Civil da Internet, safe harbor e Notice and Takedown), conformidade de retenção de logs de auditoria (Marco Civil art. 15 e LGPD), política de expiração/TTL de reivindicações pendentes (7d doc / 48h social), governança de disputas paritárias em `In_Dispute` (janela de 5 dias úteis, prevalência registral RCPJ e saída judicial), parametrização de geofencing (100m, accuracy ≤ 50m, anti-mock), política de raio de busca híbrido (`AD-018`), ranqueamento determinístico com desempate por avaliações, distância e nome (`AD-019`), fórmula ponderada de pontuação com cold start neutro (`AD-020`), precedência de preferências com filtros efêmeros segregados do perfil (`AD-021`), paginação por cursor com 20 itens por página e teto global de 100 igrejas (`AD-022`), política de deduplicação App-First com place_id (`AD-023`), diretrizes de credenciais e logout stateless (`AD-024` sob `authentication-authorization`), arquitetura operacional de mapas, resiliência e cotas (`AD-025` sob `maps-integration`), governança de perfis, soft delete sob LGPD e sistema bidirecional de tags de acessibilidade/ministérios (`AD-026` sob `profile-management`), sistema de avaliações, moderação e filtro de ofensas/ataques (`AD-027` sob `reviews-feedback`), implementação completa de `authentication-authorization` (T1 a T16 - 183 testes aprovados), elaboração do Design Arquitetural e Diagrama Archify de `maps-integration` (`AD-004`, `AD-007`, `AD-023`, `AD-025`) e elaboração do plano técnico de tarefas (T1 a T9) sincronizado no Plane Kanban.
-- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (Tasks elaboradas e sincronizadas), `authentication-authorization` (100% implementada) e `church-profile-claim`.
+- **Fase atual:** Tasks (Elaboradas para `church-profile-claim`)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16 - 183 testes aprovados); implementação completa de `maps-integration` (T1 a T9 - 144 testes novos aprovados, totalizando 327 testes, SonarQube OK e branch sincronizada com remote `main`); elaboração completa da Especificação (`CLAIM-01` a `CLAIM-12`), Diagrama de Arquitetura Interativo Showcase no Archify (`church-profile-claim.html`), Design Arquitetural detalhado (`design.md`) e Plano de Tarefas (`tasks.md` - T1 a T10 em 4 fases) sincronizado no Plane Kanban para `church-profile-claim`.
+- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (Design e Tasks 100% concluídos, pronta para execução).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Iniciar a execução das tarefas da Fase 1 de `maps-integration` (T1: Modelar Entidade Church no EF Core).
+- **Próxima ação:** Iniciar a execução das tarefas da Fase 1 de `church-profile-claim` (T1: Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core).
 
 ## Handoff
 
-- **Feature**: `maps-integration`
+- **Feature**: `church-profile-claim`
 - **Phase / Task**: Tasks — 100% Concluído (tasks.md gerado e sincronizado com o Plane Kanban)
 - **Completed**:
-  - Especificação: `maps-integration/spec.md` (7 requisitos funcionais confirmados)
-  - Diagrama de Arquitetura Interativo: `.archify/architecture-maps-integration-20261007-144500/maps-integration.html`
-  - Design Arquitetural: `.specs/features/maps-integration/design.md`
-  - Plano de Tarefas: `.specs/features/maps-integration/tasks.md` (9 tarefas em 4 fases)
-  - Plane Kanban: 9 tarefas registradas na coluna TODO
-- **In-progress**: Início da Fase 1 (T1)
-- **Next step**: Implementar T1 (Modelar Entidade Church e Migração no PostgreSQL com Âncora place_id)
+  - Especificação: `church-profile-claim/spec.md` (12 requisitos funcionais confirmados)
+  - Diagrama de Arquitetura Interativo: `.archify/architecture-church-profile-claim-20261007-214500/church-profile-claim.html` (Showcase quality validado)
+  - Design Arquitetural: `.specs/features/church-profile-claim/design.md`
+  - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (10 tarefas em 4 fases)
+  - Plane Kanban: 10 tarefas registradas na coluna TODO
+- **In-progress**: Fase 1 (T1) pronta para início
+- **Next step**: Implementar T1 (Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core)
 - **Blockers**: none
 - **Uncommitted files**: none
 - **Branch**: main
