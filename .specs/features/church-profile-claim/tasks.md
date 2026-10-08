@@ -15,7 +15,7 @@
 | **T1** | Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core | Done | NONE | unit | Quick |
 | **T2** | Implementar Repositório e Serviço de Auditoria Append-Only (AuditLogService) [P] | Done | NONE | unit | Quick |
 | **T3** | Implementar GeofencingService com Haversine Server-Side e Anti-Mock | Done | NONE | unit | Quick |
-| **T4** | Implementar Gateways de Verificação de Provas (Social, OTP, QSA e RCPJ) [P] | Todo | NONE | unit | Quick |
+| **T4** | Implementar Gateways de Verificação de Provas (Social, OTP, QSA e RCPJ) [P] | Done | NONE | unit | Quick |
 | **T5** | Implementar DisputeResolutionEngine (Resolução Automática N1 e In_Dispute) | Todo | T1 | unit | Quick |
 | **T6** | Implementar ClaimOrchestratorService e ClaimTtlBackgroundService | Todo | T1, T2, T3, T4, T5 | integration | Full |
 | **T7** | Mapear Endpoints Minimal API de Reivindicação e Disputa (/claim/*) com JWT | Todo | T6 | e2e | Full |
@@ -102,11 +102,11 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Gateway `ISocialVerificationGateway` gerando e validando token `SAC-XXXX-VERIFY` com TTL de 48 horas em Redis
-- [ ] Gateway `IDomainEmailGateway` gerando OTP numérico de 6 dígitos com TTL de 15 minutos e validação de domínio
-- [ ] Gateway `IQsaValidationGateway` validando representação legal no QSA da Receita Federal
-- [ ] Cálculo e armazenamento de hash SHA-256 para documentos cartorários em PDF
-- [ ] Testes unitários para cada gateway com mocks de Redis e serviços externos  
+- [x] Gateway `ISocialVerificationGateway` gerando e validando token `SAC-XXXX-VERIFY` com TTL de 48 horas em Redis
+- [x] Gateway `IDomainEmailGateway` gerando OTP numérico de 6 dígitos com TTL de 15 minutos e validação de domínio
+- [x] Gateway `IQsaValidationGateway` validando representação legal no QSA da Receita Federal
+- [x] Cálculo e armazenamento de hash SHA-256 para documentos cartorários em PDF
+- [x] Testes unitários para cada gateway com mocks de Redis e serviços externos  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(claim): implement verification gateways for social bio, email otp, qsa and rcpj`
