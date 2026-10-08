@@ -128,11 +128,11 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] `OwnershipAuthorizationHandler` implementado validando correspondência entre `sub` claim do JWT e recurso
-- [ ] `VerifiedRepresentativeAuthorizationHandler` implementado conferindo se o usuário é o representante legal verificado da congregação
-- [ ] Registro das políticas `RequireProfileOwnership` e `RequireVerifiedRepresentative` no container de DI
-- [ ] Retorno semântico de HTTP 403 `ACESSO_NEGADO_PROPRIEDADE` ou `REPRESENTANTE_NAO_VERIFICADO` quando a política falhar
-- [ ] Testes unitários validando cada handler para cenários autorizados e negados  
+- [x] `OwnershipAuthorizationHandler` implementado validando correspondência entre `sub` claim do JWT e recurso
+- [x] `VerifiedRepresentativeAuthorizationHandler` implementado conferindo se o usuário é o representante legal verificado da congregação
+- [x] Registro das políticas `RequireProfileOwnership` e `RequireVerifiedRepresentative` no container de DI
+- [x] Retorno semântico de HTTP 403 `ACESSO_NEGADO_PROPRIEDADE` ou `REPRESENTANTE_NAO_VERIFICADO` quando a política falhar
+- [x] Testes unitários validando cada handler para cenários autorizados e negados  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(profile): implement ownership and verified representative authorization policies`

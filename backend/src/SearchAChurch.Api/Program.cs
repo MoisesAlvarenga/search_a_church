@@ -36,6 +36,7 @@ builder.Services.AddScoped<SearchAChurch.Api.Features.Claim.Services.IDisputeRes
 builder.Services.AddScoped<SearchAChurch.Api.Features.Claim.Services.IClaimOrchestratorService, SearchAChurch.Api.Features.Claim.Services.ClaimOrchestratorService>();
 builder.Services.AddHostedService<SearchAChurch.Api.Features.Claim.Services.ClaimTtlBackgroundService>();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Profile.Services.ITagCatalogService, SearchAChurch.Api.Features.Profile.Services.TagCatalogService>();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Profile.Services.IUserProfileService, SearchAChurch.Api.Features.Profile.Services.UserProfileService>();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Profile.Services.IChurchProfileService, SearchAChurch.Api.Features.Profile.Services.ChurchProfileService>();
