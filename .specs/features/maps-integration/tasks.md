@@ -19,7 +19,7 @@
 | **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Done | T1, T3, T4 | integration | Full |
 | **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Done | T5 | e2e | Full |
 | **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Done | T6 | unit | Quick |
-| **T8** | Implementar MapRepository e MapCubit com Debounce de 500ms | Todo | T7 | unit | Quick |
+| **T8** | Implementar MapRepository e MapCubit com Debounce de 500ms | Done | T7 | unit | Quick |
 | **T9** | Implementar Tela de Mapa com GoogleMap, Marcadores, Clusters e Sincronização Bidirecional | Todo | T8 | widget | Quick |
 
 ---
@@ -182,11 +182,11 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Repositório conecta `Dio` autenticado com Bearer JWT injetado
-- [ ] `MapCubit` implementa debounce de 500ms antes de disparar nova busca de mapa
-- [ ] Gerenciamento de seleção ativa de igreja para sincronização bidirecional
-- [ ] Tratamento do status degradado (`isDegraded: true`) na transição de estado
-- [ ] Testes unitários do repositório e do cubit  
+- [x] Repositório conecta `Dio` autenticado com Bearer JWT injetado
+- [x] `MapCubit` implementa debounce de 500ms antes de disparar nova busca de mapa
+- [x] Gerenciamento de seleção ativa de igreja para sincronização bidirecional
+- [x] Tratamento do status degradado (`isDegraded: true`) na transição de estado
+- [x] Testes unitários do repositório e do cubit  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/maps/`)  
 **Commit**: `feat(flutter): implement map repository and cubit state management with debounce`
