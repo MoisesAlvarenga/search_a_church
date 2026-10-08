@@ -15,7 +15,7 @@
 | **T1** | Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core | Done | NONE | unit | Quick |
 | **T2** | Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService) [P] | Done | T1 | unit | Quick |
 | **T3** | Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD | Done | T1, T2 | unit | Quick |
-| **T4** | Implementar ChurchProfileService com Validação de PlaceId, Horários e Concorrência Otimista | Todo | T1, T2 | unit | Quick |
+| **T4** | Implementar ChurchProfileService com Validação de PlaceId, Horários e Concorrência Otimista | Done | T1, T2 | unit | Quick |
 | **T5** | Implementar Handlers de Autorização (Ownership e VerifiedRepresentativePolicy) | Todo | T1 | unit | Quick |
 | **T6** | Mapear Endpoints Minimal API de Perfil de Usuário, Igreja e Catálogo (/profile/* e /tags/catalog) | Todo | T3, T4, T5 | e2e | Full |
 | **T7** | Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter [P] | Todo | T6 | unit | Quick |
@@ -103,13 +103,13 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Interface `IChurchProfileService` e implementação `ChurchProfileService` criadas
-- [ ] `GetChurchProfileAsync` retornando dados cadastrais, contatos, horários de cultos e tags ofertadas
-- [ ] `UpdateChurchProfileAsync` sincronizando cultos e tags validadas contra o catálogo
-- [ ] Verificação de colisão de `place_id`: tentativa de associar `place_id` já existente em outra igreja ativa lança exceção com código `PLACE_ID_JA_VINCULADO` (HTTP 409)
-- [ ] Verificação de concorrência otimista com `ConcurrencyStamp` para prevenir sobrescrita simultânea defasada
-- [ ] `SetChurchStatusAsync` permitindo inativação (`IsActive = false`) sem exclusão física do histórico da igreja
-- [ ] Testes unitários cobrindo atualização com sucesso, colisão de place_id, falha de concorrência e inativação  
+- [x] Interface `IChurchProfileService` e implementação `ChurchProfileService` criadas
+- [x] `GetChurchProfileAsync` retornando dados cadastrais, contatos, horários de cultos e tags ofertadas
+- [x] `UpdateChurchProfileAsync` sincronizando cultos e tags validadas contra o catálogo
+- [x] Verificação de colisão de `place_id`: tentativa de associar `place_id` já existente em outra igreja ativa lança exceção com código `PLACE_ID_JA_VINCULADO` (HTTP 409)
+- [x] Verificação de concorrência otimista com `ConcurrencyStamp` para prevenir sobrescrita simultânea defasada
+- [x] `SetChurchStatusAsync` permitindo inativação (`IsActive = false`) sem exclusão física do histórico da igreja
+- [x] Testes unitários cobrindo atualização com sucesso, colisão de place_id, falha de concorrência e inativação  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(profile): implement church profile service with place id uniqueness and optimistic concurrency`
