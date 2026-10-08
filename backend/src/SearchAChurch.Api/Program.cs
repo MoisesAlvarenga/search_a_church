@@ -25,6 +25,7 @@ builder.Services.AddHttpClient<SearchAChurch.Api.Features.Maps.Gateways.IGoogleP
 builder.Services.AddScoped<SearchAChurch.Api.Features.Maps.Services.IMapOrchestratorService, SearchAChurch.Api.Features.Maps.Services.MapOrchestratorService>();
 builder.Services.AddScoped<IAuditLogService, MarcoCivilAuditLogger>();
 builder.Services.AddScoped<SearchAChurch.Api.Features.Claim.Services.IClaimAuditLogService, SearchAChurch.Api.Features.Claim.Services.ClaimAuditLogService>();
+builder.Services.AddSingleton<SearchAChurch.Api.Features.Claim.Services.IGeofencingService, SearchAChurch.Api.Features.Claim.Services.GeofencingService>();
 builder.Services.AddTransient<SearchAChurch.Api.Filters.RateLimitFilter>();
 
 builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.RegisterRequest>, SearchAChurch.Api.Features.Auth.Validators.RegisterRequestValidator>();

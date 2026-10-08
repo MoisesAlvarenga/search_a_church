@@ -14,7 +14,7 @@
 |---|---|:---:|---|---|---|
 | **T1** | Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core | Done | NONE | unit | Quick |
 | **T2** | Implementar Repositório e Serviço de Auditoria Append-Only (AuditLogService) [P] | Done | NONE | unit | Quick |
-| **T3** | Implementar GeofencingService com Haversine Server-Side e Anti-Mock | Todo | NONE | unit | Quick |
+| **T3** | Implementar GeofencingService com Haversine Server-Side e Anti-Mock | Done | NONE | unit | Quick |
 | **T4** | Implementar Gateways de Verificação de Provas (Social, OTP, QSA e RCPJ) [P] | Todo | NONE | unit | Quick |
 | **T5** | Implementar DisputeResolutionEngine (Resolução Automática N1 e In_Dispute) | Todo | T1 | unit | Quick |
 | **T6** | Implementar ClaimOrchestratorService e ClaimTtlBackgroundService | Todo | T1, T2, T3, T4, T5 | integration | Full |
@@ -80,12 +80,12 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Método `CalculateHaversineDistanceMeters` implementado com precisão geodésica com raio da Terra R = 6.371.000m
-- [ ] Validação rejeitando `isMockLocation == true` com código `LOCALIZACAO_SIMULADA_DETECTADA`
-- [ ] Validação rejeitando precisão > 50m com código `PRECISAO_GPS_INSUFICIENTE`
-- [ ] Validação rejeitando distância > 100m com código padronizado `FORA_DO_RAIO_PERMITIDO`
-- [ ] Aprovação com sucesso em raio <= 100m e precisão <= 50m
-- [ ] Testes unitários com casos de borda geográficos cobrindo todas as condições e códigos de erro  
+- [x] Método `CalculateHaversineDistanceMeters` implementado com precisão geodésica com raio da Terra R = 6.371.000m
+- [x] Validação rejeitando `isMockLocation == true` com código `LOCALIZACAO_SIMULADA_DETECTADA`
+- [x] Validação rejeitando precisão > 50m com código `PRECISAO_GPS_INSUFICIENTE`
+- [x] Validação rejeitando distância > 100m com código padronizado `FORA_DO_RAIO_PERMITIDO`
+- [x] Aprovação com sucesso em raio <= 100m e precisão <= 50m
+- [x] Testes unitários com casos de borda geográficos cobrindo todas as condições e códigos de erro  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(claim): implement server-side haversine geofencing service with anti-mock validation`
