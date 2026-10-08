@@ -281,6 +281,8 @@ class ChurchMapBottomSheet extends StatelessWidget {
             Navigator.of(context).pushNamed(
               '/claim',
               arguments: {
+                'id': church.id,
+                'churchId': church.id,
                 'placeId': church.placeId,
                 'name': church.name,
                 'address': church.address,

@@ -10,9 +10,8 @@ import 'claim_state.dart';
 class ClaimCubit extends Cubit<ClaimState> {
   final IClaimRepository _repository;
 
-  ClaimCubit({required IClaimRepository repository})
-      : _repository = repository,
-        super(const ClaimInitial());
+  ClaimCubit({required this._repository})
+      : super(const ClaimInitial());
 
   /// Carrega o estado atual da congregação no ciclo de vida de reivindicação.
   Future<void> loadStatus(String churchId) async {

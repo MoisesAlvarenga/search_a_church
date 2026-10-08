@@ -33,7 +33,7 @@ abstract class IClaimRemoteDataSource {
 class ClaimRemoteDataSource implements IClaimRemoteDataSource {
   final Dio _dio;
 
-  ClaimRemoteDataSource({required Dio dio}) : _dio = dio;
+  ClaimRemoteDataSource({required this._dio});
 
   @override
   Future<ChurchClaimModel> initiateClaim(ClaimInitiationRequestModel request) async {

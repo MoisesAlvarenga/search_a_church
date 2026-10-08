@@ -233,12 +233,12 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] `ClaimInitiationScreen` recebendo argumentos da igreja pré-preenchidos do mapa, com checkboxes mandatórios de ToS
-- [ ] `ClaimMethodSelectionScreen` exibindo os 3 níveis probatórios com explicação transparente dos poderes e selos
-- [ ] `ClaimGeofenceCameraScreen` com leitura de GPS, verificação anti-mock, captura de foto ao vivo e feedback de distância
-- [ ] `ClaimDisputeScreen` permitindo anexar certidão cartorial do RCPJ e exibindo cronômetro do prazo de 5 dias úteis
-- [ ] Conexão da navegação da rota `/claim` ao acionar *"Reivindicar esta igreja"* em `ChurchMapBottomSheet`
-- [ ] Testes de widget cobrindo renderização, interações de clique, validação de checkboxes e feedback de erro  
+- [x] `ClaimInitiationScreen` recebendo argumentos da igreja pré-preenchidos do mapa, com checkboxes mandatórios de ToS
+- [x] `ClaimMethodSelectionScreen` exibindo os 3 níveis probatórios com explicação transparente dos poderes e selos
+- [x] `ClaimGeofenceCameraScreen` com leitura de GPS, verificação anti-mock, captura de foto ao vivo e feedback de distância
+- [x] `ClaimDisputeScreen` permitindo anexar certidão cartorial do RCPJ e exibindo cronômetro do prazo de 5 dias úteis
+- [x] Conexão da navegação da rota `/claim` ao acionar *"Reivindicar esta igreja"* em `ChurchMapBottomSheet`
+- [x] Testes de widget cobrindo renderização, interações de clique, validação de checkboxes e feedback de erro  
 **Tests**: widget  
 **Gate**: Quick (`flutter test test/features/claim/presentation/screens/`)  
 **Commit**: `feat(claim): implement flutter claim initiation, method selection, geofence camera and dispute screens`

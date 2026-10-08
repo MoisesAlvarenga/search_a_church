@@ -35,8 +35,7 @@ abstract class IClaimRepository {
 class ClaimRepository implements IClaimRepository {
   final IClaimRemoteDataSource _remoteDataSource;
 
-  ClaimRepository({required IClaimRemoteDataSource remoteDataSource})
-      : _remoteDataSource = remoteDataSource;
+  ClaimRepository({required this._remoteDataSource});
 
   @override
   Future<ChurchClaimModel> initiateClaim(ClaimInitiationRequestModel request) =>

@@ -9,9 +9,8 @@ import 'dispute_state.dart';
 class DisputeCubit extends Cubit<DisputeState> {
   final IClaimRepository _repository;
 
-  DisputeCubit({required IClaimRepository repository})
-      : _repository = repository,
-        super(const DisputeInitial());
+  DisputeCubit({required this._repository})
+      : super(const DisputeInitial());
 
   /// Abre contestação de propriedade contra congregação já homologada.
   Future<void> contestDispute({

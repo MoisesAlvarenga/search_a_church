@@ -34,30 +34,34 @@
 
 ## Continuidade
 
-- **Fase atual:** Tasks (Execução de `church-profile-claim` — Fase 4 Mobile em andamento, T9 concluído)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); elaboração completa de especificação e design de `church-profile-claim`; execução de T1 a T7 no backend; e execução de T8 e T9 no Flutter Mobile (Modelos, RemoteDataSource, ClaimRepository, ClaimCubit e DisputeCubit com bloc_test). Total de 408 testes backend + 127 testes Flutter aprovados (535 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (T1 a T9 100% concluídas, 90% de progresso geral).
+- **Fase atual:** Feature Concluída (`church-profile-claim` — 100% implementada)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10: backend, dados mobile, cubits e telas de UI com geofence, câmera, dispute e ToS). Total de 408 testes backend + 139 testes Flutter aprovados (547 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Executar T10 (Implementar Telas de Reivindicação, Câmera Geofence e Contestação no Flutter) de `church-profile-claim`.
+- **Próxima ação:** Iniciar próxima funcionalidade ou homologação geral de release.
 
 ## Handoff
 
 - **Feature**: `church-profile-claim`
-- **Phase / Task**: Phase 4 — T9 Concluído (Implementar ClaimCubit e DisputeCubit com Gerenciamento de Estados)
+- **Phase / Task**: Phase 4 — T10 Concluído (Implementar Telas de Reivindicação, Câmera Geofence e Contestação no Flutter). Funcionalidade 100% concluída.
 - **Completed**:
   - Especificação: `church-profile-claim/spec.md` (12 requisitos funcionais confirmados)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-church-profile-claim-20261007-214500/church-profile-claim.html` (Showcase quality validado)
   - Design Arquitetural: `.specs/features/church-profile-claim/design.md`
-  - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (T1 a T9 concluídos, 90% de progresso geral)
-  - Plane Kanban: T1 a T9 movidos para Done
+  - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (T1 a T10 concluídos, 100% de progresso geral)
+  - Plane Kanban: T1 a T10 movidos para Done (100% concluído)
   - Backend Completo: Entidades, Auditoria Marco Civil, Geofencing Haversine, 4 Gateways de Provas, DisputeResolutionEngine, ClaimOrchestratorService, ClaimTtlBackgroundService e 11 Endpoints Minimal API `/claim/*` (408 testes unitários/E2E .NET aprovados)
   - Camada de Dados Mobile: Modelos imutáveis, `ClaimRemoteDataSource`, `ClaimRepository` e hierarquia tipada de falhas
-  - Gerenciamento de Estados Mobile:
-    - `ClaimCubit` e `ClaimState`: estados `ClaimInitial`, `ClaimLoading`, `ClaimStatusLoaded`, `ClaimSubmitting`, `ClaimInitiated` (com verificação de alerta de expiração 24h), `ClaimVerifying`, `SocialBioTokenGenerated`, `DomainOtpSent`, `ClaimVerifiedSuccess` e `ClaimError` (com flags de mock location, fora do raio e conflito).
-    - `DisputeCubit` e `DisputeState`: estados `DisputeInitial`, `DisputeLoading`, `DisputeParityOpened` (janela de 5 dias úteis com cálculo de tempo restante), `DisputeResolved`, `DisputeCertificateSubmitted` e `DisputeError`.
-  - Testes Unitários Mobile: 22 novos testes unitários com `bloc_test` (127 testes Flutter no total)
-- **Next Step**: Iniciar T10: Implementar Telas de Reivindicação, Câmera Geofence e Contestação no Flutter (`frontend/lib/features/claim/presentation/screens/`).
-  - Testes: 408 .NET tests + 127 Flutter tests aprovados (535 no total).
+  - Gerenciamento de Estados Mobile: `ClaimCubit` e `DisputeCubit` com cobertura unitária
+  - Camada de Apresentação Mobile (T10):
+    - `ClaimInitiationScreen`: pré-preenchimento da igreja a partir da navegação do mapa, checkboxes mandatórios de Fé Pública (art. 299 CP) e Marco Civil (art. 15), seletor de métodos e botão de contestação em caso de conflito.
+    - `ClaimMethodSelectionScreen`: exibição transparente dos 3 níveis probatórios com poderes e selos (Ouro/RCPJ, Prata/Institucional, Bronze/Geofence).
+    - `ClaimGeofenceCameraScreen`: radar de distância Haversine (≤ 100m), verificação de precisão (≤ 50m), detecção anti-mock e captura de foto ao vivo com hash SHA-256.
+    - `ClaimDisputeScreen`: formulário de contestação com declaração do art. 299 CP, aviso de congregação congelada (`In_Dispute`), cronômetro de 5 dias úteis e juntada de certidões averbadas em cartório RCPJ.
+    - Roteamento `/claim` conectado e testado via navegação em `ChurchMapBottomSheet` e `main.dart`.
+  - Testes Mobile: 139 testes Flutter aprovados (12 novos testes de widget para telas de claim cobrindo renderização, ToS, geofence, mock detection, disputas e paridade).
+  - Total da Solução: 547 testes aprovados (0 falhas).
+- **Next Step**: Homologação de release ou avanço para a próxima funcionalidade da baseline (`profile-management`, `search-discovery` ou `reviews-feedback`).
 - **Blockers**: none
 - **Uncommitted files**: none
 - **Branch**: main
