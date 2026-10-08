@@ -12,7 +12,7 @@
 
 | ID | Title | Status | Depends On | Tests | Gate |
 |---|---|:---:|---|---|---|
-| **T1** | Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core | Todo | NONE | unit | Quick |
+| **T1** | Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core | Done | NONE | unit | Quick |
 | **T2** | Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService) [P] | Todo | T1 | unit | Quick |
 | **T3** | Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD | Todo | T1, T2 | unit | Quick |
 | **T4** | Implementar ChurchProfileService com Validação de PlaceId, Horários e Concorrência Otimista | Todo | T1, T2 | unit | Quick |
@@ -36,13 +36,13 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Entidade `UserProfile` mapeada com chave estrangeira 1:1 única para `User`, campos de preferências e timestamps UTC
-- [ ] Entidade `TagCatalog` mapeada com índice único em `Code`, enum `TagCategory` e seed data de 15 tags oficiais (Acessibilidade, Infraestrutura, Ministérios)
-- [ ] Entidade `ChurchMeetingSchedule` mapeada para persistir horários e cultos da congregação
-- [ ] Tabelas associativas N:N `UserProfileTag` e `ChurchTag` configuradas com chaves compostas
-- [ ] Entidade `Church` estendida com atributos eclesiásticos, flag `IsActive` e campo `ConcurrencyStamp` para concorrência otimista
-- [ ] Migração do EF Core gerada e aplicada com sucesso
-- [ ] Testes unitários validando configuração do modelo e integridade relacional  
+- [x] Entidade `UserProfile` mapeada com chave estrangeira 1:1 única para `User`, campos de preferências e timestamps UTC
+- [x] Entidade `TagCatalog` mapeada com índice único em `Code`, enum `TagCategory` e seed data de 15 tags oficiais (Acessibilidade, Infraestrutura, Ministérios)
+- [x] Entidade `ChurchMeetingSchedule` mapeada para persistir horários e cultos da congregação
+- [x] Tabelas associativas N:N `UserProfileTag` e `ChurchTag` configuradas com chaves compostas
+- [x] Entidade `Church` estendida com atributos eclesiásticos, flag `IsActive` e campo `ConcurrencyStamp` para concorrência otimista
+- [x] Migração do EF Core gerada e aplicada com sucesso
+- [x] Testes unitários validando configuração do modelo e integridade relacional  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(profile): create database entities, relations and migrations for user profiles, church extensions and tag catalog`

@@ -17,6 +17,34 @@ public class Church
 
     public string? Phone { get; set; }
     public string? Website { get; set; }
+    public string? Email { get; set; }
+    public string? SocialInstagram { get; set; }
+    public string? SocialFacebook { get; set; }
+
+    /// <summary>
+    /// Denominação oficial da congregação.
+    /// </summary>
+    public string? Denomination { get; set; }
+
+    /// <summary>
+    /// Estilo predominante da liturgia (ex: Tradicional, Contemporâneo, Pentecostal).
+    /// </summary>
+    public string? WorshipStyle { get; set; }
+
+    /// <summary>
+    /// Idiomas oficiais em que as celebrações são ministradas (ex: ["pt", "en"]).
+    /// </summary>
+    public List<string> Languages { get; set; } = new List<string> { "pt" };
+
+    /// <summary>
+    /// Flag de ciclo de vida. False indica igreja temporariamente inativa ou encerrada.
+    /// </summary>
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>
+    /// Token de concorrência otimista renovado a cada atualização para evitar sobrescrita concorrente.
+    /// </summary>
+    public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
     /// Status do ciclo de vida da congregação no processo de reivindicação (AD-005, AD-015, AD-016).
@@ -55,4 +83,6 @@ public class Church
     // Navigation collections
     public ICollection<ChurchClaim> Claims { get; set; } = new List<ChurchClaim>();
     public ICollection<DisputeCase> DisputeCases { get; set; } = new List<DisputeCase>();
+    public ICollection<ChurchMeetingSchedule> MeetingSchedules { get; set; } = new List<ChurchMeetingSchedule>();
+    public ICollection<ChurchTag> ChurchTags { get; set; } = new List<ChurchTag>();
 }

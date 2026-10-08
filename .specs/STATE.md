@@ -34,24 +34,24 @@
 
 ## Continuidade
 
-- **Fase atual:** Tasks Concluídas (`profile-management` — Tarefas T1 a T9 decompostas em 4 fases e sincronizadas no Plane Kanban; pronto para execução de T1)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management` com diagrama interativo validado no Archify e Kanban sincronizado. Total de 408 testes backend + 139 testes Flutter aprovados (547 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management` (Spec, Design e Tasks concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
+- **Fase atual:** Fase 1: Fundações de Dados e Catálogo de Tags (`profile-management` — T1 concluído com sucesso, T2 pronto para execução)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management`; T1 concluído (entidades EF Core, migrações PostgreSQL, seeds de tags oficiais e testes unitários de mapeamento). Total de 418 testes backend + 139 testes Flutter aprovados (557 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management` (T1 concluído), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Iniciar a Fase 1 executando T1: Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core.
+- **Próxima ação:** Executar T2: Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService).
 
 ## Handoff
 
 - **Feature**: `profile-management`
-- **Phase / Task**: Tasks Concluídas (`.specs/features/profile-management/tasks.md` — Pronto para T1)
+- **Phase / Task**: Fase 1 — T1 Concluído (Pronto para T2)
 - **Completed**:
   - Especificação: `profile-management/spec.md` (6 requisitos funcionais confirmados: `PROFILE-01` a `PROFILE-06`, 0 pendências)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-profile-management-20261008-091000/profile-management.html` (Showcase quality validado, 4 gates aprovados: validate, deliver, check, browser-check)
   - Design Arquitetural: `.specs/features/profile-management/design.md`
   - Plano de Tarefas: `.specs/features/profile-management/tasks.md` (9 tarefas organizadas em 4 fases de execução)
-  - Plane Kanban: 9 tarefas carregadas no dashboard em Todo (`.plane/dashboard.html`)
-  - Testes da Solução: 547 testes aprovados (408 backend + 139 mobile, 0 falhas)
-- **Next Step**: Iniciar Fase 1 — T1 (Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core).
+  - **T1: Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core** (entidades `UserProfile`, `TagCatalog`, `UserProfileTag`, `ChurchTag`, `ChurchMeetingSchedule`, extensão de `Church`, migração EF Core, 15 seed tags, testes unitários)
+  - Testes da Solução: 557 testes aprovados (418 backend + 139 mobile, 0 falhas)
+- **Next Step**: Executar Fase 1 — T2 (Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis - TagCatalogService).
 - **Blockers**: none
-- **Uncommitted files**: `.specs/features/profile-management/tasks.md`, `.specs/STATE.md`, `.agents/skills/plane/scripts/plane-cli.ps1`
+- **Uncommitted files**: Arquivos de entidades, migrações e testes de T1
 - **Branch**: main

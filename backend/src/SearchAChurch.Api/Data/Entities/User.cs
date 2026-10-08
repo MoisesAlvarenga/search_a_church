@@ -17,4 +17,5 @@ public class User
     public ICollection<PasswordResetOtp> PasswordResetOtps { get; set; } = new List<PasswordResetOtp>();
     public ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
     public ICollection<ChurchClaim> ChurchClaims { get; set; } = new List<ChurchClaim>();
+    public UserProfile? Profile { get; set; }
 }
