@@ -193,10 +193,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Modelos de dados criados: `ChurchClaimModel`, `VerificationResultModel`, `DisputeCaseModel`, `ClaimStatusModel`
-- [ ] DataSource e Repository implementados cobrindo todas as chamadas de API de claim e disputa
-- [ ] Tratamento tipado de exceções (`GeofenceException`, `MockLocationException`, `ConflictException`)
-- [ ] Testes unitários com mock HTTP cobrindo parsing e cenários de erro  
+- [x] Modelos de dados criados: `ChurchClaimModel`, `VerificationResultModel`, `DisputeCaseModel`, `ClaimStatusModel`
+- [x] DataSource e Repository implementados cobrindo todas as chamadas de API de claim e disputa
+- [x] Tratamento tipado de exceções (`GeofenceException`, `MockLocationException`, `ConflictException`)
+- [x] Testes unitários com mock HTTP cobrindo parsing e cenários de erro  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/claim/data/`)  
 **Commit**: `feat(claim): implement flutter models, remote data source and claim repository`

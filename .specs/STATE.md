@@ -34,34 +34,29 @@
 
 ## Continuidade
 
-- **Fase atual:** Tasks (Execução de `church-profile-claim` — Fase 3 concluída, iniciando Fase 4)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); elaboração completa de especificação e design de `church-profile-claim`; e execução de T1 a T7 (Entidades, Auditoria, Geofencing, Gateways, DisputeResolutionEngine, ClaimOrchestratorService com Background TTL Worker, e Endpoints Minimal API /claim/* com JWT). Total de 408 testes backend + 69 testes Flutter aprovados (477 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (Fases 1, 2 e 3 100% concluídas, pronta para Fase 4 Mobile).
+- **Fase atual:** Tasks (Execução de `church-profile-claim` — Fase 4 Mobile em andamento, T8 concluído)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); elaboração completa de especificação e design de `church-profile-claim`; execução de T1 a T7 no backend; e execução de T8 no Flutter Mobile (Modelos, Enums, ClaimRemoteDataSource, ClaimRepository e Failure tipadas). Total de 408 testes backend + 105 testes Flutter aprovados (513 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (T1 a T8 100% concluídas, 80% de progresso geral).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Executar T8 (Implementar Modelos, ClaimDataSource e ClaimRepository no Flutter) de `church-profile-claim`.
+- **Próxima ação:** Executar T9 (Implementar ClaimCubit e DisputeCubit com Gerenciamento de Estados) de `church-profile-claim`.
 
 ## Handoff
 
 - **Feature**: `church-profile-claim`
-- **Phase / Task**: Phase 3 — T7 Concluído (Mapear Endpoints Minimal API de Reivindicação e Disputa /claim/* com JWT)
+- **Phase / Task**: Phase 4 — T8 Concluído (Implementar Modelos, ClaimDataSource e ClaimRepository no Flutter)
 - **Completed**:
   - Especificação: `church-profile-claim/spec.md` (12 requisitos funcionais confirmados)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-church-profile-claim-20261007-214500/church-profile-claim.html` (Showcase quality validado)
   - Design Arquitetural: `.specs/features/church-profile-claim/design.md`
-  - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (T1 a T7 concluídos, 70% de progresso geral)
-  - Plane Kanban: T1 a T7 movidos para Done
-  - Entidades e Enums: `ChurchClaim`, `ClaimEvidence`, `DisputeCase`, `ClaimAuditLog`, `Church` atualizada com `ClaimStatus` e `VerificationTier`
-  - Migração PostgreSQL EF Core: `AddChurchClaimEntities`
-  - Auditoria Append-Only: `IClaimAuditLogService` e `ClaimAuditLogService` implementados com retenção de 180 dias e extração de IPv4/IPv6
-  - Geofencing Seguro: `IGeofencingService` e `GeofencingService` implementados com fórmula de Haversine server-side (tolerância $\le$ 100m), validação de precisão ($\le$ 50m) e rejeição de mock locations
-  - Gateways de Provas: `SocialVerificationGateway`, `DomainEmailGateway`, `QsaValidationGateway` e `CartorioDocumentGateway`
-  - Motor de Governança e Disputas: `IDisputeResolutionEngine` e `DisputeResolutionEngine`
-  - Orquestrador de Reivindicação: `IClaimOrchestratorService` e `ClaimOrchestratorService` coordenando ToS (art. 299 CP e Provedora de Aplicação), rate limiting (lockout 72h), precedência hierárquica e cálculo de TTL (7d doc / 48h social)
-  - Worker Background TTL: `ClaimTtlBackgroundService` expirando claims vencidos e disparando lembretes preventivos com 24 horas de antecedência
-  - Endpoints Minimal API: 11 endpoints registrados sob `/claim/*` com autenticação Bearer JWT obrigatória, metadados de rede do Marco Civil art. 15 e códigos semânticos (200, 400, 404, 409, 401)
-  - Testes E2E: `ClaimEndpointsE2ETests.cs` com 30 cenários de ponta a ponta via `WebApplicationFactory` cobrindo todos os fluxos de sucesso e exceções
-- **Next Step**: Iniciar Fase 4 com T8: Implementar Modelos, `ClaimDataSource` e `ClaimRepository` no Flutter (`frontend/lib/features/claim/data/`).
-  - Testes: 408 .NET tests + 69 Flutter tests aprovados (477 no total).
+  - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (T1 a T8 concluídos, 80% de progresso geral)
+  - Plane Kanban: T1 a T8 movidos para Done
+  - Backend Completo: Entidades, Auditoria Marco Civil, Geofencing Haversine, 4 Gateways de Provas, DisputeResolutionEngine, ClaimOrchestratorService, ClaimTtlBackgroundService e 11 Endpoints Minimal API `/claim/*` (408 testes unitários/E2E .NET aprovados)
+  - Modelos Flutter: `claim_enums.dart`, `church_claim_model.dart`, `verification_result_model.dart`, `dispute_case_model.dart`, `claim_status_model.dart` com serialização e deserialização bidirecional
+  - DataSource Flutter: `ClaimRemoteDataSource` consumindo os 11 endpoints da API REST com injeção de Dio
+  - Repositório Flutter: `ClaimRepository` encapsulando respostas e mapeando exceções Dio em `ClaimFailure`, `GeofenceFailure`, `MockLocationFailure`, `DisputeFailure`, `ConflictFailure`, `NotFoundFailure`, `UnauthorizedFailure`
+  - Testes Unitários Mobile: 36 testes em `frontend/test/features/claim/data/` (105 testes Flutter no total)
+- **Next Step**: Iniciar T9: Implementar `ClaimCubit` e `DisputeCubit` com Gerenciamento de Estados (`frontend/lib/features/claim/presentation/cubit/`).
+  - Testes: 408 .NET tests + 105 Flutter tests aprovados (513 no total).
 - **Blockers**: none
 - **Uncommitted files**: none
 - **Branch**: main
