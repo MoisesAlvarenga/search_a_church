@@ -34,28 +34,24 @@
 
 ## Continuidade
 
-- **Fase atual:** Design Concluído (`profile-management` — Design arquitetural e diagrama interativo finalizados; pronto para decomposição de Tasks)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação e design arquitetural completo de `profile-management` com diagrama interativo validado no Archify. Total de 408 testes backend + 139 testes Flutter aprovados (547 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management` (Spec & Design concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
+- **Fase atual:** Tasks Concluídas (`profile-management` — Tarefas T1 a T9 decompostas em 4 fases e sincronizadas no Plane Kanban; pronto para execução de T1)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management` com diagrama interativo validado no Archify e Kanban sincronizado. Total de 408 testes backend + 139 testes Flutter aprovados (547 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management` (Spec, Design e Tasks concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Elaborar o plano de tarefas (`tasks.md`) de `profile-management` e iniciar a execução da Fase 1 (Modelagem de Dados e Migrações).
+- **Próxima ação:** Iniciar a Fase 1 executando T1: Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core.
 
 ## Handoff
 
 - **Feature**: `profile-management`
-- **Phase / Task**: Design Concluído (`.specs/features/profile-management/design.md`)
+- **Phase / Task**: Tasks Concluídas (`.specs/features/profile-management/tasks.md` — Pronto para T1)
 - **Completed**:
   - Especificação: `profile-management/spec.md` (6 requisitos funcionais confirmados: `PROFILE-01` a `PROFILE-06`, 0 pendências)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-profile-management-20261008-091000/profile-management.html` (Showcase quality validado, 4 gates aprovados: validate, deliver, check, browser-check)
-  - Design Arquitetural: `.specs/features/profile-management/design.md` estruturando:
-    - Modelo de dados (tabelas `user_profiles`, `tag_catalog`, `user_profile_tags`, `church_tags`, `church_meeting_schedules` e extensões em `churches`)
-    - Sistema Bidirecional de Tags oficial (15 tags controladas em Acessibilidade, Infraestrutura e Ministérios com cache Redis TTL 24h)
-    - Ciclo de vida e conformidade LGPD (soft delete, revogação de sessões e anonimização de dados do usuário; inativação lógica da igreja)
-    - Políticas estritas de autorização (Ownership em perfil de usuário e `VerifiedRepresentativePolicy` em congregações)
-    - Proteção de unicidade de `place_id` (HTTP 409 `PLACE_ID_JA_VINCULADO`) e concorrência otimista com stamps
-    - Contratos de Minimal API (.NET 9) e arquitetura Flutter mobile (modelos, remote data source, repositório, 3 cubits e telas)
+  - Design Arquitetural: `.specs/features/profile-management/design.md`
+  - Plano de Tarefas: `.specs/features/profile-management/tasks.md` (9 tarefas organizadas em 4 fases de execução)
+  - Plane Kanban: 9 tarefas carregadas no dashboard em Todo (`.plane/dashboard.html`)
   - Testes da Solução: 547 testes aprovados (408 backend + 139 mobile, 0 falhas)
-- **Next Step**: Criar o plano de tarefas `tasks.md` de `profile-management` e sincronizar com o Plane Kanban.
+- **Next Step**: Iniciar Fase 1 — T1 (Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core).
 - **Blockers**: none
-- **Uncommitted files**: `.archify/architecture-profile-management-20261008-091000/*`, `.specs/features/profile-management/design.md`, `.specs/STATE.md`
+- **Uncommitted files**: `.specs/features/profile-management/tasks.md`, `.specs/STATE.md`, `.agents/skills/plane/scripts/plane-cli.ps1`
 - **Branch**: main
