@@ -34,16 +34,16 @@
 
 ## Continuidade
 
-- **Fase atual:** Fase 4: Camada Mobile Flutter (Modelos, Cubits e Telas) (`profile-management` — Fases 1, 2 e 3 100% concluídas [T1 a T6], T7 e T8 concluídos, T9 pronto para execução)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management`; T1 concluído (entidades EF Core, migrações PostgreSQL, seeds de tags oficiais); T2 concluído (TagCatalogService com cache Redis de 24h, fallback ao banco e validação de vocabulário); T3 concluído (UserProfileService com preferências de baseline, validação de limites de raio 1..100km e soft delete LGPD com anonimização); T4 concluído (ChurchProfileService com validação estrita de PlaceId, horários/cultos, concorrência otimista If-Match/ConcurrencyStamp e alternância de status); T5 concluído (OwnershipAuthorizationHandler e VerifiedRepresentativeAuthorizationHandler com registro de políticas RequireProfileOwnership e RequireVerifiedRepresentative e retorno semântico HTTP 403); T6 concluído (Endpoints Minimal API `/profile/user`, `/profile/church/{id}`, `/profile/church/{id}/status`, `/tags/catalog` com validações, autorização estrita, tratamento 400/403/404/409 e 27 testes E2E); T7 concluído (Modelos imutáveis Flutter `UserProfileModel`, `ChurchProfileModel`, `MeetingScheduleModel`, `TagCatalogModel`, `TagItemModel`, `ProfileRemoteDataSource` com Dio e headers `If-Match`, `ProfileRepository` com tratamento tipado de falhas e 40 testes unitários); T8 concluído (`UserProfileCubit`, `ChurchProfileCubit` e `TagCatalogCubit` com gerenciamento de estados, flags de conflito de Place ID e concorrência, cache em memória e 22 testes com `bloc_test`). Total de 495 testes backend + 201 testes Flutter aprovados (696 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management` (T1 a T8 concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
+- **Fase atual:** Funcionalidade `profile-management` 100% Concluída (Fases 1, 2, 3 e 4 finalizadas com 9 tarefas [T1 a T9] aprovadas)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); implementação completa de `profile-management` (T1 a T9 — entidades EF Core, migrações PostgreSQL, seeds oficiais, TagCatalogService com Redis, UserProfileService com soft delete LGPD, ChurchProfileService com PlaceId 1:1 e concorrência otimista, autorização estrita de ownership e representante verificado com HTTP 403, endpoints Minimal API com 27 testes E2E, modelos e datasources mobile, cubits de gerenciamento de estado e telas completas Flutter de perfil de usuário, edição de igreja e chips interativos de catálogo de tags). Total de 495 testes backend + 212 testes Flutter aprovados (707 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management` (100% implementada), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Executar Fase 4 — T9: Implementar Telas de Perfil de Usuário, Edição de Igreja e Seletor de Tags no Flutter.
+- **Próxima ação:** Iniciar especificação e refinamento da próxima funcionalidade da baseline (`search-discovery` ou `reviews-feedback`).
 
 ## Handoff
 
 - **Feature**: `profile-management`
-- **Phase / Task**: Fase 4 — T8 Concluído, Handoff para T9
+- **Phase / Task**: Feature 100% Concluída (T1 a T9)
 - **Completed**:
   - Especificação: `profile-management/spec.md` (6 requisitos funcionais confirmados: `PROFILE-01` a `PROFILE-06`, 0 pendências)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-profile-management-20261008-091000/profile-management.html` (Showcase quality validado, 4 gates aprovados: validate, deliver, check, browser-check)
@@ -56,9 +56,10 @@
   - **T5: Implementar Handlers de Autorização (Ownership e VerifiedRepresentativePolicy)**
   - **T6: Mapear Endpoints Minimal API de Perfil de Usuário, Igreja e Catálogo (/profile/* e /tags/catalog)**
   - **T7: Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter**
-  - **T8: Implementar UserProfileCubit, ChurchProfileCubit e TagCatalogCubit com Bloc Test** (Implementação dos 3 Cubits de apresentação, suporte a todos os estados de ciclo de vida, transições de loading, salvamento, inativação, soft delete LGPD, flags de conflito `isPlaceIdConflict` e `isConcurrencyConflict`, cache em memória no catálogo de tags e 22 testes unitários com `bloc_test`).
-  - Testes da Solução: 696 testes aprovados (495 backend + 201 mobile, 0 falhas)
-- **Next Step**: Executar Fase 4 — T9: Implementar Telas de Perfil de Usuário, Edição de Igreja e Seletor de Tags no Flutter.
+  - **T8: Implementar UserProfileCubit, ChurchProfileCubit e TagCatalogCubit com Bloc Test**
+  - **T9: Implementar Telas de Perfil de Usuário, Edição de Igreja e Seletor de Tags no Flutter** (Componente `TagSelectionChipsWidget` com ícones e categorização, `UserProfileScreen` com slider de 1 a 100 km e diálogo LGPD com confirmação, `ChurchProfileEditScreen` com cultos semanais, switch de congregação ativa, tags ofertadas e tratamento de erros de concorrência e colisão de Place ID, com 11 testes de widget dedicados).
+  - Testes da Solução: 707 testes aprovados (495 backend + 212 mobile, 0 falhas)
+- **Next Step**: Iniciar próxima funcionalidade (`search-discovery` ou `reviews-feedback`).
 - **Blockers**: none
-- **Uncommitted files**: Arquivos de cubits, estados e testes de T8
+- **Uncommitted files**: Arquivos de telas, widgets e testes de T9
 - **Branch**: main

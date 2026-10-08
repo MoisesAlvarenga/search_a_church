@@ -211,10 +211,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] `TagSelectionChipsWidget` exibindo categorias (Acessibilidade, Infraestrutura, Ministérios) com ícones e seleção interativa
-- [ ] `UserProfileScreen` permitindo editar denominação, liturgia, slider de raio (1-100 km), seleção de tags e diálogo de encerramento de conta
-- [ ] `ChurchProfileEditScreen` permitindo editar denominação, cultos/horários, contatos, tags ofertadas e switch de igreja ativa
-- [ ] Testes de widget cobrindo renderização, seleção de tags, validação de formulários e acionamento de diálogos  
+- [x] `TagSelectionChipsWidget` exibindo categorias (Acessibilidade, Infraestrutura, Ministérios) com ícones e seleção interativa
+- [x] `UserProfileScreen` permitindo editar denominação, liturgia, slider de raio (1-100 km), seleção de tags e diálogo de encerramento de conta
+- [x] `ChurchProfileEditScreen` permitindo editar denominação, cultos/horários, contatos, tags ofertadas e switch de igreja ativa
+- [x] Testes de widget cobrindo renderização, seleção de tags, validação de formulários e acionamento de diálogos  
 **Tests**: widget  
 **Gate**: Quick (`flutter test test/features/profile/presentation/screens/`)  
 **Commit**: `feat(profile): implement flutter user profile, church edit screens and tag selection chips`
