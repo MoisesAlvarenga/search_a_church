@@ -28,5 +28,7 @@ public interface IChurchProfileService
     Task<Result<ChurchStatusResponse>> SetChurchStatusAsync(
         Guid churchId,
         bool isActive,
+        string? concurrencyStamp = null,
+        string? ifMatchHeader = null,
         CancellationToken cancellationToken = default);
 }

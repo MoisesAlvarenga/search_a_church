@@ -64,6 +64,7 @@ class MapCubit extends Cubit<MapState> {
         ? (state as MapLoaded).churches
         : const <ChurchMapItemModel>[];
 
+    if (isClosed) return;
     emit(MapLoading(previousChurches: currentChurches));
 
     try {
@@ -73,6 +74,8 @@ class MapCubit extends Cubit<MapState> {
         radiusKm: radiusKm,
         query: query,
       );
+
+      if (isClosed) return;
 
       final currentSelected = state is MapLoaded
           ? (state as MapLoaded).selectedChurch
@@ -88,6 +91,7 @@ class MapCubit extends Cubit<MapState> {
         selectedChurch: currentSelected,
       ));
     } on DioException catch (dioErr) {
+      if (isClosed) return;
       final message = dioErr.response?.data is Map &&
               (dioErr.response?.data as Map).containsKey('message')
           ? dioErr.response?.data['message'] as String
@@ -98,6 +102,7 @@ class MapCubit extends Cubit<MapState> {
         cachedChurches: currentChurches,
       ));
     } catch (e) {
+      if (isClosed) return;
       emit(MapErrorGraceful(
         message: 'Ocorreu um erro inesperado ao pesquisar locais.',
         cachedChurches: currentChurches,

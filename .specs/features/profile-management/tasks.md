@@ -149,10 +149,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Endpoints mapeados: `GET /profile/user`, `PUT /profile/user`, `DELETE /profile/user`, `GET /profile/church/{id}`, `PUT /profile/church/{id}`, `PATCH /profile/church/{id}/status`, `GET /tags/catalog`
-- [ ] Bloqueio com HTTP 403 ao tentar editar perfil de outro usuário ou igreja sem credencial `Verified`
-- [ ] Resposta HTTP 409 com código `PLACE_ID_JA_VINCULADO` em colisões de congregações
-- [ ] Testes de ponta a ponta (E2E) com `WebApplicationFactory<Program>` testando autenticação, autorização, CRUD de perfis e soft delete  
+- [x] Endpoints mapeados: `GET /profile/user`, `PUT /profile/user`, `DELETE /profile/user`, `GET /profile/church/{id}`, `PUT /profile/church/{id}`, `PATCH /profile/church/{id}/status`, `GET /tags/catalog`
+- [x] Bloqueio com HTTP 403 ao tentar editar perfil de outro usuário ou igreja sem credencial `Verified`
+- [x] Resposta HTTP 409 com código `PLACE_ID_JA_VINCULADO` em colisões de congregações
+- [x] Testes de ponta a ponta (E2E) com `WebApplicationFactory<Program>` testando autenticação, autorização, CRUD de perfis e soft delete  
 **Tests**: e2e  
 **Gate**: Full (`dotnet test`)  
 **Commit**: `feat(profile): map minimal api endpoints for user profiles, church management and tag catalog`

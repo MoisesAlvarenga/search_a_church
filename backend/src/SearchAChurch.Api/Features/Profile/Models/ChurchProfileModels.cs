@@ -63,7 +63,8 @@ public record UpdateChurchProfileRequest(
 /// DTO para atualização do status de atividade da congregação (IsActive).
 /// </summary>
 public record UpdateChurchStatusRequest(
-    bool IsActive
+    bool IsActive,
+    string? ConcurrencyStamp = null
 );
 
 /// <summary>

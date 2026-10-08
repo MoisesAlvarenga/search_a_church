@@ -218,12 +218,20 @@ public class ChurchProfileService : IChurchProfileService
     public async Task<Result<ChurchStatusResponse>> SetChurchStatusAsync(
         Guid churchId,
         bool isActive,
+        string? concurrencyStamp = null,
+        string? ifMatchHeader = null,
         CancellationToken cancellationToken = default)
     {
         var church = await _dbContext.Churches.FirstOrDefaultAsync(c => c.Id == churchId, cancellationToken);
         if (church == null)
         {
             return Result<ChurchStatusResponse>.Failure("IGREJA_NAO_ENCONTRADA", "Igreja não encontrada.");
+        }
+
+        var expectedStamp = ifMatchHeader?.Trim('\"', ' ') ?? concurrencyStamp;
+        if (!string.IsNullOrWhiteSpace(expectedStamp) && !string.Equals(church.ConcurrencyStamp, expectedStamp, StringComparison.Ordinal))
+        {
+            return Result<ChurchStatusResponse>.Failure("CONFLITO_CONCORRENCIA", "O registro da congregação foi modificado concorrentemente.");
         }
 
         church.IsActive = isActive;

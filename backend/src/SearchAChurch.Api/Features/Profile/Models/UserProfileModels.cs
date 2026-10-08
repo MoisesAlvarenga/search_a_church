@@ -23,7 +23,8 @@ public record UpdateUserProfileRequest(
     string? WorshipStyle,
     List<string>? PreferredLanguages,
     double DefaultRadiusKm,
-    List<string>? TagCodes
+    List<string>? TagCodes,
+    Guid? TargetUserId = null
 );
 
 /// <summary>
