@@ -161,7 +161,7 @@
 
 ## Phase 4: Camada Mobile Flutter (Modelos, Cubits e Telas)
 
-### T7: Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter [P]
+### T7: Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter
 **What**: Implementar camada de dados no Flutter com modelos imutáveis, serialização JSON, cliente HTTP Dio para comunicação com os endpoints `/profile/*` e `/tags/catalog`, tratamento tipado de falhas de autorização e colisão de `place_id`.  
 **Where**: `frontend/lib/features/profile/data/`  
 **Depends on**: T6  
@@ -171,10 +171,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Modelos de dados criados: `UserProfileModel`, `ChurchProfileModel`, `MeetingScheduleModel`, `TagCatalogModel`, `TagItemModel`
-- [ ] `ProfileRemoteDataSource` e `ProfileRepository` implementados com métodos para perfil de usuário, igreja e catálogo de tags
-- [ ] Tratamento tipado de exceções (`ForbiddenFailure`, `ConflictFailure`, `InvalidTagFailure`, `ProfileNotFoundFailure`)
-- [ ] Testes unitários com mock HTTP cobrindo serialização e mapeamento de falhas  
+- [x] Modelos de dados criados: `UserProfileModel`, `ChurchProfileModel`, `MeetingScheduleModel`, `TagCatalogModel`, `TagItemModel`
+- [x] `ProfileRemoteDataSource` e `ProfileRepository` implementados com métodos para perfil de usuário, igreja e catálogo de tags
+- [x] Tratamento tipado de exceções (`ForbiddenFailure`, `ConflictFailure`, `InvalidTagFailure`, `ProfileNotFoundFailure`)
+- [x] Testes unitários com mock HTTP cobrindo serialização e mapeamento de falhas  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/profile/data/`)  
 **Commit**: `feat(profile): implement flutter models, remote data source and profile repository`

@@ -34,16 +34,16 @@
 
 ## Continuidade
 
-- **Fase atual:** Fase 4: Camada Mobile Flutter (Modelos, Cubits e Telas) (`profile-management` — Fases 1, 2 e 3 100% concluídas [T1 a T6], T7 pronto para execução)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management`; T1 concluído (entidades EF Core, migrações PostgreSQL, seeds de tags oficiais); T2 concluído (TagCatalogService com cache Redis de 24h, fallback ao banco e validação de vocabulário); T3 concluído (UserProfileService com preferências de baseline, validação de limites de raio 1..100km e soft delete LGPD com anonimização); T4 concluído (ChurchProfileService com validação estrita de PlaceId, horários/cultos, concorrência otimista If-Match/ConcurrencyStamp e alternância de status); T5 concluído (OwnershipAuthorizationHandler e VerifiedRepresentativeAuthorizationHandler com registro de políticas RequireProfileOwnership e RequireVerifiedRepresentative e retorno semântico HTTP 403); T6 concluído (Endpoints Minimal API `/profile/user`, `/profile/church/{id}`, `/profile/church/{id}/status`, `/tags/catalog` com validações, autorização estrita, tratamento 400/403/404/409 e 27 testes E2E). Total de 495 testes backend + 139 testes Flutter aprovados (634 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management` (T1 a T6 concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
+- **Fase atual:** Fase 4: Camada Mobile Flutter (Modelos, Cubits e Telas) (`profile-management` — Fases 1, 2 e 3 100% concluídas [T1 a T6], T7 concluído, T8 pronto para execução)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management`; T1 concluído (entidades EF Core, migrações PostgreSQL, seeds de tags oficiais); T2 concluído (TagCatalogService com cache Redis de 24h, fallback ao banco e validação de vocabulário); T3 concluído (UserProfileService com preferências de baseline, validação de limites de raio 1..100km e soft delete LGPD com anonimização); T4 concluído (ChurchProfileService com validação estrita de PlaceId, horários/cultos, concorrência otimista If-Match/ConcurrencyStamp e alternância de status); T5 concluído (OwnershipAuthorizationHandler e VerifiedRepresentativeAuthorizationHandler com registro de políticas RequireProfileOwnership e RequireVerifiedRepresentative e retorno semântico HTTP 403); T6 concluído (Endpoints Minimal API `/profile/user`, `/profile/church/{id}`, `/profile/church/{id}/status`, `/tags/catalog` com validações, autorização estrita, tratamento 400/403/404/409 e 27 testes E2E); T7 concluído (Modelos imutáveis Flutter `UserProfileModel`, `ChurchProfileModel`, `MeetingScheduleModel`, `TagCatalogModel`, `TagItemModel`, `ProfileRemoteDataSource` com Dio e headers `If-Match`, `ProfileRepository` com tratamento tipado de falhas 401/403/404/409/400 e 40 testes unitários). Total de 495 testes backend + 179 testes Flutter aprovados (674 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management` (T1 a T7 concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Executar Fase 4 — T7: Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter.
+- **Próxima ação:** Executar Fase 4 — T8: Implementar `UserProfileCubit`, `ChurchProfileCubit` e `TagCatalogCubit`.
 
 ## Handoff
 
 - **Feature**: `profile-management`
-- **Phase / Task**: Fase 3 Concluída — Pronto para Fase 4 (T7)
+- **Phase / Task**: Fase 4 — T7 Concluído, Handoff para T8
 - **Completed**:
   - Especificação: `profile-management/spec.md` (6 requisitos funcionais confirmados: `PROFILE-01` a `PROFILE-06`, 0 pendências)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-profile-management-20261008-091000/profile-management.html` (Showcase quality validado, 4 gates aprovados: validate, deliver, check, browser-check)
@@ -54,9 +54,10 @@
   - **T3: Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD**
   - **T4: Implementar ChurchProfileService com Validação de PlaceId, Horários e Concorrência Otimista**
   - **T5: Implementar Handlers de Autorização (Ownership e VerifiedRepresentativePolicy)**
-  - **T6: Mapear Endpoints Minimal API de Perfil de Usuário, Igreja e Catálogo (/profile/* e /tags/catalog)** (Mapeamento de 7 rotas Minimal API no ASP.NET Core, validação de payload, bloqueio 403 ownership e representante verificado, proteção 409 conflito place_id e concorrência stamp, soft delete LGPD com anonimização, e 27 testes E2E com WebApplicationFactory)
-  - Testes da Solução: 634 testes aprovados (495 backend + 139 mobile, 0 falhas)
-- **Next Step**: Executar Fase 4 — T7 (Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter).
+  - **T6: Mapear Endpoints Minimal API de Perfil de Usuário, Igreja e Catálogo (/profile/* e /tags/catalog)**
+  - **T7: Implementar Modelos, ProfileRemoteDataSource e ProfileRepository no Flutter** (Modelos imutáveis, deserialização JSON, dataSource com Dio, suporte a `If-Match`, repositório com tratamento tipado de `UnauthorizedFailure`, `ForbiddenFailure`, `ConflictFailure`, `ProfileNotFoundFailure`, `InvalidTagFailure`, `InvalidRadiusFailure`, e 40 testes unitários cobrindo todos os fluxos e falhas).
+  - Testes da Solução: 674 testes aprovados (495 backend + 179 mobile, 0 falhas)
+- **Next Step**: Executar Fase 4 — T8: Implementar `UserProfileCubit`, `ChurchProfileCubit` e `TagCatalogCubit`.
 - **Blockers**: none
-- **Uncommitted files**: Arquivos de endpoints, modelos e testes de T6
+- **Uncommitted files**: Arquivos de modelos, dataSource, repositório e testes de T7
 - **Branch**: main
