@@ -18,7 +18,7 @@
 | **T4** | Implementar Motor de Deduplicação App-First (DeduplicationEngine) [P] | Done | T1 | unit | Quick |
 | **T5** | Implementar Orquestrador de Descoberta Híbrida e Degradação Graciosa (MapOrchestratorService) | Done | T1, T3, T4 | integration | Full |
 | **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Done | T5 | e2e | Full |
-| **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Todo | T6 | unit | Quick |
+| **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Done | T6 | unit | Quick |
 | **T8** | Implementar MapRepository e MapCubit com Debounce de 500ms | Todo | T7 | unit | Quick |
 | **T9** | Implementar Tela de Mapa com GoogleMap, Marcadores, Clusters e Sincronização Bidirecional | Todo | T8 | widget | Quick |
 
@@ -162,10 +162,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Serialização JSON completa com distinção de `Source` (`app` vs `maps`)
-- [ ] `GeolocationService` com tratamento de GPS desativado e permissão negada
-- [ ] Mensagens amigáveis sem lançar exceções não tratadas na UI
-- [ ] Testes unitários dos modelos e do serviço de geolocalização com mocks  
+- [x] Serialização JSON completa com distinção de `Source` (`app` vs `maps`)
+- [x] `GeolocationService` com tratamento de GPS desativado e permissão negada
+- [x] Mensagens amigáveis sem lançar exceções não tratadas na UI
+- [x] Testes unitários dos modelos e do serviço de geolocalização com mocks  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/maps/`)  
 **Commit**: `feat(flutter): implement map models and geolocation service with permission handling`
