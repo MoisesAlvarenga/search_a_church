@@ -15,11 +15,9 @@ class MapCubit extends Cubit<MapState> {
   Timer? _debounceTimer;
 
   MapCubit({
-    required IMapRepository repository,
-    required GeolocationService geolocationService,
-  })  : _repository = repository,
-        _geolocationService = geolocationService,
-        super(const MapInitial());
+    required this._repository,
+    required this._geolocationService,
+  })  : super(const MapInitial());
 
   /// Inicializa o mapa determinando a posição GPS inicial do usuário.
   Future<void> init({double? initialLat, double? initialLng}) async {

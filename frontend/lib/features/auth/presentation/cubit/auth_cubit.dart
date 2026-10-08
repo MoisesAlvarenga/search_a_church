@@ -9,11 +9,9 @@ class AuthCubit extends Cubit<AuthState> {
   final ISecureStorageService _storage;
 
   AuthCubit({
-    required IAuthRepository authRepository,
-    required ISecureStorageService storage,
-  })  : _authRepository = authRepository,
-        _storage = storage,
-        super(AuthInitial());
+    required this._authRepository,
+    required this._storage,
+  })  : super(AuthInitial());
 
   Future<void> checkAuthStatus() async {
     final token = await _storage.getAccessToken();

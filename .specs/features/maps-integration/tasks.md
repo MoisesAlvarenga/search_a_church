@@ -20,7 +20,7 @@
 | **T6** | Mapear Endpoints Minimal API de Mapa (/map/*) com Proteção JWT | Done | T5 | e2e | Full |
 | **T7** | Implementar Modelos de Dados e GeolocationService no Flutter [P] | Done | T6 | unit | Quick |
 | **T8** | Implementar MapRepository e MapCubit com Debounce de 500ms | Done | T7 | unit | Quick |
-| **T9** | Implementar Tela de Mapa com GoogleMap, Marcadores, Clusters e Sincronização Bidirecional | Todo | T8 | widget | Quick |
+| **T9** | Implementar Tela de Mapa com GoogleMap, Marcadores, Clusters e Sincronização Bidirecional | Done | T8 | widget | Quick |
 
 ---
 
@@ -203,12 +203,12 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Marcadores visuais diferenciados: oficial para `origem: app` e indicativo para `origem: maps`
-- [ ] Agrupamento dinâmico (*clustering*) para marcadores sobrepostos no mesmo zoom
-- [ ] Seleção no mapa focaliza o card na lista/bottom sheet e vice-versa (sincronização bidirecional)
-- [ ] Botão destacado "Reivindicar esta igreja" em templos externos repassando dados pré-preenchidos para claim
-- [ ] Banner discreto de degradação graciosa quando a API do Google Maps estiver indisponível
-- [ ] Testes de widget cobrindo renderização, BottomSheet e CTA  
+- [x] Marcadores visuais diferenciados: oficial para `origem: app` e indicativo para `origem: maps`
+- [x] Agrupamento dinâmico (*clustering*) para marcadores sobrepostos no mesmo zoom
+- [x] Seleção no mapa focaliza o card na lista/bottom sheet e vice-versa (sincronização bidirecional)
+- [x] Botão destacado "Reivindicar esta igreja" em templos externos repassando dados pré-preenchidos para claim
+- [x] Banner discreto de degradação graciosa quando a API do Google Maps estiver indisponível
+- [x] Testes de widget cobrindo renderização, BottomSheet e CTA  
 **Tests**: widget  
 **Gate**: Quick (`flutter test test/features/maps/presentation/`)  
 **Commit**: `feat(flutter): implement interactive map screen with clustering and bidirectional sync`

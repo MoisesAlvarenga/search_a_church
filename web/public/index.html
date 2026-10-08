@@ -128,8 +128,8 @@
       background: rgba(255, 255, 255, 0.03);
     }
     .nav-tab.active {
-      color: #fff;
-      background: rgba(59, 130, 246, 0.1);
+      color: #ffffff;
+      background: #1e3a8a;
       border-color: var(--border) var(--border) transparent var(--border);
       border-bottom: 2px solid var(--primary);
     }
@@ -189,12 +189,12 @@
       font-size: 11px;
       font-weight: 600;
     }
-    .badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .badge-info { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-    .badge-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
-    .badge-sky { background: rgba(2, 132, 199, 0.15); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.3); }
+    .badge-success { background: #064e3b; color: #a7f3d0; border: 1px solid #059669; }
+    .badge-warning { background: #78350f; color: #fde68a; border: 1px solid #d97706; }
+    .badge-danger { background: #7f1d1d; color: #fecaca; border: 1px solid #dc2626; }
+    .badge-info { background: #1e3a8a; color: #bfdbfe; border: 1px solid #2563eb; }
+    .badge-purple { background: #4c1d95; color: #ddd6fe; border: 1px solid #7c3aed; }
+    .badge-sky { background: #0c4a6e; color: #bae6fd; border: 1px solid #0284c7; }
 
     .main-panels {
       display: grid;
@@ -479,13 +479,13 @@
         <div style="display:flex; flex-direction:column; gap:8px;">
           <div style="font-size:12px; text-transform:uppercase; color:var(--text-muted); font-weight:600;">Filtrar por Tecnologia:</div>
           <div class="pills-group" id="tech-filters-group">
-            <button class="pill-btn active" onclick="setTechFilter('all')">Todas (<span id="count-all-tests">189</span>)</button>
+            <button class="pill-btn active" onclick="setTechFilter('all')">Todas (<span id="count-all-tests">327</span>)</button>
             <!-- Pílulas dinâmicas das tecnologias -->
           </div>
         </div>
 
         <div style="display:flex; flex-direction:column; gap:8px;">
-          <div style="font-size:12px; text-transform:uppercase; color:var(--text-muted); font-weight:600;">Buscar Teste / Comportamento:</div>
+          <label for="test-search-box" style="font-size:12px; text-transform:uppercase; color:var(--text-muted); font-weight:600;">Buscar Teste / Comportamento:</label>
           <input 
             type="text" 
             id="test-search-box" 
@@ -500,7 +500,7 @@
     <!-- Tabela Detalhada de Testes Unitários -->
     <div class="card">
       <div class="panel-title">
-        <span>Inventário de Testes Unitários (<span id="filtered-tests-count">314</span> exibidos)</span>
+        <span>Inventário de Testes Unitários (<span id="filtered-tests-count">327</span> exibidos)</span>
         <span class="badge badge-success" id="tests-execution-status">100% Aprovados</span>
       </div>
 
@@ -773,8 +773,12 @@
       }
 
       tbody.innerHTML = filtered.map(t => {
-        const isPass = t.status === 'PASSED';
-        const badgeClass = isPass ? 'badge-success' : (t.status === 'SKIPPED' ? 'badge-warning' : 'badge-danger');
+        let badgeClass = 'badge-danger';
+        if (t.status === 'PASSED') {
+          badgeClass = 'badge-success';
+        } else if (t.status === 'SKIPPED') {
+          badgeClass = 'badge-warning';
+        }
         const techBadgeClass = t.technology.includes('.NET') ? 'badge-purple' : 'badge-sky';
 
         return `
@@ -794,8 +798,10 @@
     }
 
     // Inicialização ao carregar a página
-    fetchRuns();
-    fetchTestsInventory();
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchRuns().catch(console.error);
+      fetchTestsInventory().catch(console.error);
+    });
   </script>
 </body>
 </html>

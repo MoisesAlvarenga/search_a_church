@@ -18,7 +18,7 @@ abstract class IMapRepository {
 class MapRepository implements IMapRepository {
   final Dio _dio;
 
-  MapRepository({required Dio dio}) : _dio = dio;
+  MapRepository({required this._dio});
 
   @override
   Future<MapSearchResponseModel> searchNearby({

@@ -12,8 +12,8 @@ class AuthInterceptor extends QueuedInterceptor {
     required this.dio,
     required this.storage,
     required this.onSessionExpired,
-    Dio? refreshClient,
-  }) : _refreshClient = refreshClient;
+    this._refreshClient,
+  });
 
   Dio get refreshClient =>
       _refreshClient ?? Dio(BaseOptions(baseUrl: dio.options.baseUrl));

@@ -35,10 +35,9 @@ class AuthRepository implements IAuthRepository {
   final ISecureStorageService _storage;
 
   AuthRepository({
-    required Dio dio,
-    required ISecureStorageService storage,
-  })  : _dio = dio,
-        _storage = storage;
+    required this._dio,
+    required this._storage,
+  });
 
   @override
   Future<AuthResponseModel> register({
