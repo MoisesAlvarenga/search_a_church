@@ -14,7 +14,7 @@
 |---|---|:---:|---|---|---|
 | **T1** | Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core | Done | NONE | unit | Quick |
 | **T2** | Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService) [P] | Done | T1 | unit | Quick |
-| **T3** | Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD | Todo | T1, T2 | unit | Quick |
+| **T3** | Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD | Done | T1, T2 | unit | Quick |
 | **T4** | Implementar ChurchProfileService com Validação de PlaceId, Horários e Concorrência Otimista | Todo | T1, T2 | unit | Quick |
 | **T5** | Implementar Handlers de Autorização (Ownership e VerifiedRepresentativePolicy) | Todo | T1 | unit | Quick |
 | **T6** | Mapear Endpoints Minimal API de Perfil de Usuário, Igreja e Catálogo (/profile/* e /tags/catalog) | Todo | T3, T4, T5 | e2e | Full |
@@ -81,12 +81,12 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Interface `IUserProfileService` e implementação `UserProfileService` criadas
-- [ ] `GetUserProfileAsync` retornando preferências e tags ou indicativo de perfil não configurado
-- [ ] `UpsertUserProfileAsync` validando faixa do raio padrão (1 a 100 km) e associando tags oficiais via `TagCatalogService`
-- [ ] Regra de negócio: filtros aplicados na busca nunca alteram as preferências salvas no perfil
-- [ ] `DeleteUserAccountAsync` executando soft delete (LGPD): despersonaliza `Name` para "Usuário Anônimo", gera hash do email, remove tags pessoais, invalida tokens e carimba `DeletedAt`
-- [ ] Testes unitários cobrindo upsert de preferências, validação de limites de raio e anonimização LGPD  
+- [x] Interface `IUserProfileService` e implementação `UserProfileService` criadas
+- [x] `GetUserProfileAsync` retornando preferências e tags ou indicativo de perfil não configurado
+- [x] `UpsertUserProfileAsync` validando faixa do raio padrão (1 a 100 km) e associando tags oficiais via `TagCatalogService`
+- [x] Regra de negócio: filtros aplicados na busca nunca alteram as preferências salvas no perfil
+- [x] `DeleteUserAccountAsync` executando soft delete (LGPD): despersonaliza `Name` para "Usuário Anônimo", gera hash do email, remove tags pessoais, invalida tokens e carimba `DeletedAt`
+- [x] Testes unitários cobrindo upsert de preferências, validação de limites de raio e anonimização LGPD  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(profile): implement user profile service with baseline preferences and lgpd soft delete`
