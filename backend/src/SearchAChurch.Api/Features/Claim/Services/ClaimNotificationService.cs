@@ -41,6 +41,26 @@ public interface IClaimNotificationService
         Guid disputeId,
         string notes,
         CancellationToken cancellationToken = default);
+
+    Task NotifyClaimExpiringReminderAsync(
+        Guid userId,
+        Guid churchId,
+        string churchName,
+        DateTimeOffset expiresAt,
+        CancellationToken cancellationToken = default);
+
+    Task NotifyClaimExpiredAsync(
+        Guid userId,
+        Guid churchId,
+        string churchName,
+        CancellationToken cancellationToken = default);
+
+    Task NotifyClaimApprovedAsync(
+        Guid userId,
+        Guid churchId,
+        string churchName,
+        VerificationTier tier,
+        CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -114,6 +134,47 @@ public class ClaimNotificationService : IClaimNotificationService
         _logger.LogWarning(
             "[CLAIM_NOTIFICATION] Disputa {DisputeId} cancelada para resolução judicial para Usuário {UserId}. Notas: {Notes}",
             disputeId, userId, notes);
+
+        return Task.CompletedTask;
+    }
+
+    public Task NotifyClaimExpiringReminderAsync(
+        Guid userId,
+        Guid churchId,
+        string churchName,
+        DateTimeOffset expiresAt,
+        CancellationToken cancellationToken = default)
+    {
+        _logger.LogWarning(
+            "[CLAIM_NOTIFICATION] Lembrete de expiração de 24h para Usuário {UserId} na Igreja {ChurchId} ({ChurchName}). Expira em: {ExpiresAt:yyyy-MM-dd HH:mm:ss 'UTC'}",
+            userId, churchId, churchName, expiresAt);
+
+        return Task.CompletedTask;
+    }
+
+    public Task NotifyClaimExpiredAsync(
+        Guid userId,
+        Guid churchId,
+        string churchName,
+        CancellationToken cancellationToken = default)
+    {
+        _logger.LogWarning(
+            "[CLAIM_NOTIFICATION] Reivindicação expirada por timeout para Usuário {UserId} na Igreja {ChurchId} ({ChurchName}). Status revertido para Unclaimed.",
+            userId, churchId, churchName);
+
+        return Task.CompletedTask;
+    }
+
+    public Task NotifyClaimApprovedAsync(
+        Guid userId,
+        Guid churchId,
+        string churchName,
+        VerificationTier tier,
+        CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation(
+            "[CLAIM_NOTIFICATION] Reivindicação aprovada para Usuário {UserId} na Igreja {ChurchId} ({ChurchName}). Selo concedido: {Tier}",
+            userId, churchId, churchName, tier);
 
         return Task.CompletedTask;
     }

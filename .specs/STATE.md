@@ -38,27 +38,29 @@
 - **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16 - 183 testes aprovados); implementação completa de `maps-integration` (T1 a T9 - 144 testes novos aprovados, totalizando 327 testes, SonarQube OK e branch sincronizada com remote `main`); elaboração completa da Especificação (`CLAIM-01` a `CLAIM-12`), Diagrama de Arquitetura Interativo Showcase no Archify (`church-profile-claim.html`), Design Arquitetural detalhado (`design.md`) e Plano de Tarefas (`tasks.md` - T1 a T10 em 4 fases) sincronizado no Plane Kanban para `church-profile-claim`.
 - **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (Design e Tasks 100% concluídos, pronta para execução).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Executar T6 (Implementar ClaimOrchestratorService e ClaimTtlBackgroundService) de `church-profile-claim`.
+- **Próxima ação:** Executar T7 (Mapear Endpoints Minimal API de Reivindicação e Disputa /claim/* com JWT) de `church-profile-claim`.
 
 ## Handoff
 
 - **Feature**: `church-profile-claim`
-- **Phase / Task**: Phase 2 — T5 Concluído (Implementar DisputeResolutionEngine - Resolução Automática N1 e In_Dispute)
+- **Phase / Task**: Phase 2 — T6 Concluído (Implementar ClaimOrchestratorService e ClaimTtlBackgroundService)
 - **Completed**:
   - Especificação: `church-profile-claim/spec.md` (12 requisitos funcionais confirmados)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-church-profile-claim-20261007-214500/church-profile-claim.html` (Showcase quality validado)
   - Design Arquitetural: `.specs/features/church-profile-claim/design.md`
   - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (10 tarefas em 4 fases)
-  - Plane Kanban: T1, T2, T3, T4 e T5 movidos para Done (50% de progresso geral)
+  - Plane Kanban: T1, T2, T3, T4, T5 e T6 movidos para Done (60% de progresso geral)
   - Entidades e Enums: `ChurchClaim`, `ClaimEvidence`, `DisputeCase`, `ClaimAuditLog`, `Church` atualizada com `ClaimStatus` e `VerificationTier`
   - Migração PostgreSQL EF Core: `AddChurchClaimEntities`
   - Auditoria Append-Only: `IClaimAuditLogService` e `ClaimAuditLogService` implementados com retenção de 180 dias e extração de IPv4/IPv6
   - Geofencing Seguro: `IGeofencingService` e `GeofencingService` implementados com fórmula de Haversine server-side (tolerância $\le$ 100m), validação de precisão ($\le$ 50m) e rejeição de mock locations
   - Gateways de Provas: `SocialVerificationGateway`, `DomainEmailGateway`, `QsaValidationGateway` e `CartorioDocumentGateway`
-  - Motor de Governança e Disputas: `IDisputeResolutionEngine` e `DisputeResolutionEngine` implementando Resolução Automática N1 sobre Níveis 2/3 (`CLAIM-10`), litígio paritário `In_Dispute` com congelamento de perfil/PIX e cálculo de 5 dias úteis (`CLAIM-11`), Prevalência Registral no RCPJ, desclassificação por inércia e retorno a `Unclaimed` por cancelamento judicial (`CLAIM-12`)
-  - Testes: 331 .NET unit tests + 69 Flutter tests aprovados (400 no total)
-- **In-progress**: Início de T6 (Implementar ClaimOrchestratorService e ClaimTtlBackgroundService)
-- **Next step**: Implementar T6 (Implementar ClaimOrchestratorService e ClaimTtlBackgroundService)
+  - Motor de Governança e Disputas: `IDisputeResolutionEngine` e `DisputeResolutionEngine`
+  - Orquestrador de Reivindicação: `IClaimOrchestratorService` e `ClaimOrchestratorService` coordenando ToS (art. 299 CP e Provedora de Aplicação), rate limiting (lockout 72h), precedência hierárquica e cálculo de TTL (7d doc / 48h social)
+  - Worker Background TTL: `ClaimTtlBackgroundService` expirando claims vencidos e disparando lembretes preventivos com 24 horas de antecedência
+  - Testes: 353 .NET unit tests + 69 Flutter tests aprovados (422 no total)
+- **In-progress**: Início de T7 (Mapear Endpoints Minimal API de Reivindicação e Disputa /claim/* com JWT)
+- **Next step**: Implementar T7 (Mapear Endpoints Minimal API de Reivindicação e Disputa /claim/* com JWT)
 - **Blockers**: none
 - **Uncommitted files**: none
 - **Branch**: main

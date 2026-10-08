@@ -146,13 +146,13 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Orquestrador validando aceite de ToS e gravando evento de início de claim na trilha de auditoria
-- [ ] Transição correta `Unclaimed` -> `Pending_Verification` com atribuição de TTL conforme o método selecionado
-- [ ] Aprovação de evidência transicionando para `Verified` com concessão de tier e atualização da congregação
-- [ ] Bloqueio de cadastros simultâneos na mesma congregação
-- [ ] Worker em background (`IHostedService`) executando a cada 30 minutos, expirando claims vencidos e liberando congregações para `Unclaimed`
-- [ ] Detecção de claims com 24h restantes e disparo de notificação preventiva de lembrete
-- [ ] Testes de integração cobrindo o fluxo completo e o comportamento do worker em background  
+- [x] Orquestrador validando aceite de ToS e gravando evento de início de claim na trilha de auditoria
+- [x] Transição correta `Unclaimed` -> `Pending_Verification` com atribuição de TTL conforme o método selecionado
+- [x] Aprovação de evidência transicionando para `Verified` com concessão de tier e atualização da congregação
+- [x] Bloqueio de cadastros simultâneos na mesma congregação
+- [x] Worker em background (`IHostedService`) executando a cada 30 minutos, expirando claims vencidos e liberando congregações para `Unclaimed`
+- [x] Detecção de claims com 24h restantes e disparo de notificação preventiva de lembrete
+- [x] Testes de integração cobrindo o fluxo completo e o comportamento do worker em background  
 **Tests**: integration  
 **Gate**: Full (`dotnet test`)  
 **Commit**: `feat(claim): implement claim orchestrator service and background ttl worker`
