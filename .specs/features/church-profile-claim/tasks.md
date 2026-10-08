@@ -123,13 +123,13 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Resolução automática revogando sumariamente vínculos de Nível 2 ou 3 perante contestação de Nível 1 válida
-- [ ] Notificação ao titular anterior por prevalência documental legal sem conceder bloqueio unilateral
-- [ ] Instauração de `In_Dispute` para disputas de mesma hierarquia (N1 vs N1) com bloqueio imediato de edições e PIX
-- [ ] Cálculo da janela improrrogável de 5 dias úteis para juntada de certidão atualizada do RCPJ
-- [ ] Resolução por averbação mais recente no RCPJ e desclassificação sumária por inércia processual
-- [ ] Reversão do status para `Unclaimed` em caso de litígio juridicamente irresolvível
-- [ ] Testes unitários exaustivos cobrindo todos os cenários de disputa e congelamento  
+- [x] Resolução automática revogando sumariamente vínculos de Nível 2 ou 3 perante contestação de Nível 1 válida
+- [x] Notificação ao titular anterior por prevalência documental legal sem conceder bloqueio unilateral
+- [x] Instauração de `In_Dispute` para disputas de mesma hierarquia (N1 vs N1) com bloqueio imediato de edições e PIX
+- [x] Cálculo da janela improrrogável de 5 dias úteis para juntada de certidão atualizada do RCPJ
+- [x] Resolução por averbação mais recente no RCPJ e desclassificação sumária por inércia processual
+- [x] Reversão do status para `Unclaimed` em caso de litígio juridicamente irresolvível
+- [x] Testes unitários exaustivos cobrindo todos os cenários de disputa e congelamento  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(claim): implement dispute resolution engine with tier 1 override and parity dispute handling`

@@ -30,6 +30,8 @@ builder.Services.AddSingleton<SearchAChurch.Api.Features.Claim.Gateways.ISocialV
 builder.Services.AddSingleton<SearchAChurch.Api.Features.Claim.Gateways.IDomainEmailGateway, SearchAChurch.Api.Features.Claim.Gateways.DomainEmailGateway>();
 builder.Services.AddSingleton<SearchAChurch.Api.Features.Claim.Gateways.IQsaValidationGateway, SearchAChurch.Api.Features.Claim.Gateways.QsaValidationGateway>();
 builder.Services.AddSingleton<SearchAChurch.Api.Features.Claim.Gateways.ICartorioDocumentGateway, SearchAChurch.Api.Features.Claim.Gateways.CartorioDocumentGateway>();
+builder.Services.AddSingleton<SearchAChurch.Api.Features.Claim.Services.IClaimNotificationService, SearchAChurch.Api.Features.Claim.Services.ClaimNotificationService>();
+builder.Services.AddScoped<SearchAChurch.Api.Features.Claim.Services.IDisputeResolutionEngine, SearchAChurch.Api.Features.Claim.Services.DisputeResolutionEngine>();
 builder.Services.AddTransient<SearchAChurch.Api.Filters.RateLimitFilter>();
 
 builder.Services.AddScoped<FluentValidation.IValidator<SearchAChurch.Api.Features.Auth.Models.RegisterRequest>, SearchAChurch.Api.Features.Auth.Validators.RegisterRequestValidator>();
