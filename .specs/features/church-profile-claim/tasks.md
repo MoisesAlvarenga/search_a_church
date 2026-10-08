@@ -213,10 +213,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] `ClaimCubit` gerenciando estados `Initial`, `Submitting`, `Initiated`, `Verifying`, `VerifiedSuccess` e `Error`
-- [ ] `DisputeCubit` gerenciando abertura de contestações, upload de certidões e acompanhamento do prazo de 5 dias úteis
-- [ ] Mensagens de erro padronizadas mapeadas para a interface do usuário
-- [ ] Testes unitários com `bloc_test` validando todas as transições de estado  
+- [x] `ClaimCubit` gerenciando estados `Initial`, `Submitting`, `Initiated`, `Verifying`, `VerifiedSuccess` e `Error`
+- [x] `DisputeCubit` gerenciando abertura de contestações, upload de certidões e acompanhamento do prazo de 5 dias úteis
+- [x] Mensagens de erro padronizadas mapeadas para a interface do usuário
+- [x] Testes unitários com `bloc_test` validando todas as transições de estado  
 **Tests**: unit  
 **Gate**: Quick (`flutter test test/features/claim/presentation/cubit/`)  
 **Commit**: `feat(claim): implement claim and dispute cubits with bloc test coverage`
