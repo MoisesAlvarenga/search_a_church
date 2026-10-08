@@ -13,7 +13,7 @@
 | ID | Title | Status | Depends On | Tests | Gate |
 |---|---|:---:|---|---|---|
 | **T1** | Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core | Done | NONE | unit | Quick |
-| **T2** | Implementar Repositório e Serviço de Auditoria Append-Only (AuditLogService) [P] | Todo | NONE | unit | Quick |
+| **T2** | Implementar Repositório e Serviço de Auditoria Append-Only (AuditLogService) [P] | Done | NONE | unit | Quick |
 | **T3** | Implementar GeofencingService com Haversine Server-Side e Anti-Mock | Todo | NONE | unit | Quick |
 | **T4** | Implementar Gateways de Verificação de Provas (Social, OTP, QSA e RCPJ) [P] | Todo | NONE | unit | Quick |
 | **T5** | Implementar DisputeResolutionEngine (Resolução Automática N1 e In_Dispute) | Todo | T1 | unit | Quick |
@@ -58,10 +58,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Serviço `IAuditLogService` com método `RecordEventAsync` extraindo IP/Porta reais do contexto HTTP de forma sanitizada
-- [ ] Bloqueio lógico e garantia append-only (sem métodos de update ou delete permitidos na camada de aplicação)
-- [ ] Cálculo automático de retenção de 180 dias (`DateTime.UtcNow.AddDays(180)`)
-- [ ] Testes unitários cobrindo extração de IPv4/IPv6, user-agent e persistência de metadados  
+- [x] Serviço `IAuditLogService` com método `RecordEventAsync` extraindo IP/Porta reais do contexto HTTP de forma sanitizada
+- [x] Bloqueio lógico e garantia append-only (sem métodos de update ou delete permitidos na camada de aplicação)
+- [x] Cálculo automático de retenção de 180 dias (`DateTime.UtcNow.AddDays(180)`)
+- [x] Testes unitários cobrindo extração de IPv4/IPv6, user-agent e persistência de metadados  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(claim): implement append-only audit log service under marco civil compliance`
