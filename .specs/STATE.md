@@ -38,20 +38,23 @@
 - **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16 - 183 testes aprovados); implementação completa de `maps-integration` (T1 a T9 - 144 testes novos aprovados, totalizando 327 testes, SonarQube OK e branch sincronizada com remote `main`); elaboração completa da Especificação (`CLAIM-01` a `CLAIM-12`), Diagrama de Arquitetura Interativo Showcase no Archify (`church-profile-claim.html`), Design Arquitetural detalhado (`design.md`) e Plano de Tarefas (`tasks.md` - T1 a T10 em 4 fases) sincronizado no Plane Kanban para `church-profile-claim`.
 - **Funcionalidades:** `search-discovery`, `profile-management`, `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (Design e Tasks 100% concluídos, pronta para execução).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Iniciar a execução das tarefas da Fase 1 de `church-profile-claim` (T1: Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core).
+- **Próxima ação:** Executar T2 (Implementar Repositório e Serviço de Auditoria Append-Only - AuditLogService) de `church-profile-claim`.
 
 ## Handoff
 
 - **Feature**: `church-profile-claim`
-- **Phase / Task**: Tasks — 100% Concluído (tasks.md gerado e sincronizado com o Plane Kanban)
+- **Phase / Task**: Phase 1 — T1 Concluído (Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core)
 - **Completed**:
   - Especificação: `church-profile-claim/spec.md` (12 requisitos funcionais confirmados)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-church-profile-claim-20261007-214500/church-profile-claim.html` (Showcase quality validado)
   - Design Arquitetural: `.specs/features/church-profile-claim/design.md`
   - Plano de Tarefas: `.specs/features/church-profile-claim/tasks.md` (10 tarefas em 4 fases)
-  - Plane Kanban: 10 tarefas registradas na coluna TODO
-- **In-progress**: Fase 1 (T1) pronta para início
-- **Next step**: Implementar T1 (Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core)
+  - Plane Kanban: T1 movido para Done (10% de progresso geral)
+  - Entidades e Enums: `ChurchClaim`, `ClaimEvidence`, `DisputeCase`, `ClaimAuditLog`, `Church` atualizada com `ClaimStatus` e `VerificationTier`
+  - Migração PostgreSQL EF Core: `AddChurchClaimEntities`
+  - Testes: 267 .NET unit tests + 69 Flutter tests aprovados (336 no total)
+- **In-progress**: Início de T2 (AuditLogService Append-Only)
+- **Next step**: Implementar T2 (Implementar Repositório e Serviço de Auditoria Append-Only - AuditLogService)
 - **Blockers**: none
 - **Uncommitted files**: none
 - **Branch**: main

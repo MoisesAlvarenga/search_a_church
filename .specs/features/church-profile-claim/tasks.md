@@ -12,7 +12,7 @@
 
 | ID | Title | Status | Depends On | Tests | Gate |
 |---|---|:---:|---|---|---|
-| **T1** | Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core | Todo | NONE | unit | Quick |
+| **T1** | Modelar Entidades de Reivindicação, Disputa e Auditoria no EF Core | Done | NONE | unit | Quick |
 | **T2** | Implementar Repositório e Serviço de Auditoria Append-Only (AuditLogService) [P] | Todo | NONE | unit | Quick |
 | **T3** | Implementar GeofencingService com Haversine Server-Side e Anti-Mock | Todo | NONE | unit | Quick |
 | **T4** | Implementar Gateways de Verificação de Provas (Social, OTP, QSA e RCPJ) [P] | Todo | NONE | unit | Quick |
@@ -37,11 +37,11 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Entidade `ChurchClaim` mapeada com status, target tier, método de validação, aceite de ToS, campos TTL e índices parciais
-- [ ] Entidades `ClaimEvidence`, `DisputeCase` e `ClaimAuditLog` mapeadas com tipos e relacionamentos
-- [ ] Atualização da entidade `Church` com campos `ClaimStatus`, `VerificationTier`, `VerifiedRepresentativeUserId` e `VerifiedAt`
-- [ ] Migração do EF Core gerada e aplicada com sucesso no PostgreSQL
-- [ ] Testes unitários validando configuração do modelo e integridade relacional  
+- [x] Entidade `ChurchClaim` mapeada com status, target tier, método de validação, aceite de ToS, campos TTL e índices parciais
+- [x] Entidades `ClaimEvidence`, `DisputeCase` e `ClaimAuditLog` mapeadas com tipos e relacionamentos
+- [x] Atualização da entidade `Church` com campos `ClaimStatus`, `VerificationTier`, `VerifiedRepresentativeUserId` e `VerifiedAt`
+- [x] Migração do EF Core gerada e aplicada com sucesso no PostgreSQL
+- [x] Testes unitários validando configuração do modelo e integridade relacional  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(claim): create database entities and migrations for claims, disputes and audit logs`
