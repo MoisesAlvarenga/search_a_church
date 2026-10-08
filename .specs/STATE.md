@@ -34,24 +34,25 @@
 
 ## Continuidade
 
-- **Fase atual:** Fase 1: Fundações de Dados e Catálogo de Tags (`profile-management` — T1 concluído com sucesso, T2 pronto para execução)
-- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management`; T1 concluído (entidades EF Core, migrações PostgreSQL, seeds de tags oficiais e testes unitários de mapeamento). Total de 418 testes backend + 139 testes Flutter aprovados (557 testes no total, 0 falhas).
-- **Funcionalidades:** `search-discovery`, `profile-management` (T1 concluído), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
+- **Fase atual:** Fase 1: Fundações de Dados e Catálogo de Tags (`profile-management` — T1 e T2 concluídos com sucesso, T3 pronto para execução)
+- **Escopo concluído:** Baseline do produto; implementação completa de `authentication-authorization` (T1 a T16); implementação completa de `maps-integration` (T1 a T9); implementação completa de `church-profile-claim` (T1 a T10); especificação, design arquitetural e plano de tarefas de `profile-management`; T1 concluído (entidades EF Core, migrações PostgreSQL, seeds de tags oficiais); T2 concluído (TagCatalogService com cache Redis de 24h, fallback ao banco e validação de vocabulário). Total de 427 testes backend + 139 testes Flutter aprovados (566 testes no total, 0 falhas).
+- **Funcionalidades:** `search-discovery`, `profile-management` (T1 e T2 concluídos), `reviews-feedback`, `maps-integration` (100% implementada), `authentication-authorization` (100% implementada) e `church-profile-claim` (100% implementada).
 - **Rastreabilidade total:** 49 requisitos funcionais mapeados (`SEARCH-01..08`, `PROFILE-01..06`, `REV-01..06`, `MAP-01..07`, `AUTH-01..10`, `CLAIM-01..12`), todos com critérios em BDD/WHEN-THEN e testes independentes.
-- **Próxima ação:** Executar T2: Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService).
+- **Próxima ação:** Iniciar a Fase 2 executando T3: Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD.
 
 ## Handoff
 
 - **Feature**: `profile-management`
-- **Phase / Task**: Fase 1 — T1 Concluído (Pronto para T2)
+- **Phase / Task**: Fase 1 — T2 Concluído (Pronto para T3 / Fase 2)
 - **Completed**:
   - Especificação: `profile-management/spec.md` (6 requisitos funcionais confirmados: `PROFILE-01` a `PROFILE-06`, 0 pendências)
   - Diagrama de Arquitetura Interativo: `.archify/architecture-profile-management-20261008-091000/profile-management.html` (Showcase quality validado, 4 gates aprovados: validate, deliver, check, browser-check)
   - Design Arquitetural: `.specs/features/profile-management/design.md`
   - Plano de Tarefas: `.specs/features/profile-management/tasks.md` (9 tarefas organizadas em 4 fases de execução)
-  - **T1: Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core** (entidades `UserProfile`, `TagCatalog`, `UserProfileTag`, `ChurchTag`, `ChurchMeetingSchedule`, extensão de `Church`, migração EF Core, 15 seed tags, testes unitários)
-  - Testes da Solução: 557 testes aprovados (418 backend + 139 mobile, 0 falhas)
-- **Next Step**: Executar Fase 1 — T2 (Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis - TagCatalogService).
+  - **T1: Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core**
+  - **T2: Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService)** (DTOs de catálogo, cache Redis com chave `tags:catalog:active`, TTL de 24h, fallback fail-open e validação estrita de códigos de tags)
+  - Testes da Solução: 566 testes aprovados (427 backend + 139 mobile, 0 falhas)
+- **Next Step**: Iniciar Fase 2 — T3 (Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD).
 - **Blockers**: none
-- **Uncommitted files**: Arquivos de entidades, migrações e testes de T1
+- **Uncommitted files**: Arquivos de serviços, modelos e testes de T2
 - **Branch**: main

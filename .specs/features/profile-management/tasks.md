@@ -13,7 +13,7 @@
 | ID | Title | Status | Depends On | Tests | Gate |
 |---|---|:---:|---|---|---|
 | **T1** | Modelar Entidades de Perfil de Usuário, Igreja Enriquecida, Horários e Catálogo de Tags no EF Core | Done | NONE | unit | Quick |
-| **T2** | Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService) [P] | Todo | T1 | unit | Quick |
+| **T2** | Implementar Repositório e Serviço de Catálogo de Tags com Cache Redis (TagCatalogService) [P] | Done | T1 | unit | Quick |
 | **T3** | Implementar UserProfileService com Preferências, Raio e Soft Delete LGPD | Todo | T1, T2 | unit | Quick |
 | **T4** | Implementar ChurchProfileService com Validação de PlaceId, Horários e Concorrência Otimista | Todo | T1, T2 | unit | Quick |
 | **T5** | Implementar Handlers de Autorização (Ownership e VerifiedRepresentativePolicy) | Todo | T1 | unit | Quick |
@@ -59,10 +59,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Interface `ITagCatalogService` e implementação `TagCatalogService` criadas
-- [ ] Consulta de catálogo agrupado em categorias com cache Redis chave `tags:catalog:active` (TTL 24h) e fallback gracioso ao banco
-- [ ] Método `ValidateTagCodesAsync` que valida se todas as tags enviadas existem e estão ativas, retornando tags inválidas
-- [ ] Testes unitários com mocks de DbContext e IDistributedCache cobrindo leitura com cache miss, cache hit e validação de tags  
+- [x] Interface `ITagCatalogService` e implementação `TagCatalogService` criadas
+- [x] Consulta de catálogo agrupado em categorias com cache Redis chave `tags:catalog:active` (TTL 24h) e fallback gracioso ao banco
+- [x] Método `ValidateTagCodesAsync` que valida se todas as tags enviadas existem e estão ativas, retornando tags inválidas
+- [x] Testes unitários com mocks de DbContext e IDistributedCache cobrindo leitura com cache miss, cache hit e validação de tags  
 **Tests**: unit  
 **Gate**: Quick (`dotnet test --filter "Category=Unit"`)  
 **Commit**: `feat(profile): implement tag catalog service with redis caching and vocabulary validation`
