@@ -3,6 +3,7 @@ using SearchAChurch.Api.Configurations;
 using SearchAChurch.Api.Data;
 using SearchAChurch.Api.Endpoints;
 using SearchAChurch.Api.Extensions;
+using SearchAChurch.Api.Features.Claim.Endpoints;
 using SearchAChurch.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -77,6 +78,7 @@ app.MapPut("/churches/{id}", (Guid id) => Results.Ok(new { message = "Church upd
 // Map Feature Endpoints
 app.MapGroup("/auth").MapAuthEndpoints();
 app.MapGroup("/map").MapMapEndpoints();
+app.MapGroup("/claim").MapClaimEndpoints();
 
 await app.RunAsync();
 

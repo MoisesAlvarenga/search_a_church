@@ -171,10 +171,10 @@
 - MCP: NONE
 - Skill: NONE  
 **Done when**:
-- [ ] Endpoints implementados: `/claim/initiate`, `/claim/verify/geofence`, `/claim/verify/social-bio/generate`, `/claim/verify/social-bio/confirm`, `/claim/verify/domain/send-otp`, `/claim/verify/domain/confirm-otp`, `/claim/verify/document/rcpj`, `/claim/verify/document/qsa`, `/claim/dispute/contest`, `/claim/dispute/{id}/submit-certificate` e `/claim/status/{churchId}`
-- [ ] Resposta com códigos HTTP semânticos (200 OK, 400 Bad Request, 409 Conflict)
-- [ ] Extração de IP e porta do cliente injetados na trilha de auditoria
-- [ ] Testes de ponta a ponta (E2E) com WebApplicationFactory testando cada rota sob autenticação  
+- [x] Endpoints implementados: `/claim/initiate`, `/claim/verify/geofence`, `/claim/verify/social-bio/generate`, `/claim/verify/social-bio/confirm`, `/claim/verify/domain/send-otp`, `/claim/verify/domain/confirm-otp`, `/claim/verify/document/rcpj`, `/claim/verify/document/qsa`, `/claim/dispute/contest`, `/claim/dispute/{id}/submit-certificate` e `/claim/status/{churchId}`
+- [x] Resposta com códigos HTTP semânticos (200 OK, 400 Bad Request, 409 Conflict)
+- [x] Extração de IP e porta do cliente injetados na trilha de auditoria
+- [x] Testes de ponta a ponta (E2E) com WebApplicationFactory testando cada rota sob autenticação  
 **Tests**: e2e  
 **Gate**: Full (`dotnet test`)  
 **Commit**: `feat(claim): map minimal api endpoints for claim lifecycle, verification and disputes`
